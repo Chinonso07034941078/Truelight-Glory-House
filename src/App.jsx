@@ -7,6 +7,7 @@ import Event from "./pages/Event"
 import Contact from "./pages/Contact"
 import Support from "./pages/Support"
 
+
 export default function App() {
   return (
     <>

@@ -8,7 +8,7 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="bg-blue-950 text-white px-4 py-4 shadow-md relative z-50">
+    <nav className="bg-blue-950 text-white px-4 py-4 shadow-md  z-50 fixed top-0 w-full">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="text-xl font-bold">
