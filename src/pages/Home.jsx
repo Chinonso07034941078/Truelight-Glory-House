@@ -2,13 +2,12 @@ import bgimg from '../assets/truelight-photo2.jpg'
 import trueligtLogo from '../assets/truelight-logo.png'; 
 
 export default function Home() {
-   
   return (
     
     <div className="bg-white text-white ">
       {/* Hero Section */}
       <section
-         className="relative h-[700px] lg:h-screen bg-cover bg-center"Add commentMore actions
+         className="relative h-[700px] lg:h-screen bg-cover bg-center"
          style={{ backgroundImage: `url(${bgimg})`}}  // replace with your image path
       >
         {/* Navigation */}
@@ -97,9 +96,16 @@ export default function Home() {
         </div>
       </div>
 </div>
-     
  </div>
   
 
   );
 }
+   
+
+
+   
+  
+
+
+

@@ -4,6 +4,7 @@ import bg1 from "../assets/truelight-photo1.jpg"
 import bg2 from "../assets/truelight-photo2.jpg"
 import bg3 from "../assets/truelight-photo3.jpg"
 
+
 const images = [bg1, bg2, bg3]
 
 export default function About() {
@@ -18,13 +19,14 @@ export default function About() {
 
   return (
     <div className="text-gray font-sans">
+    <div className="text-gray-800">
       {/* Hero Section with Slideshow Background */}
       <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white text-center px-4 overflow-hidden">
         <div className="absolute inset-0 z-0 transition-all duration-1000">
           <img
             src={images[currentIndex]}
             alt="Hero background"
-            className="w-full h-full object-cover filter  brightness-50 transition-opacity duration-1000"
+            className="w-full h-full object-cover filter blur-sm brightness-50 transition-opacity duration-1000"
           />
         </div>
 
@@ -59,6 +61,7 @@ export default function About() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Our History</h2>
           <p>
+
             Truelight Church was founded in 2015 with a small group of believers passionate about spreading
             the gospel. Since then, we've grown into a vibrant, multicultural community reaching hundreds
             every week through worship, outreach, and teaching.
@@ -96,6 +99,7 @@ export default function About() {
       </section>
 
       <Footer />
+    </div>
     </div>
   );
 }

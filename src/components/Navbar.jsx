@@ -24,9 +24,7 @@ export default function Navbar() {
       {/* Blurred or Solid Background Layer */}
       <div
         className={`absolute inset-0 transition-colors duration-500 ${
-          hasScrolled
-            ? 'bg-blue-950'
-            : 'bg-opacity-70 backdrop-blur-md'
+          hasScrolled ? 'bg-blue-950' : 'bg-opacity-70 backdrop-blur-md'
         }`}
       ></div>
 
@@ -37,7 +35,7 @@ export default function Navbar() {
             src={trueligtLogo}
             alt="Truelight Logo"
             className="h-full max-h-full object-contain transition-transform duration-200 hover:scale-105"
-            style={{ maxHeight: '5rem', width: 'auto' }}
+            style={{ maxHeight: '5rem', width: 'auto' }} // Ensures no overflow
           />
         </Link>
 
