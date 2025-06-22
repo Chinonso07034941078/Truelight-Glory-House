@@ -22,21 +22,29 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50">
       {/* Blurred or Solid Background Layer */}
-      <div
-        className={`absolute inset-0 transition-colors duration-500 ${
-          hasScrolled ? 'bg-blue-950' : 'bg-opacity-70 backdrop-blur-md'
-        }`}
-      ></div>
+     <div
+  className={`absolute top-0 left-0 right-0 h-full transition-colors duration-500 ${
+    hasScrolled ? 'bg-blue-950' : 'bg-opacity-70 backdrop-blur-md'
+  }`}
+></div>
+
 
       {/* Main Nav Content (not blurred) */}
-      <div className="relative px-4 py-2 max-w-7xl mx-auto flex justify-between items-center text-white">
+     <div className="relative px-4 py-1 max-w-7xl mx-auto flex justify-between items-center text-white">
         <Link to="/" className="flex items-center">
-          <img
-            src={trueligtLogo}
-            alt="Truelight Logo"
-            className="h-full max-h-full object-contain transition-transform duration-200 hover:scale-105"
-            style={{ maxHeight: '5rem', width: 'auto' }} // Ensures no overflow
-          />
+    <img
+      src={trueligtLogo}
+      alt="Truelight Logo"
+      className="object-contain transition-transform duration-300 hover:scale-110"
+      style={{
+         height: '7rem',         // or try 4.5rem, 5rem if needed
+         maxHeight: '100%',
+         width: 'auto',
+         marginTop: '-1.5rem',   // lift it slightly if it feels too low
+         marginBottom: '-2.3rem' // optional: compresses space without growing navbar
+         }}
+/>
+
         </Link>
 
         {/* Desktop Nav */}
