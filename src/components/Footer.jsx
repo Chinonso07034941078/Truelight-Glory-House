@@ -4,6 +4,38 @@ import { Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="bg-blue-950 text-white py-6 px-4">
+      <section className="bg-gradient-to-b from-blue-950 via-blue-400 to-blue-950 py-20 px-4 md:px-10 text-white">
+      <div className="max-w-6xl mx-auto bg-blue-100 text-blue-950 rounded-xl p-8 md:p-12 shadow-xl relative overflow-hidden transition-all duration-700 ease-in-out">
+        
+        {/* Background Hand SVG */}
+        <img
+          src="/your-hand-image.svg" // Replace this with your actual image
+          alt="hand art"
+          className="absolute bottom-0 right-0 opacity-20 w-72 md:w-[400px] pointer-events-none"
+        />
+
+        {/* Headline */}
+        <h2 className="text-[2.3em] md:text-5xl uppercase font-extrabold font-poppins tracking-tight ">
+  GIVE INTO  TRUELIGHT GLORY HOUSE
+</h2>
+
+
+        {/* Description */}
+        <p className="text-lg mb-8 max-w-xl text-blue-800">
+          Your generosity keeps blessing lives, thank you for giving.
+        </p>
+
+        {/* Buttons */}
+        <div className="flex flex-wrap gap-4">
+          <button className="bg-white text-blue-900 font-bold py-3 px-6 rounded-full shadow hover:bg-blue-50 transition">
+            GIVE NOW
+          </button>
+          <button className="bg-blue-700 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-800 transition">
+            BUILDING PROJECT
+          </button>
+        </div>
+      </div>
+    </section>
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-center md:text-left items-start">
         
         {/* About */}
