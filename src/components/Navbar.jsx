@@ -27,8 +27,6 @@ export default function Navbar() {
     hasScrolled ? 'bg-blue-950' : 'bg-opacity-70 backdrop-blur-md'
   }`}
 ></div>
-
-
       {/* Main Nav Content (not blurred) */}
      <div className="relative px-4 py-1 max-w-7xl mx-auto flex justify-between items-center text-white">
         <Link to="/" className="flex items-center">
@@ -44,18 +42,18 @@ export default function Navbar() {
          marginBottom: '-2.3rem' // optional: compresses space without growing navbar
          }}
 />
-
-        </Link>
+    </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden md:flex gap-6 text-sm font-medium">
+      <div className="hidden md:flex flex-1 justify-center">
+        <ul className="flex gap-14 text-md font-bold">
           <li><Link to="/" className="hover:underline">Home</Link></li>
           <li><Link to="/about" className="hover:underline">About</Link></li>
           <li><Link to="/sermons" className="hover:underline">Sermons</Link></li>
           <li><Link to="/events" className="hover:underline">Events</Link></li>
-          <li><Link to="/contact" className="hover:underline">Contact</Link></li>
           <li><Link to="/support" className="hover:underline">Support</Link></li>
         </ul>
+      </div>
 
         {/* Mobile Menu Icon */}
         <button className="md:hidden text-white" onClick={toggleMenu} aria-label="Toggle Menu">
@@ -88,7 +86,6 @@ export default function Navbar() {
           <li><Link to="/about" onClick={closeMenu}>About</Link></li>
           <li><Link to="/sermons" onClick={closeMenu}>Sermons</Link></li>
           <li><Link to="/events" onClick={closeMenu}>Events</Link></li>
-          <li><Link to="/contact" onClick={closeMenu}>Contact</Link></li>
           <li><Link to="/support" onClick={closeMenu}>Support</Link></li>
         </ul>
       </div>

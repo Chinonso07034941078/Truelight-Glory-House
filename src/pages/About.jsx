@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import Footer from "../components/Footer";
-import heroImage from "../assets/truelight-photo1.jpg";
+import heroImage from "../assets/papa4.jpg";
 import papa from "../assets/papa.jpg";
 import { Typewriter } from 'react-simple-typewriter'
+import {missionVisionValues, pastorInfo, history} from "../components/data"
+
 
 export default function About() {
   return (
@@ -50,32 +52,27 @@ export default function About() {
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="py-16 px-4 bg-gray-100">
-        <motion.div
-          className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.3 }}
-        >
-          {["Our Mission", "Our Vision", "Our Values"].map((title, i) => (
-            <motion.div
-              key={title}
-              className=""
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2 }}
-            >
-              <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-              <p>
-                {title === "Our Mission" && "To lead people into a growing relationship with Jesus Christ."}
-                {title === "Our Vision" && "A world transformed by the light of God's truth."}
-                {title === "Our Values" && "Faith, Love, Unity, Prayer, and Discipleship."}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+    <section className="py-16 px-4 bg-gray-100">
+      <motion.div
+        className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ staggerChildren: 0.3 }}
+      >
+        {missionVisionValues.map((item, i) => (
+          <motion.div
+            key={item.title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.2 }}
+          >
+            <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
+            <p>{item.content}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
 
       {/* History */}
       <section className="py-16 px-4">
@@ -86,12 +83,8 @@ export default function About() {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl font-bold mb-4">Our History</h2>
-          <p>
-            Truelight Church was founded in 2015 with a small group of believers passionate about spreading
-            the gospel. Since then, we've grown into a vibrant, multicultural community reaching hundreds
-            every week through worship, outreach, and teaching.
-          </p>
+          <h2 className="text-2xl font-bold mb-4">{history.title}</h2>
+          <p>{history.content}</p>
         </motion.div>
       </section>
 
@@ -106,7 +99,7 @@ export default function About() {
         >
           <img
             src={papa}
-            alt="Lead Pastor"
+            alt={pastorInfo.imageAlt}
             className="w-full h-auto object-cover rounded-[9em]"
           />
         </motion.div>
@@ -119,21 +112,15 @@ export default function About() {
           viewport={{ once: true }}
         >
           <div>
-            <div className="text-gray-300 text-sm font-bold tracking-widest">GLOBAL</div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">Our Lead Pastor</h2>
+            <div className="text-gray-300 text-sm font-bold tracking-widest">{pastorInfo.subtitle}</div>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">{pastorInfo.title}</h2>
           </div>
           <p className="text-lg leading-relaxed text-gray-300">
-            Pastor Ifeanyi Uwakwe is the visionary founder and lead pastor of Truelight Glory House,
-            with a passion for youth and missions. Under his leadership, the church has grown to 30+
-            campuses across Nigeria and the UK, impacting countless lives with the gospel.
+            {pastorInfo.description}
           </p>
-          <div>
-            <button className="mt-4 px-6 py-3 border border-white rounded-full text-white hover:bg-gray-600 transition-all duration-300">
-              READ MORE
-            </button>
-          </div>
         </motion.div>
       </section>
+
 
       {/* What We Believe */}
       <section className="py-16 px-4">

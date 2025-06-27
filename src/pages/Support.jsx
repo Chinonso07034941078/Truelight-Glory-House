@@ -1,14 +1,10 @@
-// Clean, enhanced Events.jsx page with transitions and animations
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CalendarDays, MapPin } from 'lucide-react'; // Added icons for events
 import Footer from '../components/Footer';
-
-// Import your event specific background images here
-import eventHeroBg from '../assets/papa.jpg'; // Replace with an actual image path
-import eventCardBg1 from '../assets/papa3.jpg'; // Replace with an actual image path
-import eventCardBg2 from '../assets/papa2.jpg'; // Replace with an actual image path
+import eventHeroBg from '../assets/papa.jpg'; 
+import eventCardBg1 from '../assets/papa3.jpg'; 
+import eventCardBg2 from '../assets/papa2.jpg'; 
 
 export default function Events() {
   const messages = [
@@ -131,7 +127,7 @@ export default function Events() {
             whileInView="visible"
             variants={fadeUp}
           >
-            Our Events
+          Support Us
           </motion.h1>
 
           <motion.p

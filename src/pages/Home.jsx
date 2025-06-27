@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Typewriter } from 'react-simple-typewriter';
 import { useInView } from "react-intersection-observer";
+import { pastorInfo } from '../components/data';
 import Video from '../assets/truelight-video1.mp4'
 import Gathering from '../assets/celebrate.jpg'
 import C01 from '../assets/Gathering2.jpg'
@@ -313,82 +314,38 @@ const seamlessCards = [...cards, ...cards];
 {/* Lead pastors section */}
     
    
- <section
-  ref={pastoref}
-  className="min-h-screen bg-gradient-to-b from-black/100 via-black/60 to-black/100 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-20 gap-12"
->
-  {/* Left Image Section */}
+ <section className="min-h-screen bg-gradient-to-b from-black via-black/70 to-black text-white flex flex-col lg:flex-row items-center justify-center px-6 py-20 gap-12">
   <motion.div
     className="w-full lg:w-1/2"
-    initial="hidden"
-    animate={pastorview ? "visible" : "hidden"}
-    variants={fadeZoom}
+    initial={{ x: -100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 1 }}
+    viewport={{ once: true }}
   >
     <img
       src={papa}
-      alt="Lead Pastor"
-      className="w-full h-auto object-cover rounded-[9em] shadow-2xl"
+      alt={pastorInfo.imageAlt}
+      className="w-full h-auto object-cover rounded-[9em]"
     />
   </motion.div>
 
-  {/* Right Text Section */}
   <motion.div
     className="w-full lg:w-1/2 space-y-6 text-center lg:text-left"
-    initial="hidden"
-    animate={pastorview ? "visible" : "hidden"}
-    variants={fadeZoom}
-    transition={{ delay: 0.2 }}
+    initial={{ x: 100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 1 }}
+    viewport={{ once: true }}
   >
-    {/* Logo and Heading */}
-    <div className="space-y-2">
-      
-      <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">
-       piu
-      </h2>
+    <div>
+      <div className="text-gray-300 text-sm font-bold tracking-widest">{pastorInfo.subtitle}</div>
+      <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">{pastorInfo.title}</h2>
     </div>
-
-    {/* Description */}
     <p className="text-lg leading-relaxed text-gray-300">
-   Pastor Ifeanyi Uwakwe – Lead Pastor, Truelight Glory House
-
-Pastor Ifeanyi Uwakwe is the visionary and Lead Pastor of Truelight Glory House, a dynamic and growing ministry with a strong prophetic, teaching, and leadership grace. Known for his depth in the Word and unshakable passion for the transformation of lives, Pastor Ifeanyi has spent years nurturing believers into maturity through sound doctrine, prayer, and purpose-driven leadership.
-
-With a unique blend of humility, insight, and spiritual authority, Pastor Ifeanyi is deeply committed to building a generation that understands the power of God's presence and the responsibility of kingdom assignment. He teaches with clarity and conviction, equipping saints not just for church life but for impactful influence in their families, careers, and communities.
-
-At the heart of his ministry is a burden for spiritual growth, personal alignment with destiny, and revival among believers. Under his leadership, Truelight Glory House has become a hub of authentic worship, intense intercession, prophetic direction, and solid discipleship. His messages often emphasize intimacy with God, walking in light and truth, and living victoriously through faith.
-
-Pastor Ifeanyi is also a mentor to many, raising sons and daughters in ministry and leadership. His pastoral care reflects a fatherly heart—firm in the truth but full of grace. Whether he's behind the pulpit, praying with his congregation, or investing in young leaders, he exudes a contagious passion for God and a love for people.
-
-He is happily married with 3 kids David, Daniel and Deborah and continues to serve alongside his wife with excellence, faith, and consistency—building lives, raising leaders, and expanding the reach of the gospel.
+      {pastorInfo.description}
     </p>
-
-    <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  viewport={{ once: true }}
-  className="mt-4 px-4 py-2  border-white rounded-full text-white text-center text-sm md:text-base font-semibold backdrop-blur-sm bg-white/10 w-full max-w-md mx-auto"
->
-  <Typewriter
-    words={[
-      "A visionary with a heart for the nations...",
-      "Raising global leaders through the Word...",
-      "Passionate about purpose and destiny...",
-      "Leading with love, wisdom, and power...",
-      "Transforming lives by God's grace...",
-    ]}
-    loop
-    cursor
-    cursorStyle="|"
-    typeSpeed={55}
-    deleteSpeed={35}
-    delaySpeed={2000}
-  />
-</motion.div>
-
   </motion.div>
 </section>
-  
+
  
 
     <Footer />

@@ -1,12 +1,78 @@
-# React + Vite
+📖 Truelight Glory House Website
+Welcome to the official  repository for Truelight Glory House — a vibrant and growing Christian ministry committed to discipling nations and transforming lives through God's Word, prayer, and purpose-driven leadership.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌟 Overview
+This is a responsive, fully animated React-based website built to showcase the heart, vision, and activities of Truelight Glory House. It includes:
 
-Currently, two official plugins are available:
+🔹 Dynamic hero sections with smooth transitions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔹 Sermon listings that redirect to full Telegram messages
 
-## Expanding the ESLint configuration
+🔹 Animated event pages
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🔹 A filtered search experience for messages by topic
+
+🔹 Responsive design for mobile and desktop
+
+🔹 Tailwind CSS styling with Framer Motion animations
+
+🧱 Tech Stack
+React JS
+
+Tailwind CSS
+
+Framer Motion
+
+React Router
+
+Lucide Icons
+
+📁 Folder Structure
+css
+Copy
+Edit
+src/
+├── assets/           → Images and logos
+├── components/       → Reusable UI components (Navbar, Footer, etc.)
+├── pages/            → Route-level pages (About, Home, Events, Sermons, etc.)
+├── context/          → (If used) for state management
+├── App.jsx           → Route declarations
+└── main.jsx          → Entry point
+⚙️ Installation
+Clone the repository:
+
+bash
+Copy
+Edit
+git clone https://github.com/Joseph-Godwin12/Truelight-glory-house.git
+Navigate to the project folder:
+
+bash
+Copy
+Edit
+cd Truelight-glory-house
+Install dependencies:
+
+bash
+Copy
+Edit
+npm install
+Run the development server:
+
+bash
+Copy
+Edit
+npm run dev
+✅ Features
+Hero slides and dynamic page transitions
+
+Filterable sermon page integrated with Telegram links
+
+Events calendar with animated highlights
+
+Reusable and modular components
+
+Organized data through external data.js for easy updates
+
+📬 Contact
+For backend integration or deployment-related discussions, please contact the development team or submit a pull request.
