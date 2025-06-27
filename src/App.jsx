@@ -18,7 +18,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sermons" element={<Sermons />} />
         <Route path="/events" element={<Event />} />
-        <Route path="/contact" element={<Contact />} />
+        {/* <Route path="/contact" element={<Contact />} /> */}
         <Route path="/support" element={<Support />} />
       </Routes>
     </BrowserRouter>
