@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import About from "./pages/About"
 import Sermons from "./pages/Sermons"
 import Event from "./pages/Event"
-import Contact from "./pages/Contact"
+import Units from "./pages/Units"
 import Support from "./pages/Support"
 
 
@@ -16,9 +16,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/units" element={<Units />} />
         <Route path="/sermons" element={<Sermons />} />
         <Route path="/events" element={<Event />} />
-        {/* <Route path="/contact" element={<Contact />} /> */}
         <Route path="/support" element={<Support />} />
       </Routes>
     </BrowserRouter>
