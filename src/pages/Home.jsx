@@ -141,116 +141,117 @@ export default function Home() {
   return (
     <div className="bg-white text-white">
       {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
-        <video 
-          src={Video} 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover z-0" 
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-black/30 to-blue-950/80 z-10" />
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
-          <motion.span 
-            className="text-sm md:text-base bg-white/20 text-white px-6 py-2 rounded-full border border-white/30 uppercase tracking-widest backdrop-blur-md shadow-lg" 
-            initial={{ opacity: 0, y: -20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ delay: 0.3, duration: 1 }}
-          >
-            the house of God
-          </motion.span>
-          
-          <motion.h1 
-            className="text-5xl md:text-8xl font-black text-white mt-8 drop-shadow-2xl leading-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text" 
-            initial={{ opacity: 0, scale: 0.8 }} 
-            animate={{ opacity: 1, scale: 1 }} 
-            transition={{ delay: 0.6, duration: 1.2 }}
-          >
-            EL SHADDAI
-          </motion.h1>
-          
-          <motion.h2 
-            className="mt-6 text-xl md:text-3xl font-bold text-blue-100 tracking-wide" 
-            initial={{ opacity: 0, y: 30 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ delay: 1, duration: 1 }}
-          >
-            The LORD GOD Almighty
-          </motion.h2>
-          
+     <section className="relative h-screen w-full overflow-hidden">
+  <video 
+    src={Video} 
+    autoPlay 
+    loop 
+    muted 
+    playsInline
+    className="absolute top-0 left-0 w-full h-full object-cover z-0" 
+  />
+  <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-black/30 to-blue-950/80 z-10" />
+  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8">
+    <motion.span 
+      className="text-xs sm:text-sm md:text-base bg-white/20 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-white/30 uppercase tracking-widest backdrop-blur-md shadow-lg" 
+      initial={{ opacity: 0, y: -20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ delay: 0.3, duration: 1 }}
+    >
+      the house of God
+    </motion.span>
+    
+    <motion.h1 
+      className="text-4xl sm:text-5xl md:text-8xl font-black text-white mt-6 sm:mt-8 drop-shadow-2xl leading-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text" 
+      initial={{ opacity: 0, scale: 0.8 }} 
+      animate={{ opacity: 1, scale: 1 }} 
+      transition={{ delay: 0.6, duration: 1.2 }}
+    >
+      EL SHADDAI
+    </motion.h1>
+    
+    <motion.h2 
+      className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-3xl font-bold text-blue-100 tracking-wide" 
+      initial={{ opacity: 0, y: 30 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ delay: 1, duration: 1 }}
+    >
+      The LORD GOD Almighty
+    </motion.h2>
+    
+    <motion.div 
+      className="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent mt-6 sm:mt-8 rounded-full shadow-lg" 
+      initial={{ scaleX: 0 }} 
+      animate={{ scaleX: 1 }} 
+      transition={{ delay: 1.2, duration: 0.8 }}
+    />
+    
+    <div className="relative flex flex-col items-center space-y-3 sm:space-y-4 mt-6 sm:mt-8">
+      <motion.button 
+        onClick={() => setShowLinks((prev) => !prev)} 
+        className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-sm font-bold rounded-full hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-2xl flex items-center gap-2 sm:gap-3 transform hover:scale-105 active:scale-95" 
+        initial={{ opacity: 0, y: 40 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ delay: 1.4, duration: 0.8 }}
+      >
+        WATCH LIVE
+        <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+      </motion.button>
+      
+      <AnimatePresence>
+        {showLinks && (
           <motion.div 
-            className="w-32 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent mt-8 rounded-full shadow-lg" 
-            initial={{ scaleX: 0 }} 
-            animate={{ scaleX: 1 }} 
-            transition={{ delay: 1.2, duration: 0.8 }}
-          />
-          
-          <div className="relative flex flex-col items-center space-y-4 mt-8">
-            <motion.button 
-              onClick={() => setShowLinks((prev) => !prev)} 
-              className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-4 text-sm font-bold rounded-full hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-2xl flex items-center gap-3 transform hover:scale-105 active:scale-95" 
-              initial={{ opacity: 0, y: 40 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 1.4, duration: 0.8 }}
-            >
-              WATCH LIVE
-              <ArrowRight className="h-5 w-5" />
-            </motion.button>
-            
-            <AnimatePresence>
-              {showLinks && (
-                <motion.div 
-                  className="flex gap-4" 
-                  initial={{ opacity: 0, y: 10, scale: 0.9 }} 
-                  animate={{ opacity: 1, y: 0, scale: 1 }} 
-                  exit={{ opacity: 0, y: 10, scale: 0.9 }} 
-                  transition={{ duration: 0.3 }}
-                >
-                  <a 
-                    href="https://www.facebook.com/share/14FCmAPmKPZ/?mibextid=wwXIfr" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="bg-blue-600 text-white p-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg transform hover:scale-110"
-                  >
-                    <FaFacebookF className="w-5 h-5" />
-                  </a>
-                  <a 
-                    href="https://youtube.com/@truelightgloryhouse?si=EnPJSZlzoefOGNQs" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="bg-red-600 text-white p-4 rounded-full hover:bg-red-700 transition-all duration-300 shadow-lg transform hover:scale-110"
-                  >
-                    <FaYoutube className="w-5 h-5" />
-                  </a>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          
-          <motion.p 
-            className="mt-12 text-base md:text-xl text-gray-200 italic max-w-2xl" 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ delay: 2, duration: 1 }}
+            className="flex gap-3 sm:gap-4" 
+            initial={{ opacity: 0, y: 10, scale: 0.9 }} 
+            animate={{ opacity: 1, y: 0, scale: 1 }} 
+            exit={{ opacity: 0, y: 10, scale: 0.9 }} 
+            transition={{ duration: 0.3 }}
           >
-            <Typewriter
-              words={[
-                "Join us every Sunday!", 
-                "In Our Camp There Shall be no loss!", 
-                "Experience God's presence.", 
-                "Disciple the Nations, Discipline the devil."
-              ]}
-              loop
-              cursor
-              cursorStyle="_"
-              typeSpeed={60}
-              deleteSpeed={40}
-              delaySpeed={1800}
-            />
-          </motion.p>
-        </div>
-      </section>
+            <a 
+              href="https://www.facebook.com/share/14FCmAPmKPZ/?mibextid=wwXIfr" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-blue-600 text-white p-3 sm:p-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg transform hover:scale-110"
+            >
+              <FaFacebookF className="w-4 h-4 sm:w-5 sm:h-5" />
+            </a>
+            <a 
+              href="https://youtube.com/@truelightgloryhouse?si=EnPJSZlzoefOGNQs" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-red-600 text-white p-3 sm:p-4 rounded-full hover:bg-red-700 transition-all duration-300 shadow-lg transform hover:scale-110"
+            >
+              <FaYoutube className="w-4 h-4 sm:w-5 sm:h-5" />
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+    
+    <motion.p 
+      className="mt-10 sm:mt-12 text-sm sm:text-base md:text-xl text-gray-200 italic max-w-xs sm:max-w-md md:max-w-2xl" 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      transition={{ delay: 2, duration: 1 }}
+    >
+      <Typewriter
+        words={[
+          "Join us every Sunday!", 
+          "In Our Camp There Shall be no loss!", 
+          "Experience God's presence.", 
+          "Disciple the Nations, Discipline the devil."
+        ]}
+        loop
+        cursor
+        cursorStyle="_"
+        typeSpeed={60}
+        deleteSpeed={40}
+        delaySpeed={1800}
+      />
+    </motion.p>
+  </div>
+</section>
+
 
       {/* Welcome Section */}
       <section ref={ref} className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center px-6 py-20">
@@ -465,7 +466,7 @@ export default function Home() {
               {pastorInfo.title}
             </h2>
           </div>
-          <p className="text-xl leading-relaxed text-gray-300">
+          <p className="text-lg leading-relaxed text-gray-300">
             {pastorInfo.description}
           </p>
         </motion.div>
