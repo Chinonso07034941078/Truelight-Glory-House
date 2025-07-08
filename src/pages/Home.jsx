@@ -139,7 +139,7 @@ export default function Home() {
   const seamlessCards = [...cards, ...cards];
 
   return (
-    <div className="bg-white text-white">
+    <div className="bg-white text-white p-0">
       {/* Hero Section */}
      <section className="relative h-screen w-full overflow-hidden">
   <video 
