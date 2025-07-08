@@ -89,37 +89,44 @@ export default function About() {
       </section>
 
       {/* Leadership */}
-      <section className="min-h-screen bg-gradient-to-b from-black via-black/70 to-black text-white flex flex-col lg:flex-row items-center justify-center px-6 py-20 gap-12">
-        <motion.div
-          className="w-full lg:w-1/2"
-          initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <img
-            src={papa}
-            alt={pastorInfo.imageAlt}
-            className="w-full h-auto object-cover rounded-[9em]"
-          />
-        </motion.div>
-
-        <motion.div
-          className="w-full lg:w-1/2 space-y-6 text-center lg:text-left"
-          initial={{ x: 100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <div>
-            <div className="text-gray-300 text-sm font-bold tracking-widest">{pastorInfo.subtitle}</div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">{pastorInfo.title}</h2>
-          </div>
-          <p className="text-lg leading-relaxed text-gray-300">
-            {pastorInfo.description}
-          </p>
-        </motion.div>
-      </section>
+      <section className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
+             <motion.div 
+               className="w-full lg:w-1/2" 
+               initial={{ x: -100, opacity: 0 }} 
+               whileInView={{ x: 0, opacity: 1 }} 
+               transition={{ duration: 1 }} 
+               viewport={{ once: true }}
+             >
+               <div className="relative">
+                 <img 
+                   src={papa} 
+                   alt={pastorInfo.imageAlt} 
+                   className="w-full h-auto object-cover rounded-[3rem] shadow-2xl" 
+                 />
+                 <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-black/30 to-transparent"></div>
+               </div>
+             </motion.div>
+             
+             <motion.div 
+               className="w-full lg:w-1/2 space-y-8 text-center lg:text-left" 
+               initial={{ x: 100, opacity: 0 }} 
+               whileInView={{ x: 0, opacity: 1 }} 
+               transition={{ duration: 1 }} 
+               viewport={{ once: true }}
+             >
+               <div className="space-y-4">
+                 <div className="text-blue-400 text-base font-bold tracking-widest uppercase">
+                   {pastorInfo.subtitle}
+                 </div>
+                 <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                   {pastorInfo.title}
+                 </h2>
+               </div>
+               <p className="text-xl leading-relaxed text-gray-300">
+                 {pastorInfo.description}
+               </p>
+             </motion.div>
+           </section>
 
 
       {/* What We Believe */}

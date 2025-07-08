@@ -363,7 +363,7 @@ export default function Home() {
           </motion.div>
 
           {/* Units Grid */}
-          <div className="grid gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {units.map((unit, i) => (
               <motion.div
                 key={unit.name}
@@ -468,13 +468,6 @@ export default function Home() {
           <p className="text-xl leading-relaxed text-gray-300">
             {pastorInfo.description}
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-8 py-4 rounded-full font-bold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 shadow-lg flex items-center gap-3"
-          >
-            Learn More <ArrowRight className="w-5 h-5" />
-          </motion.button>
         </motion.div>
       </section>
 
