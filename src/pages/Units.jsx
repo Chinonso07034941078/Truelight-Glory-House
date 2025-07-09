@@ -1,8 +1,18 @@
+import {motion} from "framer-motion"; 
+import { ArrowRight } from "lucide-react";
 
-
-
-
-
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }),
+};
 
 
 export default function Units(){

@@ -6,12 +6,14 @@ import Sermons from "./pages/Sermons"
 import Event from "./pages/Event"
 import Units from "./pages/Units"
 import Support from "./pages/Support"
+import ScrollToTop from "./components/ScrollToTop"
 
 
 export default function App() {
   return (
     <>
     <BrowserRouter>
+    <ScrollToTop />
     <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
