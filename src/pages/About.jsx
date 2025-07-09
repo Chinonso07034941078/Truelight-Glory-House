@@ -122,7 +122,7 @@ export default function About() {
                    {pastorInfo.title}
                  </h2>
                </div>
-               <p className="text-xl leading-relaxed text-gray-300">
+               <p className="text-sm leading-relaxed text-gray-300">
                  {pastorInfo.description}
                </p>
              </motion.div>
