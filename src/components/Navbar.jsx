@@ -50,6 +50,7 @@ export default function Navbar() {
           <li><Link to="/" className="hover:underline">Home</Link></li>
           <li><Link to="/" className="hover:underline">Home</Link></li>
           <li><Link to="/about" className="hover:underline">About</Link></li>
+          <li><Link to="/units" className="hover:underline">Units</Link></li>
           <li><Link to="/sermons" className="hover:underline">Sermons</Link></li>
           <li><Link to="/events" className="hover:underline">Events</Link></li>
           <li><Link to="/support" className="hover:underline">Support</Link></li>
@@ -85,6 +86,7 @@ export default function Navbar() {
         <ul className="flex flex-col gap-6 text-sm font-medium px-6 text-white">
           <li><Link to="/" onClick={closeMenu}>Home</Link></li>
           <li><Link to="/about" onClick={closeMenu}>About</Link></li>
+          <li><Link to="/units" onClick={closeMenu}>Units</Link></li>
           <li><Link to="/sermons" onClick={closeMenu}>Sermons</Link></li>
           <li><Link to="/events" onClick={closeMenu}>Events</Link></li>
           <li><Link to="/support" onClick={closeMenu}>Support</Link></li>

@@ -114,7 +114,7 @@ export default function Home() {
   const seamlessCards = [...cards, ...cards];
 
   return (
-    <div className="bg-white text-white p-0">
+    <div className="bg-white text-white p-0 overflow-x-hidden">
       {/* Hero Section */}
      <section className="relative h-screen w-full overflow-hidden">
   <video 
@@ -373,7 +373,7 @@ export default function Home() {
               {pastorInfo.title}
             </h2>
           </div>
-          <p className="text-lg leading-relaxed text-gray-300">
+          <p className="text-sm leading-relaxed text-gray-300">
             {pastorInfo.description}
           </p>
         </motion.div>
