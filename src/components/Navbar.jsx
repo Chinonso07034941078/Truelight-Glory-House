@@ -48,6 +48,7 @@ export default function Navbar() {
       <div className="hidden md:flex flex-1 justify-center">
         <ul className="flex gap-14 text-md font-bold">
           <li><Link to="/" className="hover:underline">Home</Link></li>
+          <li><Link to="/" className="hover:underline">Home</Link></li>
           <li><Link to="/about" className="hover:underline">About</Link></li>
           <li><Link to="/sermons" className="hover:underline">Sermons</Link></li>
           <li><Link to="/events" className="hover:underline">Events</Link></li>

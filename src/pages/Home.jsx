@@ -299,27 +299,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats-section" className="bg-gradient-to-r from-blue-900 to-blue-800 py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.2, duration: 0.6 }}
-                className="text-center text-white"
-              >
-                <div className="flex justify-center mb-4">
-                  <stat.icon className="w-8 h-8 text-blue-300" />
-                </div>
-                <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-blue-200 text-sm md:text-base">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
      
 
