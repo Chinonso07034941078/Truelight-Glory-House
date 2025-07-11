@@ -4,6 +4,75 @@ import { Banknote, Copy, ArrowRight, Users, Heart, Star, Calendar, MapPin, Phone
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import BgVideo from '../assets/truelight-video1.mp4'
+import Papa from '../assets/papa.jpg'
+import Papa2 from '../assets/papa4.jpg'
+import Pray from '../assets/home-page.jpg'
+import Choir from '../assets/choir4.jpg'
+import YAN from '../assets/yan.jpg'
+import YAN2 from '../assets/yan2.jpg'
+import Media from '../assets/media.jpg'
+
+
+
+// State management
+
+
+// Handle input changes
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value
+  });
+};
+
+// Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setStatus({ message: '', type: '' });
+
+  try {
+    // Option 1: EmailJS
+    if (window.emailjs) {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: 'your-email@example.com' // Replace with your email
+      };
+
+      await window.emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+      setStatus({ message: 'Message sent successfully! We\'ll get back to you soon.', type: 'success' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } else {
+      // Option 2: Fetch to your backend API
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setStatus({ message: 'Message sent successfully!', type: 'success' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    }
+  } catch (error) {
+    console.error('Error sending message:', error);
+    setStatus({ message: 'Failed to send message. Please try again.', type: 'error' });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
+
+
 
 const fadeZoom = {
   hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -41,8 +110,8 @@ const pastorInfo = {
   subtitle: "Lead Pastor",
   description: "Pastor Ifeanyi Uwakwe is the Lead Pastor of Truelight Glory House, a vibrant ministry known for prophetic teaching, prayer, and leadership.He is passionate about spiritual growth, discipleship, and equipping believers to impact their families, careers, and communities. With humility and authority, he mentors many and emphasizes intimacy with God, kingdom purpose, and victorious living through faith. Under his leadership, the church has become a center of worship, intercession, and transformation. He is married and blessed with three children. David, Daniel, and Deborah, and serves faithfully alongside his wife.",
   imageAlt: "Pastor Ifeanyi Uwakwe",
-  email: "pastor",
-  phone: "200020202"
+  email: "Pastorifeanyiuwakwe@gmail.com",
+  phone: "+234 806 097 8617"
 };
 
 const upcomingEvents = [
@@ -50,23 +119,27 @@ const upcomingEvents = [
     title: "Sunday Service",
     date: "Every Sunday",
     time: "7:00 AM PROMPT",
-    description: "Join us every Sunday as we fellowship in God's house"
+    description: "Join us every Sunday as we fellowship in God's house",
+    image: Choir
   },
   {
     title: "Word Feast",
     date: "Ever Tuesday",
+    image: Papa2,
     time: "5:00 PM",
     description: "We let the word Transform our lives"
   },
   {
     title: "Let's pray",
     date: "Every Friday",
+    image: Pray,
     time: "5:00 PM",
     description: "We wait on the Lord in deep prayers"
   },
   {
     title: "Teens Church",
     date: "Every Saturday",
+    image: YAN2,
     time: "1:00 PM",
     description: "Vibrant teenagers come to fellowship together in His prescence"
   }
@@ -76,22 +149,20 @@ const ministries = [
   {
     name: "Lighters Choir",
     icon: Music,
-    description: "Leading the congregation in heartfelt worship"
+    description: "Leading the congregation in heartfelt worship",
+    image: Choir,
   },
   {
     name: "Young Achiever's Network",
     icon: Users,
-    description: "Empowering the next generation"
-  },
-  {
-    name: "Children's Ministry",
-    icon: Heart,
-    description: "Nurturing young hearts for Jesus"
+    description: "Empowering the next generation",
+    image: YAN,
   },
   {
     name: "Truelight Media",
     icon: Heart,
-    description: "Nurturing young hearts for Jesus"
+    description: "Nurturing young hearts for Jesus",
+    image: Media,
   },
   
 ];
@@ -106,6 +177,19 @@ export default function Home() {
   const [isMuted, setIsMuted] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   const videoRef = React.useRef(null);
+
+
+
+  const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  subject: '',
+  message: ''
+});
+const [isSubmitting, setIsSubmitting] = useState(false);
+const [status, setStatus] = useState({ message: '', type: '' });
+
+
 
   const cards = [
     {
@@ -246,7 +330,7 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 1.2 }}
           >
-            EL SHADDAI
+            TRUELIGHT <br /> GLORY HOUSE
           </motion.h1>
 
           <motion.h2
@@ -255,7 +339,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 1 }}
           >
-            The LORD GOD Almighty
+            Lighting The Nations With His Glory
           </motion.h2>
 
           <motion.div
@@ -389,84 +473,106 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Events Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Upcoming Events
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join us for these special gatherings
-            </p>
-          </motion.div>
+    {/* Activities Section */}
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6">
+    <motion.div
+      className="text-center mb-16"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+       Regular Activities
+      </h2>
+      <p className="text-xl text-gray-600">
+        Join us for these special gatherings
+      </p>
+    </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {upcomingEvents.map((event, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <Calendar className="w-6 h-6 text-blue-600" />
-                  <span className="text-sm font-semibold text-blue-600">{event.date}</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
-                <div className="flex items-center gap-2 mb-3">
-                  <Clock className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-600">{event.time}</span>
-                </div>
-                <p className="text-gray-600 text-sm">{event.description}</p>
-              </motion.div>
-            ))}
+    <div className="grid md:grid-cols-3 gap-8">
+      {upcomingEvents.map((event, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: index * 0.2 }}
+          className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+        >
+          {/* Image Container */}
+          <div className="h-48 bg-gradient-to-br from-blue-200 to-indigo-200 relative overflow-hidden">
+            <img 
+              src={event.image} 
+              alt={event.title}
+              className="w-full h-full object-cover"
+            />
           </div>
-        </div>
-      </section>
-
-      {/* Ministries Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our Ministries
-            </h2>
-            <p className="text-xl text-gray-600">
-              Find your place to serve and grow
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ministries.map((ministry, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
-                  <ministry.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{ministry.name}</h3>
-                <p className="text-gray-600">{ministry.description}</p>
-              </motion.div>
-            ))}
+          
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Calendar className="w-6 h-6 text-blue-600" />
+              <span className="text-sm font-semibold text-blue-600">{event.date}</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600">{event.time}</span>
+            </div>
+            <p className="text-gray-600 text-sm">{event.description}</p>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Ministries Section */}
+<section className="py-20 bg-gray-50">
+  <div className="max-w-7xl mx-auto px-6">
+    <motion.div
+      className="text-center mb-16"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Our Ministries
+      </h2>
+      <p className="text-xl text-gray-600">
+        Find your place to serve and grow
+      </p>
+    </motion.div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {ministries.map((ministry, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: index * 0.1 }}
+          className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden"
+        >
+          {/* Image Container */}
+          <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+            <img 
+              src={ministry.image} 
+              alt={ministry.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+          
+          <div className="p-6">
+            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
+              <ministry.icon className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{ministry.name}</h3>
+            <p className="text-gray-600">{ministry.description}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Scrolling Cards Section */}
       <section className="bg-white py-16 overflow-hidden">
@@ -515,7 +621,7 @@ export default function Home() {
         >
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop"
+              src={Papa}
               alt={pastorInfo.imageAlt}
               className="w-full max-w-md h-auto object-cover rounded-[2rem] shadow-2xl mx-auto"
             />
@@ -551,7 +657,7 @@ export default function Home() {
             </a>
             <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
               <Phone className="w-4 h-4" />
-              <span className="text-sm">{pastorInfo.phone}</span>
+              <span className="text-sm">+234 806 097 8617</span>
             </a>
           </div>
         </motion.div>
@@ -586,9 +692,7 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Our Location</h3>
                   <p className="text-blue-200">
-                    123 Faith Street<br />
-                    Onitsha, Anambra State<br />
-                    Nigeria
+                    Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri 460222, Imo
                   </p>
                 </div>
               </div>
@@ -598,9 +702,9 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Service Times</h3>
                   <p className="text-blue-200">
-                    Sunday Service: 10:00 AM<br />
-                    Wednesday Bible Study: 6:30 PM<br />
-                    Friday Youth Night: 7:00 PM
+                    Sunday Service: 7:00 AM<br />
+                    Tuesday Bible Study: 5:00 PM<br />
+                    Friday Prayer Meeting: 5:00 PM
                   </p>
                 </div>
               </div>
@@ -610,51 +714,110 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Contact Info</h3>
                   <p className="text-blue-200">
-                    Phone: +234 (0) 123-456-789<br />
-                    Email: info@elshaddai.org<br />
-                    WhatsApp: +234 (0) 123-456-789
+                    Phone: +234 813 045 6427<br />
+                    Email: info.truelight9@gmail.com<br />
+                    WhatsApp: 
                   </p>
                 </div>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="bg-white/10 backdrop-blur-md rounded-2xl p-8"
-            >
-              <h3 className="text-2xl font-bold mb-6">Send us a Message</h3>
-              <form className="space-y-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:border-blue-400"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:border-blue-400"
-                  />
-                </div>
-                <div>
-                  <textarea
-                    placeholder="Your Message"
-                    rows="4"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:border-blue-400 resize-none"
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300"
-                >
-                  Send Message
-                </button>
-              </form>
-            </motion.div>
+
+<div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
+  <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
+  
+  <div className="space-y-6">
+    <div>
+      <label htmlFor="name" className="block text-sm font-medium text-white/90 mb-2">
+        Name
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        // value={formData.name}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+        placeholder="Your Name"
+      />
+    </div>
+    
+    <div>
+      <label htmlFor="email" className="block text-sm font-medium text-white/90 mb-2">
+        Email
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        // value={formData.email}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+        placeholder="your@email.com"
+      />
+    </div>
+    
+    <div>
+      <label htmlFor="subject" className="block text-sm font-medium text-white/90 mb-2">
+        Subject
+      </label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        // value={formData.subject}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
+        placeholder="Message Subject"
+      />
+    </div>
+    
+    <div>
+      <label htmlFor="message" className="block text-sm font-medium text-white/90 mb-2">
+        Message
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        // value={formData.message}
+        onChange={handleChange}
+        rows="4"
+        required
+        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm resize-none"
+        placeholder="Your message here..."
+      />
+    </div>
+    
+    <button
+      onClick={handleSubmit}
+      disabled={isSubmitting}
+      className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+    >
+      {isSubmitting ? (
+        <span className="flex items-center justify-center">
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+          Sending...
+        </span>
+      ) : (
+        'Send Message'
+      )}
+    </button>
+  </div>
+  
+  {status.message && (
+    <div className={`mt-4 p-3 rounded-lg ${
+      status.type === 'success' 
+        ? 'bg-green-500/20 border border-green-500/30 text-green-300' 
+        : 'bg-red-500/20 border border-red-500/30 text-red-300'
+    }`}>
+      {status.message}
+    </div>
+  )}
+</div>
+
           </div>
         </div>
       </section>
