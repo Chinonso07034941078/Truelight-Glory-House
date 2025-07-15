@@ -1,5 +1,6 @@
 import {motion} from "framer-motion"; 
 import { ArrowRight } from "lucide-react";
+import Footer from "../components/Footer";
 
 
 const fadeUp = {
@@ -96,6 +97,8 @@ export default function Units(){
           </div>
         </div>
       </section>
+
+      <Footer />
         </div>
     )
 }

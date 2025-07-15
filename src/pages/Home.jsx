@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Banknote, Copy, ArrowRight, Users, Heart, Star, Calendar, MapPin, Phone, Mail, Clock, ChevronDown, Play, Pause, Volume2, VolumeX, BookOpen, Music, Handshake, Gift } from 'lucide-react';
+import { Banknote, Copy, ArrowRight, Users, Heart, Star, Calendar, MapPin, Phone, Mail, Clock, ChevronDown, Play, Pause, Volume2, VolumeX, BookOpen, Music, Handshake, Gift, UserMinus2Icon, LucideAlarmPlus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import BgVideo from '../assets/truelight-video1.mp4'
@@ -11,6 +11,9 @@ import Choir from '../assets/choir4.jpg'
 import YAN from '../assets/yan.jpg'
 import YAN2 from '../assets/yan2.jpg'
 import Media from '../assets/media.jpg'
+import Evot from '../assets/Evot.jpg'
+import Creative from '../assets/creatives2.jpg'
+import Sunday from '../assets/truelight-photo2.jpg'
 
 
 
@@ -120,7 +123,7 @@ const upcomingEvents = [
     date: "Every Sunday",
     time: "7:00 AM PROMPT",
     description: "Join us every Sunday as we fellowship in God's house",
-    image: Choir
+    image: Sunday,
   },
   {
     title: "Word Feast",
@@ -161,8 +164,20 @@ const ministries = [
   {
     name: "Truelight Media",
     icon: Heart,
-    description: "Nurturing young hearts for Jesus",
+    description: "Service with Excellence!!!",
     image: Media,
+  },
+  {
+    name: "Evening Of Truth",
+    icon: UserMinus2Icon,
+    description: "Relationship classic",
+    image: Evot,
+  },
+  {
+    name: "The Creatives",
+    icon: LucideAlarmPlus,
+    description: "Harnessing Special talents",
+    image: Creative,
   },
   
 ];
