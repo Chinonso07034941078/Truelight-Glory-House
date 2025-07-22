@@ -202,32 +202,33 @@ export default function MinistryUnits() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-black text-transparent bg-gradient-to-r from-white to-yellow-400 bg-clip-text mb-6">
-            Ready for Your Divine Assignment?
-          </h2>
-          <p className="text-xl text-blue-200 mb-10 max-w-2xl mx-auto">
-            Your gifts can transform lives. Join a ministry unit today and discover your heavenly purpose.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => window.location.href = 'mailto:info@truelight.org?subject=Ministry Unit Interest'}
-              className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold rounded-full shadow-2xl hover:shadow-yellow-400/50 hover:scale-105 transition-all duration-300 flex items-center gap-3 justify-center"
-            >
-              <Mail className="w-5 h-5" />
-              Start Your Journey
-            </button>
-            <button
-              onClick={() => window.location.href = 'tel:+2349010494622'}
-              className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-full hover:bg-yellow-400 hover:text-blue-900 transition-all duration-300 flex items-center gap-3 justify-center"
-            >
-              <Phone className="w-5 h-5" />
-              Call Us
-            </button>
-          </div>
-        </div>
-      </section>
+    <section className="py-20 px-6">
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-5xl font-black text-transparent bg-gradient-to-r from-white to-yellow-400 bg-clip-text mb-6">
+      Ready for Your Divine Assignment?
+    </h2>
+    <p className="text-xl text-blue-200 mb-10 max-w-2xl mx-auto">
+      Your gifts can transform lives. Join a ministry unit today and discover your heavenly purpose.
+    </p>
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <button
+        onClick={() => window.location.href = 'mailto:info.truelight9@gmail.com?subject=Ministry Unit Interest'}
+        className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold rounded-full shadow-2xl hover:shadow-yellow-400/50 hover:scale-105 transition-all duration-300 flex items-center gap-3 justify-center"
+      >
+        <Mail className="w-5 h-5" />
+        Start Your Journey
+      </button>
+      <button
+        onClick={() => window.location.href = 'tel:+2349010494622'}
+        className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-full hover:bg-yellow-400 hover:text-blue-900 transition-all duration-300 flex items-center gap-3 justify-center"
+      >
+        <Phone className="w-5 h-5" />
+        Call Us
+      </button>
+    </div>
+  </div>
+</section>
+
 
       {/* Unit Detail Modal */}
       {selectedUnit && (
