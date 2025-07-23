@@ -128,7 +128,7 @@ const upcomingEvents = [
   {
     title: "Word Feast",
     date: "Ever Tuesday",
-    image: Papa2,
+    image: "https://scontent.fabb1-3.fna.fbcdn.net/v/t39.30808-6/524156465_1148257704001925_7727432858456475697_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHgLlq6kWbRdyyAbU7kANiKs1VnwwJ3DIazVWfDAncMhgLuJt9PWxo_DKDjMz3W69jSZfRNipCW_6NryWLLnUUv&_nc_ohc=U7J-Ffm3bQAQ7kNvwEKKOlb&_nc_oc=Adm4uMhyOamLWkZ7NpJFw9dm4XDrsZQM3KmO4bGXffcQ9PQXsAz3Dwcm1QmhU-Wfdos&_nc_zt=23&_nc_ht=scontent.fabb1-3.fna&_nc_gid=lIqh4ym8D3nLdTISk6S7gQ&oh=00_AfTM31oi1RcjNfZygJnUt0F1UKAS5jA1sc8969wpPzRmqg&oe=6886767B",
     time: "5:00 PM",
     description: "We let the word Transform our lives"
   },
@@ -137,7 +137,7 @@ const upcomingEvents = [
     date: "Every Friday",
     image: Pray,
     time: "5:00 PM",
-    description: "We wait on the Lord in deep prayers"
+    description: "We wait on the Lord in Fervent prayers"
   },
   {
     title: "Teens Church",
@@ -170,7 +170,7 @@ const ministries = [
   {
     name: "Evening Of Truth",
     icon: UserMinus2Icon,
-    description: "Relationship classic",
+    description: "Relationship Classic - 2nd Sunday of the month, 3:00pm",
     image: Evot,
   },
   {
@@ -320,7 +320,7 @@ const [status, setStatus] = useState({ message: '', type: '' });
           <source src={BgVideo} type="video/mp4" /> {/* Replace with your video path */}
           Your browser does not support the video tag.
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/90 via-black/50 to-blue-950/90 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/90 via-yellow-500/5 to-blue-950/90 z-10" />
 
         {/* Floating elements */}
         <div className="absolute inset-0 z-15">
@@ -336,7 +336,7 @@ const [status, setStatus] = useState({ message: '', type: '' });
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
           >
-            the house of God
+            Global Church
           </motion.span>
 
           <motion.h1
@@ -349,12 +349,12 @@ const [status, setStatus] = useState({ message: '', type: '' });
           </motion.h1>
 
           <motion.h2
-            className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-3xl font-bold text-blue-100 tracking-wide"
+            className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-3xl font-bold text-yellow-500 tracking-wide"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 1 }}
           >
-            Lighting The Nations With His Glory
+           Disciple the Nations and Discipline the Devil
           </motion.h2>
 
           <motion.div
@@ -451,7 +451,7 @@ const [status, setStatus] = useState({ message: '', type: '' });
           >
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=400&h=400&fit=crop"
+                src="https://scontent.fabb1-2.fna.fbcdn.net/v/t39.30808-6/516597503_1141097741384588_2423057142439453111_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHccey6tvOXaj6az0vcDX0MG3xDdTPj1IUbfEN1M-PUhWO15wZN0A9OJgjtieTiHVI-hcM-tYoVEyhEZgWLQfHA&_nc_ohc=2i0Vut5yBk0Q7kNvwFfuSal&_nc_oc=AdmfDOesPZb-dkSD9pc3Cofa5ItBkwoNEYBNOZ2dlP9e4QkT_a9EZ4jEoWmEcqc9_N4&_nc_zt=23&_nc_ht=scontent.fabb1-2.fna&_nc_gid=jnpaiZdmZ3BkHYvLJWxHoA&oh=00_AfS4u_qeJr5chpEwmJVhZ6f7b51tUNuhr2NyJnCLDYN0yg&oe=6886945B"
                 alt="Church Gathering"
                 className="rounded-3xl shadow-2xl w-full max-w-sm lg:max-w-md object-cover transform hover:scale-105 transition-transform duration-500"
               />
@@ -591,251 +591,245 @@ const [status, setStatus] = useState({ message: '', type: '' });
 
       {/* Scrolling Cards Section */}
       <section className="bg-white py-16 overflow-hidden">
-        <div className="w-full">
-          <div className="flex w-max animate-scroll space-x-8">
-            {seamlessCards.map((card, index) => (
-              <motion.div
-                key={`${card.title}-${index}`}
-                className="relative w-[280px] md:w-[320px] h-[400px] flex-shrink-0 rounded-2xl overflow-hidden shadow-xl group cursor-pointer"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-                <div className="relative z-20 h-full flex flex-col justify-between p-6 text-white">
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-blue-300">
-                      {card.titleTop}
-                    </h4>
-                    <h2 className="text-2xl md:text-3xl font-black">
-                      {card.title}
-                    </h2>
-                  </div>
-                  <button className="text-sm font-bold flex items-center gap-2 uppercase hover:gap-4 transition-all group-hover:text-blue-300">
-                    {card.button} <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+  <div className="w-full">
+    <div className="flex w-max animate-scroll space-x-8">
+      {seamlessCards.map((card, index) => (
+        <motion.div
+          key={`${card.title}-${index}`}
+          className="relative w-[280px] md:w-[320px] h-[400px] flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl group cursor-pointer border border-yellow-400/20"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+        >
+          <img
+            src={card.image}
+            alt={card.title}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-blue-900/50 to-transparent z-10" />
+          <div className="relative z-20 h-full flex flex-col justify-between p-6 text-white">
+            <div className="space-y-2">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-yellow-400">
+                {card.titleTop}
+              </h4>
+              <h2 className="text-2xl md:text-3xl font-black text-white drop-shadow-lg">
+                {card.title}
+              </h2>
+            </div>
+            <button className="text-sm font-bold flex items-center gap-2 uppercase hover:gap-4 transition-all group-hover:text-yellow-400 text-white bg-blue-900/50 px-4 py-2 rounded-lg backdrop-blur-sm border border-yellow-400/30 hover:bg-yellow-400/20 hover:border-yellow-400/60">
+              {card.button} <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Pastor Section */}
-      <section className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
-        <motion.div
-          className="w-full lg:w-1/2"
-          initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="relative">
-            <img
-              src={Papa}
-              alt={pastorInfo.imageAlt}
-              className="w-full max-w-md h-auto object-cover rounded-[2rem] shadow-2xl mx-auto"
-            />
-            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-black/30 to-transparent"></div>
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-              <BookOpen className="w-10 h-10 text-white" />
-            </div>
-          </div>
-        </motion.div>
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
+  <motion.div
+    className="w-full lg:w-1/2"
+    initial={{ x: -100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 1 }}
+    viewport={{ once: true }}
+  >
+    <div className="relative">
+      <img
+        src={Papa}
+        alt={pastorInfo.imageAlt}
+        className="w-full max-w-md h-auto object-cover rounded-[2rem] shadow-2xl mx-auto border-2 border-yellow-400/30"
+      />
+      <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+      <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20">
+        <BookOpen className="w-10 h-10 text-blue-900" />
+      </div>
+    </div>
+  </motion.div>
 
-        <motion.div
-          className="w-full lg:w-1/2 space-y-8 text-center lg:text-left"
-          initial={{ x: 100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="space-y-4">
-            <div className="text-blue-400 text-base font-bold tracking-widest uppercase">
-              {pastorInfo.subtitle}
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              {pastorInfo.title}
-            </h2>
-          </div>
-          <p className="text-sm leading-relaxed text-gray-300">
-            {pastorInfo.description}
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-            <a href={`mailto:${pastorInfo.email}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-              <Mail className="w-4 h-4" />
-              <span className="text-sm">{pastorInfo.email}</span>
-            </a>
-            <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-              <Phone className="w-4 h-4" />
-              <span className="text-sm">+234 806 097 8617</span>
-            </a>
-          </div>
-        </motion.div>
-      </section>
+  <motion.div
+    className="w-full lg:w-1/2 space-y-8 text-center lg:text-left"
+    initial={{ x: 100, opacity: 0 }}
+    whileInView={{ x: 0, opacity: 1 }}
+    transition={{ duration: 1 }}
+    viewport={{ once: true }}
+  >
+    <div className="space-y-4">
+      <div className="text-yellow-400 text-base font-bold tracking-widest uppercase">
+        {pastorInfo.subtitle}
+      </div>
+      <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white via-gray-100 to-yellow-100 bg-clip-text text-transparent">
+        {pastorInfo.title}
+      </h2>
+    </div>
+    <p className="text-sm leading-relaxed text-gray-300">
+      {pastorInfo.description}
+    </p>
+    <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+      <a href={`mailto:${pastorInfo.email}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+        <Mail className="w-4 h-4" />
+        <span className="text-sm">{pastorInfo.email}</span>
+      </a>
+      <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+        <Phone className="w-4 h-4" />
+        <span className="text-sm">+234 806 097 8617</span>
+      </a>
+    </div>
+  </motion.div>
+</section>
 
       {/* Contact Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-indigo-900 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Visit Us
-            </h2>
-            <p className="text-xl text-blue-200">
-              We'd love to meet you in person
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-blue-300 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Our Location</h3>
-                  <p className="text-blue-200">
-                    Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri 460222, Imo
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <Clock className="w-6 h-6 text-blue-300 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Service Times</h3>
-                  <p className="text-blue-200">
-                    Sunday Service: 7:00 AM<br />
-                    Tuesday Bible Study: 5:00 PM<br />
-                    Friday Prayer Meeting: 5:00 PM
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-blue-300 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Contact Info</h3>
-                  <p className="text-blue-200">
-                    Phone: +234 813 045 6427<br />
-                    Email: info.truelight9@gmail.com<br />
-                    WhatsApp: 
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-
-<div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
-  <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
-  
-  <div className="space-y-6">
-    <div>
-      <label htmlFor="name" className="block text-sm font-medium text-white/90 mb-2">
-        Name
-      </label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        // value={formData.name}
-        onChange={handleChange}
-        required
-        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-        placeholder="Your Name"
-      />
-    </div>
-    
-    <div>
-      <label htmlFor="email" className="block text-sm font-medium text-white/90 mb-2">
-        Email
-      </label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        // value={formData.email}
-        onChange={handleChange}
-        required
-        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-        placeholder="your@email.com"
-      />
-    </div>
-    
-    <div>
-      <label htmlFor="subject" className="block text-sm font-medium text-white/90 mb-2">
-        Subject
-      </label>
-      <input
-        type="text"
-        id="subject"
-        name="subject"
-        // value={formData.subject}
-        onChange={handleChange}
-        required
-        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm"
-        placeholder="Message Subject"
-      />
-    </div>
-    
-    <div>
-      <label htmlFor="message" className="block text-sm font-medium text-white/90 mb-2">
-        Message
-      </label>
-      <textarea
-        id="message"
-        name="message"
-        // value={formData.message}
-        onChange={handleChange}
-        rows="4"
-        required
-        className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm resize-none"
-        placeholder="Your message here..."
-      />
-    </div>
-    
-    <button
-      onClick={handleSubmit}
-      disabled={isSubmitting}
-      className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+     <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
+  <div className="max-w-7xl mx-auto px-6">
+    <motion.div
+      className="text-center mb-16"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
     >
-      {isSubmitting ? (
-        <span className="flex items-center justify-center">
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-          Sending...
-        </span>
-      ) : (
-        'Send Message'
-      )}
-    </button>
-  </div>
-  
-  {status.message && (
-    <div className={`mt-4 p-3 rounded-lg ${
-      status.type === 'success' 
-        ? 'bg-green-500/20 border border-green-500/30 text-green-300' 
-        : 'bg-red-500/20 border border-red-500/30 text-red-300'
-    }`}>
-      {status.message}
-    </div>
-  )}
-</div>
+      <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+        Visit Us
+      </h2>
+      <p className="text-xl text-yellow-400">
+        We'd love to meet you in person
+      </p>
+    </motion.div>
 
+    <div className="grid md:grid-cols-2 gap-16 items-center">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="space-y-8"
+      >
+        <div className="flex items-start gap-4">
+          <MapPin className="w-6 h-6 text-yellow-400 mt-1" />
+          <div>
+            <h3 className="font-semibold text-lg mb-2 text-white">Our Location</h3>
+            <p className="text-gray-300">
+              Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri 460222, Imo
+            </p>
           </div>
         </div>
-      </section>
+
+        <div className="flex items-start gap-4">
+          <Clock className="w-6 h-6 text-yellow-400 mt-1" />
+          <div>
+            <h3 className="font-semibold text-lg mb-2 text-white">Service Times</h3>
+            <p className="text-gray-300">
+              Sunday Service: 7:00 AM<br />
+              Tuesday Bible Study: 5:00 PM<br />
+              Friday Prayer Meeting: 5:00 PM
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-4">
+          <Phone className="w-6 h-6 text-yellow-400 mt-1" />
+          <div>
+            <h3 className="font-semibold text-lg mb-2 text-white">Contact Info</h3>
+            <p className="text-gray-300">
+              Phone: +234 813 045 6427<br />
+              Email: info.truelight9@gmail.com<br />
+              WhatsApp: 
+            </p>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="bg-blue-900/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-yellow-400/30">
+        <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
+        
+        <div className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-yellow-400 mb-2">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
+              placeholder="Your Name"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-yellow-400 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
+              placeholder="your@email.com"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="subject" className="block text-sm font-medium text-yellow-400 mb-2">
+              Subject
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
+              placeholder="Message Subject"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-yellow-400 mb-2">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              onChange={handleChange}
+              rows="4"
+              required
+              className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm resize-none"
+              placeholder="Your message here..."
+            />
+          </div>
+          
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border border-yellow-400/30 hover:border-yellow-400/60"
+          >
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Sending...
+              </span>
+            ) : (
+              'Send Message'
+            )}
+          </button>
+        </div>
+        
+        {status.message && (
+          <div className={`mt-4 p-3 rounded-lg ${
+            status.type === 'success' 
+              ? 'bg-green-500/20 border border-green-500/30 text-green-300' 
+              : 'bg-red-500/20 border border-red-500/30 text-red-300'
+          }`}>
+            {status.message}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
      < Footer />
