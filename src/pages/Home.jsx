@@ -119,9 +119,9 @@ const pastorInfo = {
 
 const upcomingEvents = [
   {
-    title: "Sunday Service",
+    title: "Sunday 3 Super Services",
     date: "Every Sunday",
-    time: "7:00 AM PROMPT",
+    time: "1st Service - 7:00 AM PROMPT, 2nd Service-8:45, AM 3rd Service-10:30 AM",
     description: "Join us every Sunday as we fellowship in God's house",
     image: Sunday,
   },
