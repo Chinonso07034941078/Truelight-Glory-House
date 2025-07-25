@@ -29,4 +29,6 @@ export const pastorInfo = {
                 He is passionate about spiritual growth, discipleship, and equipping believers to impact their families, careers, and communities. With humility and authority, 
                 he mentors many and emphasizes intimacy with God, kingdom purpose, and victorious living through faith. Under his leadership, the church has become a center of worship, intercession, and transformation. 
                 He is married and blessed with three children. David, Daniel, and Deborah, and serves faithfully alongside his wife.`,
+  email: "Pastorifeanyiuwakwe@gmail.com",
+  phone: "+234 806 097 8617"
 };
