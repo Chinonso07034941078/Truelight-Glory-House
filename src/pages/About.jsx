@@ -2,9 +2,11 @@ import { motion } from 'framer-motion';
 import Footer from "../components/Footer";
 import heroImage from "../assets/papa4.jpg";
 import papa from "../assets/papa.jpg";
-import { Typewriter } from 'react-simple-typewriter'
-import {missionVisionValues, pastorInfo, history} from "../components/data"
+import { Typewriter } from 'react-simple-typewriter';
+import { BookOpen, Phone, Mail } from "lucide-react";
 
+// ✅ Import data from your data.js file
+import { missionVisionValues, history, pastorInfo } from "../components/data";
 
 export default function About() {
   return (
@@ -12,7 +14,7 @@ export default function About() {
       {/* Hero Section */}
       <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white text-center px-4 overflow-hidden">
         <motion.img
-          src={heroImage}
+          src="https://scontent.fabb1-3.fna.fbcdn.net/v/t39.30808-6/524156465_1148257704001925_7727432858456475697_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHgLlq6kWbRdyyAbU7kANiKs1VnwwJ3DIazVWfDAncMhgLuJt9PWxo_DKDjMz3W69jSZfRNipCW_6NryWLLnUUv&_nc_ohc=U7J-Ffm3bQAQ7kNvwEKKOlb&_nc_oc=Adm4uMhyOamLWkZ7NpJFw9dm4XDrsZQM3KmO4bGXffcQ9PQXsAz3Dwcm1QmhU-Wfdos&_nc_zt=23&_nc_ht=scontent.fabb1-3.fna&_nc_gid=lIqh4ym8D3nLdTISk6S7gQ&oh=00_AfTM31oi1RcjNfZygJnUt0F1UKAS5jA1sc8969wpPzRmqg&oe=6886767B"
           alt="Hero"
           className="absolute inset-0 w-full h-full object-cover filter brightness-50 z-0"
           initial={{ scale: 1.1, opacity: 0.7 }}
@@ -29,105 +31,133 @@ export default function About() {
             Welcome to Truelight Glory House
           </motion.h1>
           <motion.p
-             className="mt-8 text-lg md:text-lg text-gray-200 italic"
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ delay: 2, duration: 1 }}
-           >
-             <Typewriter
-                words={[
-                  "This is where we disciple the nations",
-                   "And discipline the devil",
-                       
-                 ]}
-                  loop
-                  cursor
-                  cursorStyle="_"
-                  typeSpeed={60}
-                  deleteSpeed={40}
-                  delaySpeed={1800}
-               />
-           </motion.p>
+            className="mt-8 text-lg md:text-lg text-gray-200 italic"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1 }}
+          >
+            <Typewriter
+              words={[
+                "This is where we disciple the nations",
+                "And discipline the devil",
+              ]}
+              loop
+              cursor
+              cursorStyle="_"
+              typeSpeed={60}
+              deleteSpeed={40}
+              delaySpeed={1800}
+            />
+          </motion.p>
         </div>
       </section>
 
       {/* Mission, Vision, Values */}
-    <section className="py-16 px-4 bg-gray-100">
-      <motion.div
-        className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ staggerChildren: 0.3 }}
-      >
-        {missionVisionValues.map((item, i) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
-          >
-            <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
-            <p>{item.content}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
-
-      {/* History */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-6 bg-gradient-to-b from-gray-100 to-white">
         <motion.div
-          className="max-w-4xl mx-auto text-center"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
+          className="max-w-7xl mx-auto grid gap-12 md:grid-cols-3 text-center"
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
+          transition={{ staggerChildren: 0.3 }}
         >
-          <h2 className="text-2xl font-bold mb-4">{history.title}</h2>
-          <p>{history.content}</p>
+          {missionVisionValues.map((item, i) => (
+            <motion.div
+              key={item.title}
+              className="bg-white rounded-2xl shadow-lg border border-yellow-100 p-8 hover:shadow-2xl transition duration-300"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
+            >
+              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-yellow-100 rounded-full mb-4">
+                <BookOpen className="w-8 h-8 text-yellow-600" />
+              </div>
+              <h2 className="text-2xl font-extrabold text-gray-800 mb-3 tracking-wide uppercase">
+                {item.title}
+              </h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {item.content}
+              </p>
+            </motion.div>
+          ))}
         </motion.div>
       </section>
 
-      {/* Leadership */}
-      <section className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
-             <motion.div 
-               className="w-full lg:w-1/2" 
-               initial={{ x: -100, opacity: 0 }} 
-               whileInView={{ x: 0, opacity: 1 }} 
-               transition={{ duration: 1 }} 
-               viewport={{ once: true }}
-             >
-               <div className="relative">
-                 <img 
-                   src={papa} 
-                   alt={pastorInfo.imageAlt} 
-                   className="w-full h-auto object-cover rounded-[3rem] shadow-2xl" 
-                 />
-                 <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-black/30 to-transparent"></div>
-               </div>
-             </motion.div>
-             
-             <motion.div 
-               className="w-full lg:w-1/2 space-y-8 text-center lg:text-left" 
-               initial={{ x: 100, opacity: 0 }} 
-               whileInView={{ x: 0, opacity: 1 }} 
-               transition={{ duration: 1 }} 
-               viewport={{ once: true }}
-             >
-               <div className="space-y-4">
-                 <div className="text-blue-400 text-base font-bold tracking-widest uppercase">
-                   {pastorInfo.subtitle}
-                 </div>
-                 <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                   {pastorInfo.title}
-                 </h2>
-               </div>
-               <p className="text-sm leading-relaxed text-gray-300">
-                 {pastorInfo.description}
-               </p>
-             </motion.div>
-           </section>
 
+      {/* History */}
+      <section className="py-20 px-6 bg-white relative overflow-hidden">
+        {/* Background Accent Blob (optional for design flair) */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-100 rounded-full blur-3xl opacity-30 -z-10 translate-x-1/3 -translate-y-1/2"></div>
+
+        <motion.div
+          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-6 leading-tight tracking-tight">
+            {history.title}
+          </h2>
+          <p className="text-gray-600 text-lg sm:text-xl leading-relaxed">
+            {history.content}
+          </p>
+        </motion.div>
+      </section>
+
+
+      {/* Leadership */}
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
+        <motion.div
+          className="w-full lg:w-1/2"
+          initial={{ x: -100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="relative">
+            <img
+              src={papa}
+              alt={pastorInfo.imageAlt}
+              className="w-full max-w-md h-auto object-cover rounded-[2rem] shadow-2xl mx-auto border-2 border-yellow-400/30"
+            />
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20">
+              <BookOpen className="w-10 h-10 text-blue-900" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="w-full lg:w-1/2 space-y-8 text-center lg:text-left"
+          initial={{ x: 100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="space-y-4">
+            <div className="text-yellow-400 text-base font-bold tracking-widest uppercase">
+              {pastorInfo.subtitle}
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white via-gray-100 to-yellow-100 bg-clip-text text-transparent">
+              {pastorInfo.title}
+            </h2>
+          </div>
+          <p className="text-sm leading-relaxed text-gray-300">
+            {pastorInfo.description}
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a href={`mailto:${pastorInfo.email}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+              <Mail className="w-4 h-4" />
+              <span className="text-sm">{pastorInfo.email}</span>
+            </a>
+            <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+              <Phone className="w-4 h-4" />
+              <span className="text-sm">{pastorInfo.phone}</span>
+            </a>
+          </div>
+        </motion.div>
+      </section>
 
       {/* What We Believe */}
       <section className="py-16 px-4">
