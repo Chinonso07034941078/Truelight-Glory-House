@@ -679,7 +679,7 @@ const [status, setStatus] = useState({ message: '', type: '' });
 </section>
 
       {/* Contact Section */}
-     <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white">
+     <section className="py-20 bg-gradient-to-bl from-slate-900 via-blue-900 to-slate-800 text-white">
   <div className="max-w-7xl mx-auto px-6">
     <motion.div
       className="text-center mb-16"
