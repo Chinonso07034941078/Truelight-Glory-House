@@ -743,7 +743,7 @@ export default function Home() {
 
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-yellow-400 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">
                     Name
                   </label>
                   <input
@@ -758,7 +758,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-yellow-400 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
                     Email
                   </label>
                   <input
@@ -773,7 +773,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-yellow-400 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-200 mb-2">
                     Subject
                   </label>
                   <input
@@ -788,7 +788,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-yellow-400 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">
                     Message
                   </label>
                   <textarea
