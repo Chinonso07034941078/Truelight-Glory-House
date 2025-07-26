@@ -350,7 +350,7 @@ export default function Home() {
           </motion.h1>
 
           <motion.h2
-            className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-3xl font-bold text-yellow-500 tracking-wide"
+            className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-3xl font-bold text-blue-200 tracking-wide"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 1 }}
