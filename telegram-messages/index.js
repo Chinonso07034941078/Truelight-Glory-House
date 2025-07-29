@@ -7,7 +7,7 @@ const path = require("path");
 const apiId = 20139100;
 const apiHash = "52b622701427b68305d7090da5383d60";
 const stringSession = new StringSession("");
-const channelUsername = "Truelight Glory House"; 
+const channelUsername = "Truelightghofficial"; 
 
 const audioMessagesPath = "audio_messages.json";
 
