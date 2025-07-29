@@ -1,15 +1,16 @@
 const { TelegramClient } = require("telegram");
 const { StringSession } = require("telegram/sessions");
-const input = require('input');
+const input = require("input");
 const fs = require("fs");
 const path = require("path");
+const { NewMessage } = require("telegram/events");
 
 const apiId = 20139100;
 const apiHash = "52b622701427b68305d7090da5383d60";
-const stringSession = new StringSession("");
-const channelUsername = "Truelightghofficial"; 
+const stringSession = new StringSession(""); // leave empty if you're logging in fresh
+const channelUsername = "Truelightghofficial";
 
-const audioMessagesPath = "audio_messages.json";
+const audioMessagesPath = path.join(__dirname, "audio_messages.json");
 
 (async () => {
   const client = new TelegramClient(stringSession, apiId, apiHash, {
@@ -23,21 +24,20 @@ const audioMessagesPath = "audio_messages.json";
     onError: (err) => console.log(err),
   });
 
-  console.log("Logged in successfully!");
+  console.log("✅ Logged in successfully!");
+  console.log("📥 Fetching past audio messages...");
 
-  console.log("Fetching past audio messages...");
+  const channel = await client.getEntity(channelUsername);
+  const inputChannel = await client.getInputEntity(channel);
 
- const channel = await client.getEntity(channelUsername);
-    const inputChannel = await client.getInputEntity(channel);
+  let allMessages = [];
+  let lastId = null;
+  const batchSize = 100;
 
-    let allMessages = [];
-    let lastId = null;
-    const batchSize = 100;
-
-    while (true) {
+  while (true) {
     const batch = await client.getMessages(channel, {
-        limit: batchSize,
-        ...(lastId && { offsetId: lastId }), 
+      limit: batchSize,
+      ...(lastId && { offsetId: lastId }),
     });
 
     if (batch.length === 0) break;
@@ -46,78 +46,55 @@ const audioMessagesPath = "audio_messages.json";
     lastId = batch[batch.length - 1].id;
 
     if (allMessages.length >= 1000) break;
-    }
+  }
 
-    const pastAudios = allMessages
-    .filter(
-        (msg) =>
-        msg.media &&
-        msg.media.document &&
-        msg.media.document.mimeType &&
-        msg.media.document.mimeType.startsWith("audio")
+  const pastAudios = allMessages
+    .filter((msg) =>
+      msg?.media?.document?.mimeType?.startsWith("audio")
     )
     .map((msg) => ({
-        title: msg.message || "Untitled Audio",
-        link: `https://t.me/${channelUsername}/${msg.id}`,
+      title: msg.message || "Untitled Audio",
+      link: `https://t.me/${channelUsername}/${msg.id}`,
     }));
 
-    saveAudioMessages(pastAudios);
+  saveAudioMessages(pastAudios);
 
-  console.log("Past messages saved.");
-  console.log("Watching for new audio messages...");
+  console.log(`✅ Saved ${pastAudios.length} audio messages.`);
+  console.log("🔔 Watching for new audio messages...");
 
   // Listen for new audio messages
- const { NewMessage } = require("telegram/events");
+  client.addEventHandler(
+    async (event) => {
+      const message = event.message;
 
-    client.addEventHandler(async (event) => {
-    const message = event.message;
-
-    if (
-        message &&
-        message.media &&
-        message.media.document &&
-        message.media.document.mimeType.startsWith("audio")
-    ) {
+      if (
+        message?.media?.document?.mimeType?.startsWith("audio")
+      ) {
         const newAudio = {
-        title: message.message || "Untitled Audio",
-        link: `https://t.me/${channelUsername}/${message.id}`,
+          title: message.message || "Untitled Audio",
+          link: `https://t.me/${channelUsername}/${message.id}`,
         };
 
-        console.log("New audio message:", newAudio);
+        console.log("🎧 New audio message:", newAudio);
 
-        // Load existing JSON
-        const dataPath = path.join(__dirname, "audios.json");
-        const existing = fs.existsSync(dataPath)
-        ? JSON.parse(fs.readFileSync(dataPath, "utf-8"))
-        : [];
+        const existing = fs.existsSync(audioMessagesPath)
+          ? JSON.parse(fs.readFileSync(audioMessagesPath, "utf-8"))
+          : [];
 
-        // Avoid duplicates
-        const updated = [newAudio, ...existing.filter(m => m.link !== newAudio.link)];
+        const updated = [newAudio, ...existing.filter((m) => m.link !== newAudio.link)];
 
-        // Save
-        fs.writeFileSync(dataPath, JSON.stringify(updated, null, 2));
-    }
-    }, new NewMessage({ chats: [inputChannel] }));
+        fs.writeFileSync(audioMessagesPath, JSON.stringify(updated, null, 2));
+      }
+    },
+    new NewMessage({ chats: [inputChannel] })
+  );
 
+  // Keep client running to listen for new messages
+  await client.runUntilDisconnected();
 })();
 
-// === Helper Functions ===
-
+// === Helper Function ===
 function saveAudioMessages(messages) {
-  fs.writeFileSync(audioMessagesPath, JSON.stringify(messages, null, 2));
-}
-
-function appendAudioMessage(newAudio) {
-  let current = [];
-
-  if (fs.existsSync(audioMessagesPath)) {
-    const raw = fs.readFileSync(audioMessagesPath);
-    current = JSON.parse(raw);
-  }
-
-  const exists = current.some((audio) => audio.link === newAudio.link);
-  if (!exists) {
-    current.unshift(newAudio); // Add to top
-    saveAudioMessages(current);
-  }
+  const unique = Array.from(new Map(messages.map((m) => [m.link, m])).values());
+  fs.writeFileSync(audioMessagesPath, JSON.stringify(unique, null, 2));
 }
