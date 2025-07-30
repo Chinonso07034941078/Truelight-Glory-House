@@ -7,22 +7,41 @@ const { NewMessage } = require("telegram/events");
 
 const apiId = 20139100;
 const apiHash = "52b622701427b68305d7090da5383d60";
-const stringSession = new StringSession(""); // leave empty if you're logging in fresh
+const sessionFilePath = path.join(__dirname, ".session.txt");
+const audioMessagesPath = path.join(__dirname, "audio_messages.json");
 const channelUsername = "Truelightghofficial";
 
-const audioMessagesPath = path.join(__dirname, "audio_messages.json");
+// === Load existing session or initialize a new one ===
+let sessionString = "";
+if (fs.existsSync(sessionFilePath)) {
+  sessionString = fs.readFileSync(sessionFilePath, "utf-8");
+  console.log("✅ Loaded existing session.");
+} else {
+  console.log("🔐 No session found. Logging in fresh...");
+}
+const stringSession = new StringSession(sessionString);
 
 (async () => {
   const client = new TelegramClient(stringSession, apiId, apiHash, {
     connectionRetries: 5,
   });
 
-  await client.start({
-    phoneNumber: async () => await input.text("Enter your phone number: "),
-    password: async () => await input.text("Enter your 2FA password (if set): "),
-    phoneCode: async () => await input.text("Enter the code you received: "),
-    onError: (err) => console.log(err),
-  });
+  // Only prompt login if no session exists
+  if (!sessionString) {
+    await client.start({
+      phoneNumber: async () => await input.text("Enter your phone number: "),
+      password: async () => await input.text("Enter your 2FA password (if set): "),
+      phoneCode: async () => await input.text("Enter the code you received: "),
+      onError: (err) => console.log(err),
+    });
+
+    // Save the session after login
+    const savedSession = client.session.save();
+    fs.writeFileSync(sessionFilePath, savedSession);
+    console.log("💾 Session saved for future use!");
+  } else {
+    await client.connect(); // Connect using saved session
+  }
 
   console.log("✅ Logged in successfully!");
   console.log("📥 Fetching past audio messages...");
@@ -49,9 +68,7 @@ const audioMessagesPath = path.join(__dirname, "audio_messages.json");
   }
 
   const pastAudios = allMessages
-    .filter((msg) =>
-      msg?.media?.document?.mimeType?.startsWith("audio")
-    )
+    .filter((msg) => msg?.media?.document?.mimeType?.startsWith("audio"))
     .map((msg) => ({
       title: msg.message || "Untitled Audio",
       link: `https://t.me/${channelUsername}/${msg.id}`,
@@ -67,9 +84,7 @@ const audioMessagesPath = path.join(__dirname, "audio_messages.json");
     async (event) => {
       const message = event.message;
 
-      if (
-        message?.media?.document?.mimeType?.startsWith("audio")
-      ) {
+      if (message?.media?.document?.mimeType?.startsWith("audio")) {
         const newAudio = {
           title: message.message || "Untitled Audio",
           link: `https://t.me/${channelUsername}/${message.id}`,
