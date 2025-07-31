@@ -1,6 +1,29 @@
 
 import React, { useState, useEffect } from 'react';
-import { Banknote, Copy, ArrowRight, Users, Heart, Star, Calendar, MapPin, Phone, Mail, Clock, ChevronDown, Play, Pause, Volume2, VolumeX, BookOpen, Music, Handshake, Gift, UserMinus2Icon, LucideAlarmPlus } from 'lucide-react';
+import { 
+  Banknote, 
+  Copy, 
+  ArrowRight, 
+  Users, 
+  Heart, 
+  Star, 
+  Calendar, 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Clock, 
+  ChevronDown, 
+  Play, 
+  Pause, 
+  Volume2, 
+  VolumeX, 
+  BookOpen, 
+  Music, 
+  Handshake, 
+  Gift, 
+  UserMinus2Icon, 
+  LucideAlarmPlus 
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import BgVideo from '../assets/truelight-video1.mp4'
@@ -671,164 +694,12 @@ export default function Home() {
               <Mail className="w-4 h-4" />
               <span className="text-sm">{pastorInfo.email}</span>
             </a>
-            <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+            {/* <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
               <Phone className="w-4 h-4" />
               <span className="text-sm">+234 806 097 8617</span>
-            </a>
+            </a> */}
           </div>
         </motion.div>
-      </section>
-
-      {/* Contact Section */}
-     <section className="py-20 bg-gradient-to-bl from-slate-900 via-blue-900 to-slate-800 text-white">
-  <div className="max-w-7xl mx-auto px-6">
-    <motion.div
-      className="text-center mb-16"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-        Visit Us
-      </h2>
-      <p className="text-xl text-yellow-400">
-        We'd love to meet you in person
-      </p>
-    </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Our Location</h3>
-                  <p className="text-gray-300">
-                    Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri 460222, Imo
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <Clock className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Service Times</h3>
-                  <p className="text-gray-300">
-                    Sunday Service: 7:00 AM<br />
-                    Tuesday Bible Study: 5:00 PM<br />
-                    Friday Prayer Meeting: 5:00 PM
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Contact Info</h3>
-                  <p className="text-gray-300">
-                    Phone: +234 813 045 6427<br />
-                    Email: info.truelight9@gmail.com<br />
-                    WhatsApp:
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <div className="bg-blue-900/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-yellow-400/30">
-              <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
-
-              <div className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
-                    placeholder="Your Name"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-200 mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
-                    placeholder="Message Subject"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    onChange={handleChange}
-                    rows="4"
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm resize-none"
-                    placeholder="Your message here..."
-                  />
-                </div>
-
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border border-yellow-400/30 hover:border-yellow-400/60"
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Sending...
-                    </span>
-                  ) : (
-                    'Send Message'
-                  )}
-                </button>
-              </div>
-
-              {status.message && (
-                <div className={`mt-4 p-3 rounded-lg ${status.type === 'success'
-                  ? 'bg-green-500/20 border border-green-500/30 text-green-300'
-                  : 'bg-red-500/20 border border-red-500/30 text-red-300'
-                  }`}>
-                  {status.message}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Footer */}

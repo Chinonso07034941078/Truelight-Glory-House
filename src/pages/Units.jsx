@@ -25,7 +25,7 @@ const units = [
   { name: "Young Achievers Network", icon: Target, description: "Empowering youths for success and excellence", leader: "Tolu Adebayo", members: 24, time: "Saturdays 4PM", contact: "yan@truelight.org" },
   { name: "Partnership", icon: Handshake, description: "Supporting the church's vision through partnerships", leader: "Chike Nnamdi", members: 19, time: "Monthly (Last Sunday)", contact: "partnership@truelight.org" },
   { name: "Communion", icon: CupSoda, description: "Preparing and serving the Holy Communion with reverence", leader: "Helen Chika", members: 9, time: "Monthly (First Sunday)", contact: "communion@truelight.org" }
-];
+]
 
 const testimonials = [
   { name: "Sarah Johnson", unit: "Choir", text: "Serving here transformed my life completely!" },
@@ -41,8 +41,8 @@ const stats = [
 ];
 
 export default function MinistryUnits() {
-  const [search, setSearch] = useState('');
-  const [selectedUnit, setSelectedUnit] = useState(null);
+  const [search, setSearch] = useState('')
+  const [selectedUnit, setSelectedUnit] = useState(null)
   
   const filteredUnits = units.filter(unit => 
     unit.name.toLowerCase().includes(search.toLowerCase()) ||

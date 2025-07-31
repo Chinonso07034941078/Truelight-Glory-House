@@ -4,8 +4,6 @@ import heroImage from "../assets/papa4.jpg";
 import papa from "../assets/papa.jpg";
 import { Typewriter } from 'react-simple-typewriter';
 import { BookOpen, Phone, Mail } from "lucide-react";
-
-// ✅ Import data from your data.js file
 import { missionVisionValues, history, pastorInfo } from "../components/data";
 
 export default function About() {
@@ -14,7 +12,7 @@ export default function About() {
       {/* Hero Section */}
       <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white text-center px-4 overflow-hidden">
         <motion.img
-          src="https://scontent.fabb1-3.fna.fbcdn.net/v/t39.30808-6/524156465_1148257704001925_7727432858456475697_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHgLlq6kWbRdyyAbU7kANiKs1VnwwJ3DIazVWfDAncMhgLuJt9PWxo_DKDjMz3W69jSZfRNipCW_6NryWLLnUUv&_nc_ohc=U7J-Ffm3bQAQ7kNvwEKKOlb&_nc_oc=Adm4uMhyOamLWkZ7NpJFw9dm4XDrsZQM3KmO4bGXffcQ9PQXsAz3Dwcm1QmhU-Wfdos&_nc_zt=23&_nc_ht=scontent.fabb1-3.fna&_nc_gid=lIqh4ym8D3nLdTISk6S7gQ&oh=00_AfTM31oi1RcjNfZygJnUt0F1UKAS5jA1sc8969wpPzRmqg&oe=6886767B"
+          src={heroImage}
           alt="Hero"
           className="absolute inset-0 w-full h-full object-cover filter brightness-50 z-0"
           initial={{ scale: 1.1, opacity: 0.7 }}
@@ -106,7 +104,7 @@ export default function About() {
       </section>
 
 
-      {/* Leadership */}
+      {/* Pastor's section */}
       <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
         <motion.div
           className="w-full lg:w-1/2"
@@ -151,10 +149,10 @@ export default function About() {
               <Mail className="w-4 h-4" />
               <span className="text-sm">{pastorInfo.email}</span>
             </a>
-            <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
+            {/* <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
               <Phone className="w-4 h-4" />
               <span className="text-sm">{pastorInfo.phone}</span>
-            </a>
+            </a> */}
           </div>
         </motion.div>
       </section>
