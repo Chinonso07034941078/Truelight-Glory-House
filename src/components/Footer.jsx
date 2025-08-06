@@ -55,7 +55,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6">
           <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Visit Us</h2>
-            <p className="text-xl text-yellow-400">We'd love to meet you in person</p>
+            <p className="text-xl text-blue-100">We'd love to meet you in person</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -73,7 +73,7 @@ export default function Footer() {
                 <div>
                   <h3 className="font-semibold text-lg mb-2 text-white">Service Times</h3>
                   <p className="text-gray-300">
-                    Sunday Service: 7:00 AM<br />
+                    Sunday Service: 7:00 AM, 8:45 AM & 10:30 AM<br />
                     Tuesday Bible Study: 5:00 PM<br />
                     Friday Prayer Meeting: 5:00 PM
                   </p>
