@@ -19,7 +19,7 @@ import UBA from '../assets/ubalogo.png';
 export default function Footer() {
   const [showPopup, setShowPopup] = useState(false);
   const [copiedAccount, setCopiedAccount] = useState(null);
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ message: '', type: '' });
 
