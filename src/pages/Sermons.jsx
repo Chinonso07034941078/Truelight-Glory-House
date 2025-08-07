@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence}     from 'framer-motion'
 import sermonImage from '../assets/wcc1.jpg'
 import heroImage from '../assets/truelight-photo3.jpg'
 
@@ -7,6 +7,7 @@ export default function SermonPage() {
   const [search, setSearch] = useState('')
   const [audioMessages, setAudioMessages] = useState([])
   const [visibleCount, setVisibleCount] = useState(8)
+  const [currentSlogan, setCurrentSlogan] = useState(0)
 
   useEffect(() => {
     fetch('/telegram-messages/audio_messages.json')
@@ -14,6 +15,18 @@ export default function SermonPage() {
       .then((data) => setAudioMessages(data))
       .catch((err) => console.error('Error loading messages:', err))
   }, [])
+
+  const slogans = [
+    'Experience the Word of God that transforms, heals, and empowers.',
+    'Browse our latest sermons, grow in faith, and share the message.',
+  ];
+  
+  useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentSlogan(prev => (prev + 1) % slogans.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }, []);
 
   const filteredMessages = audioMessages.filter((msg) =>
     msg.title.toLowerCase().includes(search.toLowerCase())
@@ -38,26 +51,39 @@ export default function SermonPage() {
 
         {/* Dark overlay with animated text */}
         <motion.div
-          className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center space-y-4 px-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
           <motion.h1
-            className="text-4xl md:text-5xl font-bold text-white text-center px-4"
+            className="text-4xl md:text-5xl font-bold text-white text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
             Welcome to Our Sermons
           </motion.h1>
+
+           <AnimatePresence mode="wait">
+              <motion.span
+                key={currentSlogan}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="text-blue-100"
+              >
+                {slogans[currentSlogan]}
+              </motion.span>
+            </AnimatePresence>
         </motion.div>
       </div>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-6 text-blue-900">Sermons</h2>
-
+              
         <input
           type="text"
           placeholder="Search by title or preacher"

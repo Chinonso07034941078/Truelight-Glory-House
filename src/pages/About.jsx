@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
-import Footer from "../components/Footer";
-import heroImage from "../assets/papa4.jpg";
-import papa from "../assets/papa.jpg";
-import { Typewriter } from 'react-simple-typewriter';
-import { BookOpen, Phone, Mail } from "lucide-react";
-import { missionVisionValues, history, pastorInfo } from "../components/data";
+import { motion } from 'framer-motion'
+import Footer from "../components/Footer"
+import heroImage from "../assets/truelight-photo1.jpg"
+import papa from "../assets/papa.jpg"
+import { Typewriter } from 'react-simple-typewriter'
+import { BookOpen, Phone, Mail } from "lucide-react"
+import { missionVisionValues, history, pastorInfo } from "../components/data"
 
 export default function About() {
   return (
@@ -149,10 +149,6 @@ export default function About() {
               <Mail className="w-4 h-4" />
               <span className="text-sm">{pastorInfo.email}</span>
             </a>
-            {/* <a href={`tel:${pastorInfo.phone}`} className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm">
-              <Phone className="w-4 h-4" />
-              <span className="text-sm">{pastorInfo.phone}</span>
-            </a> */}
           </div>
         </motion.div>
       </section>
@@ -179,5 +175,5 @@ export default function About() {
 
       <Footer />
     </div>
-  );
+  )
 }
