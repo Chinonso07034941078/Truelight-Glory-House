@@ -17,35 +17,64 @@ import C03 from '../assets/Give12.jpg';
 import UBA from '../assets/ubalogo.png';
 
 export default function Footer() {
-  const [showPopup, setShowPopup] = useState(false);
-  const [copiedAccount, setCopiedAccount] = useState(null);
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ message: '', type: '' });
-
-  const handleCopyAccount = (number) => {
-    navigator.clipboard.writeText(number);
-    setCopiedAccount(number);
-    setTimeout(() => setCopiedAccount(null), 2000);
-  };
+  const [showPopup, setShowPopup] = useState(false);
+  const [copiedAccount, setCopiedAccount] = useState(null);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setStatus({ message: '', type: '' });
+    
     try {
-      // Simulate submission (replace with real API call)
-      await new Promise((res) => setTimeout(res, 1000));
-      setStatus({ message: 'Message sent successfully!', type: 'success' });
-      setForm({ name: '', email: '', subject: '', message: '' });
-    } catch {
-      setStatus({ message: 'Failed to send message. Try again.', type: 'error' });
+      // Create mailto link with form data
+      const subject = encodeURIComponent(form.subject);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+      );
+      const mailtoLink = `mailto:info.truelight9@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Open default email client
+      window.location.href = mailtoLink;
+      
+      setStatus({ 
+        message: 'Email client opened! Please send the email to complete your message.', 
+        type: 'success' 
+      });
+      
+      // Reset form after a delay
+      setTimeout(() => {
+        setForm({ name: '', email: '', subject: '', message: '' });
+      }, 2000);
+      
+    } catch (error) {
+      setStatus({ 
+        message: 'Failed to open email client. Please try again.', 
+        type: 'error' 
+      });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleCopyAccount = (number) => {
+    navigator.clipboard.writeText(number);
+    setCopiedAccount(number);
+    setTimeout(() => setCopiedAccount(null), 2000);
   };
 
   return (
@@ -57,7 +86,6 @@ export default function Footer() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Visit Us</h2>
             <p className="text-xl text-blue-100">We'd love to meet you in person</p>
           </motion.div>
-
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* Location/Times */}
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="space-y-8">
@@ -90,7 +118,6 @@ export default function Footer() {
                 </div>
               </div>
             </motion.div>
-
             {/* Contact Form */}
             <div className="bg-blue-900/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-yellow-400/30">
               <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
@@ -123,16 +150,14 @@ export default function Footer() {
                     placeholder="Your message here..."
                   />
                 </div>
-
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                  className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? 'Opening Email...' : 'Send Message'}
                 </button>
               </form>
-
               {status.message && (
                 <div className={`mt-4 p-3 rounded-lg ${status.type === 'success' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`}>
                   {status.message}
@@ -142,7 +167,6 @@ export default function Footer() {
           </div>
         </div>
       </section>
-
       {/* Giving Section */}
       <section className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800 py-20 px-4 text-white">
         <div className="max-w-6xl mx-auto bg-white text-blue-900 rounded-xl p-8 md:p-12 shadow-xl relative border border-yellow-400/30">
@@ -156,7 +180,6 @@ export default function Footer() {
             GIVE NOW
           </button>
         </div>
-
         {/* Popup */}
         {showPopup && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
@@ -209,7 +232,6 @@ export default function Footer() {
           </div>
         )}
       </section>
-
       {/* Footer Bottom */}
       <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 text-center md:text-left py-8">
         <div>
@@ -229,7 +251,6 @@ export default function Footer() {
           <p className="text-xs text-gray-300">info.truelight9@gmail.com</p>
         </div>
       </div>
-
       <div className="text-center text-xs text-gray-400 border-t border-yellow-400/30 pt-3 pb-6">
         &copy; {new Date().getFullYear()} Truelight Glory House. All rights reserved.
       </div>
