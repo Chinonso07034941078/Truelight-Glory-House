@@ -1,45 +1,41 @@
 import { useState } from "react";
 import { Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
 import Footer from "../components/Footer";
-
 const units = [
-  { name: "Media", icon: Sparkles, description: "Amplifying God's message through digital excellence", leader: "Samuel Adeyemi", members: 18, time: "Saturdays 10AM", contact: "media@truelight.org" },
-  { name: "Choir", icon: Music, description: "Leading souls into God's presence through worship", leader: "Esther Ifeanyi", members: 35, time: "Wednesdays 6:30PM", contact: "choir@truelight.org" },
-  { name: "Protocol", icon: Award, description: "Excellence in events and hospitality", leader: "Chibuzor Okeke", members: 15, time: "Fridays 6PM", contact: "protocol@truelight.org" },
-  { name: "Logistics", icon: Truck, description: "Ensuring seamless movement of resources and equipment", leader: "Grace Ojo", members: 10, time: "Saturdays 8AM", contact: "logistics@truelight.org" },
-  { name: "Information Desk", icon: Info, description: "Providing information and assistance to members and guests", leader: "Favour Okechukwu", members: 12, time: "Sundays 9AM", contact: "info@truelight.org" },
-  { name: "Data Analysis", icon: Database, description: "Analyzing and managing church data for strategic decisions", leader: "Ngozi Nwachukwu", members: 8, time: "Saturdays 3PM", contact: "data@truelight.org" },
-  { name: "Company of the Great", icon: Crown, description: "Mentorship and leadership development for kingdom impact", leader: "Oluwatobi Ojo", members: 20, time: "Fridays 5PM", contact: "company@truelight.org" },
-  { name: "Evangelism", icon: Globe, description: "Taking the gospel beyond church walls", leader: "Daniel Okafor", members: 42, time: "Saturdays 5PM", contact: "evangelism@truelight.org" },
-  { name: "Follow-Up", icon: UserCheck, description: "Connecting and following up with new converts and visitors", leader: "Chinedu John", members: 14, time: "Thursdays 5PM", contact: "followup@truelight.org" },
-  { name: "Marketing", icon: Megaphone, description: "Promoting church events and initiatives effectively", leader: "Nkechi Okorie", members: 16, time: "Wednesdays 4PM", contact: "marketing@truelight.org" },
-  { name: "Sanctuary Keepers", icon: Sparkles, description: "Maintaining cleanliness and sanctity of God's house", leader: "Blessing Okafor", members: 22, time: "Saturdays 7AM", contact: "sanctuary@truelight.org" },
-  { name: "Ushering", icon: UserCheck, description: "Creating order and comfort in God's house", leader: "Blessing Musa", members: 28, time: "Sundays 8AM", contact: "ushering@truelight.org" },
+  { name: "Media", icon: Sparkles, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: 30, time: "Tuesday 9PM", contact: "media@truelight.org" },
+  { name: "Music Department", icon: Music, description: "Leading souls into God's presence through worship", leader: "Esther Ifeanyi", members: 35, time: "Saturdays 5PM, Mondays 9PM", contact: "choir@truelight.org" },
+  { name: "Protocol", icon: Award, description: "Excellence in events and hospitality", leader: "Chibuzor Okeke", members: 18, time: "Varies", contact: "protocol@truelight.org" },
+  { name: "Logistics", icon: Truck, description: "Ensuring seamless movement of resources and equipment", leader: "Grace Ojo", members: 7, time: "online", contact: "logistics@truelight.org" },
+  { name: "Information Desk", icon: Info, description: "Providing information and assistance to members and guests", leader: "Favour Okechukwu", members: 12, time: "Sundays Services", contact: "info@truelight.org" },
+  { name: "Data Analysis", icon: Database, description: "Analyzing and managing church data for strategic decisions", leader: "Ngozi Nwachukwu", members: 8, time: "Online", contact: "data@truelight.org" },
+  { name: "Company of the Great", icon: Crown, description: "Mentorship and leadership development for kingdom impact", leader: "Oluwatobi Ojo", members: 10, time: "Saturday 5PM", contact: "company@truelight.org" },
+  { name: "Evangelism", icon: Globe, description: "Taking the gospel beyond church walls", leader: "Daniel Okafor", members: 22, time: "Saturdays 5PM", contact: "evangelism@truelight.org" },
+  { name: "Follow-Up", icon: UserCheck, description: "Connecting and following up with new converts and visitors", leader: "Chinedu John", members: 14, time: "Saturday 5PM", contact: "followup@truelight.org" },
+  { name: "Marketing", icon: Megaphone, description: "Promoting church events and initiatives effectively", leader: "Nkechi Okorie", members: 16, time: "Sunday Services", contact: "marketing@truelight.org" },
+  { name: "Sanctuary Keepers", icon: Sparkles, description: "Maintaining cleanliness and sanctity of God's house", leader: "Blessing Okafor", members: 22, time: "Saturdays 5PM", contact: "sanctuary@truelight.org" },
+  { name: "Ushering", icon: UserCheck, description: "Creating order and comfort in God's house", leader: "Blessing Musa", members: 28, time: "Saturdays 5PM, Wednesdays 9PM", contact: "ushering@truelight.org" },
   { name: "Greeters", icon: Smile, description: "Giving a warm and friendly welcome to everyone", leader: "Ada Uche", members: 13, time: "Sundays 8:30AM", contact: "greeters@truelight.org" },
-  { name: "Sound Hub", icon: MonitorSpeaker, description: "Delivering crystal-clear audio for worship", leader: "Emeka Obi", members: 12, time: "Fridays 5PM", contact: "sound@truelight.org" },
-  { name: "Security", icon: Shield, description: "Protecting and securing God's people", leader: "Ikenna Umeh", members: 20, time: "Sundays 7:30AM", contact: "security@truelight.org" },
-  { name: "Children Church", icon: Book, description: "Nurturing the next generation for Christ", leader: "Joy Eze", members: 25, time: "Sundays 9AM", contact: "children@truelight.org" },
-  { name: "Prayer", icon: HandHeart, description: "Interceding and standing in the gap for the church", leader: "Eunice Chukwudi", members: 30, time: "Fridays 6PM", contact: "prayer@truelight.org" },
-  { name: "Welfare", icon: Heart, description: "Caring for the needs of members and the less privileged", leader: "Ngozi Obinna", members: 18, time: "Saturdays 2PM", contact: "welfare@truelight.org" },
-  { name: "Creative Unit", icon: Paintbrush, description: "Designing visuals and creative content for the church", leader: "Chima Okoro", members: 11, time: "Wednesdays 5PM", contact: "creative@truelight.org" },
-  { name: "Young Achievers Network", icon: Target, description: "Empowering youths for success and excellence", leader: "Tolu Adebayo", members: 24, time: "Saturdays 4PM", contact: "yan@truelight.org" },
+  { name: "Sound Hub", icon: MonitorSpeaker, description: "Delivering crystal-clear audio for worship", leader: "Emeka Obi", members: 12, time: "Saturday 5PM", contact: "sound@truelight.org" },
+  { name: "Security", icon: Shield, description: "Protecting and securing God's people", leader: "Ikenna Umeh", members: 10, time: "Sundays 7:00AM", contact: "security@truelight.org" },
+  { name: "Children Church", icon: Book, description: "Nurturing the next generation for Christ", leader: "Joy Eze", members: 25, time: "Sundays 8:30AM", contact: "children@truelight.org" },
+  { name: "Prayer", icon: HandHeart, description: "Interceding and standing in the gap for the church", leader: "Eunice Chukwudi", members: 30, time: "Mondays 5PM", contact: "prayer@truelight.org" },
+  { name: "Welfare", icon: Heart, description: "Caring for the needs of members and the less privileged", leader: "Ngozi Obinna", members: 18, time: "Varies ", contact: "welfare@truelight.org" },
+  { name: "Creative Unit", icon: Paintbrush, description: "Designing visuals and creative content for the church", leader: "Chima Okoro", members: 11, time: "Sundays 9PM", contact: "creative@truelight.org" },
+  { name: "Young Achievers Network", icon: Target, description: "Empowering youths for success and excellence", leader: "Tolu Adebayo", members: 24, time: "Saturdays 1PM", contact: "yan@truelight.org" },
   { name: "Partnership", icon: Handshake, description: "Supporting the church's vision through partnerships", leader: "Chike Nnamdi", members: 19, time: "Monthly (Last Sunday)", contact: "partnership@truelight.org" },
   { name: "Communion", icon: CupSoda, description: "Preparing and serving the Holy Communion with reverence", leader: "Helen Chika", members: 9, time: "Monthly (First Sunday)", contact: "communion@truelight.org" }
 ]
-
 const testimonials = [
-  { name: "Sarah Johnson", unit: "Choir", text: "Serving here transformed my life completely!" },
-  { name: "John Smith", unit: "Media", text: "We're changing lives through technology and faith!" },
-  { name: "Grace Adebayo", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." }
+  { name: "Min Moyo", unit: "Choir", text: "Serving here transformed my life completely!" },
+  { name: "DKK", unit: "Media", text: "We're changing lives through technology and faith!" },
+  { name: "Mr. Flourish", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." }
 ];
-
 const stats = [
   { label: "Active Units", value: "22", icon: Target },
   { label: "Total Members", value: "420+", icon: Users },
   { label: "Lives Impacted", value: "25K+", icon: Heart },
   { label: "Years Strong", value: "15", icon: Award }
 ];
-
 export default function MinistryUnits() {
   const [search, setSearch] = useState('')
   const [selectedUnit, setSelectedUnit] = useState(null)
@@ -48,11 +44,12 @@ export default function MinistryUnits() {
     unit.name.toLowerCase().includes(search.toLowerCase()) ||
     unit.description.toLowerCase().includes(search.toLowerCase())
   );
-
+  
   const handleJoin = (unit) => {
-    window.location.href = `mailto:${unit.contact}?subject=Interest in ${unit.name}&body=Hello ${unit.leader},%0A%0AI'm interested in joining ${unit.name}. Please let me know the next steps.%0A%0AThank you!`;
+    // Fixed to use info.truelight9@gmail.com for all unit join requests
+    window.location.href = `mailto:info.truelight9@gmail.com?subject=Interest in ${unit.name}&body=Hello,%0A%0AI'm interested in joining ${unit.name}. Please let me know the next steps.%0A%0AThank you!`;
   };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 via-slate-900 to-blue-900 text-white overflow-hidden">
       {/* Magical Background */}
@@ -72,7 +69,6 @@ export default function MinistryUnits() {
           />
         ))}
       </div>
-
       {/* Hero Section */}
       <section className="relative py-20 px-6 text-center">
         <div className="max-w-6xl mx-auto">
@@ -102,7 +98,6 @@ export default function MinistryUnits() {
           </button>
         </div>
       </section>
-
       {/* Stats */}
       <section className="py-16 px-6 bg-white/5 backdrop-blur-sm border-y border-white/10">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -117,7 +112,6 @@ export default function MinistryUnits() {
           ))}
         </div>
       </section>
-
       {/* Search */}
       <section className="py-12 px-6">
         <div className="max-w-2xl mx-auto relative">
@@ -131,7 +125,6 @@ export default function MinistryUnits() {
           />
         </div>
       </section>
-
       {/* Units Grid */}
       <section id="units" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
@@ -158,12 +151,12 @@ export default function MinistryUnits() {
                     <span>{unit.time}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <div className="text-xs text-blue-400">Led by {unit.leader}</div>
+                    
                     <button
                       onClick={(e) => { e.stopPropagation(); handleJoin(unit); }}
                       className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-4 py-2 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition-all"
                     >
-                      Join
+                      Become a worker
                     </button>
                   </div>
                 </div>
@@ -172,7 +165,6 @@ export default function MinistryUnits() {
           </div>
         </div>
       </section>
-
       {/* Testimonials */}
       <section className="py-20 px-6 bg-gradient-to-r from-yellow-400/10 to-yellow-500/10">
         <div className="max-w-6xl mx-auto">
@@ -200,7 +192,6 @@ export default function MinistryUnits() {
           </div>
         </div>
       </section>
-
       {/* CTA */}
     <section className="py-20 px-6">
   <div className="max-w-4xl mx-auto text-center">
@@ -228,7 +219,6 @@ export default function MinistryUnits() {
     </div>
   </div>
 </section>
-
 
       {/* Unit Detail Modal */}
       {selectedUnit && (
@@ -263,7 +253,7 @@ export default function MinistryUnits() {
               </div>
             </div>
             <div className="text-blue-300 mb-6">
-              <strong>Leader:</strong> {selectedUnit.leader}
+              
             </div>
             <button
               onClick={() => handleJoin(selectedUnit)}

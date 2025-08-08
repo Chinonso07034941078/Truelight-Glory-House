@@ -3,50 +3,83 @@ import Footer from "../components/Footer"
 import heroImage from "../assets/truelight-photo1.jpg"
 import papa from "../assets/papa.jpg"
 import { Typewriter } from 'react-simple-typewriter'
-import { BookOpen, Phone, Mail } from "lucide-react"
+import { BookOpen, Phone, Mail, Sparkles } from "lucide-react"
 import { missionVisionValues, history, pastorInfo } from "../components/data"
 
 export default function About() {
   return (
     <div className="text-gray-800 font-sans">
       {/* Hero Section */}
-      <section className="relative h-[500px] md:h-[600px] flex items-center justify-center text-white text-center px-4 overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+<div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-yellow-500/30 to-blue-900/90  z-10" />
+
         <motion.img
           src={heroImage}
           alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover filter brightness-50 z-0"
+          className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.1, opacity: 0.7 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="relative z-10">
+        
+        <div className="relative z-20 text-center text-white px-6 max-w-4xl">
+          <motion.div
+            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium uppercase tracking-wide">Divine Purpose</span>
+          </motion.div>
+
           <motion.h1
-            className="text-4xl md:text-6xl font-extrabold text-white mt-6 drop-shadow-lg leading-tight"
-            initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
           >
             Welcome to Truelight Glory House
           </motion.h1>
-          <motion.p
-            className="mt-8 text-lg md:text-lg text-gray-200 italic"
+
+          <motion.div
+            className="text-xl md:text-2xl font-medium mb-8 h-16 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 1 }}
+            transition={{ delay: 0.6 }}
           >
-            <Typewriter
-              words={[
-                "This is where we disciple the nations",
-                "And discipline the devil",
-              ]}
-              loop
-              cursor
-              cursorStyle="_"
-              typeSpeed={60}
-              deleteSpeed={40}
-              delaySpeed={1800}
-            />
-          </motion.p>
+            <div className="text-blue-100 italic">
+              <Typewriter
+                words={[
+                  "This is where we disciple the nations",
+                  "And discipline the devil",
+                ]}
+                loop
+                cursor
+                cursorStyle="_"
+                typeSpeed={60}
+                deleteSpeed={40}
+                delaySpeed={1800}
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <button
+              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-white text-blue-900 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
+            >
+              Discover Our Mission
+            </button>
+            <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
+              Join Our Community
+            </button>
+          </motion.div>
         </div>
       </section>
 

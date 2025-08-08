@@ -37,71 +37,79 @@ export default function GivingSection() {
   };
 
   return (
-    <section className="w-full bg-white text-gray-900">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden text-white">
-        <div className="absolute inset-0">
-          <img
-            src={BGI}
-            alt="Giving Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-blue-800/70 to-blue-950/90" />
-        </div>
+ <section className="w-full bg-white text-gray-900">
+  {/* Hero Section */}
+ <section className="relative h-screen flex items-center justify-center overflow-hidden">
+  {/* Enhanced gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-yellow-900/50 to-blue-900/95 z-10" />
 
-        <div className="relative z-20 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-8">
-          <motion.div
-            className="bg-white/10 backdrop-blur-sm text-white rounded-full px-6 py-3 text-sm font-medium uppercase tracking-wide flex items-center gap-2 border border-white/20"
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeUp}
-          >
-            <Heart className="w-4 h-4" />
-            Give Generously
-          </motion.div>
+  {/* Background Image */}
+  <motion.img
+    src={BGI}
+    alt="Giving Background"
+    className="absolute inset-0 w-full h-full object-cover"
+    initial={{ scale: 1.1, opacity: 0.7 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+  />
+  
+  {/* Main content */}
+  <div className="relative z-20 text-center text-white px-6 max-w-4xl">
+    {/* Badge */}
+    <motion.div
+      className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+    >
+      <Heart className="w-4 h-4" />
+      <span className="text-sm font-medium uppercase tracking-wide">Give Generously</span>
+    </motion.div>
 
-          <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeUp}
-          >
-            <span className="text-blue-300">Your</span> Generosity.<br />
-            <span className="text-white">Our</span> <span className="text-blue-300">Mission.</span>
-          </motion.h1>
+    {/* Main heading */}
+    <motion.h1
+      className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4 }}
+    >
+      YOUR GENEROSITY.<br />
+      OUR MISSION.
+    </motion.h1>
 
-          <motion.p
-            className="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed"
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeUp}
-          >
-            Partner with us in reaching a billion souls across ten thousand cities 
-            with the transformative message of the gospel.
-          </motion.p>
+    {/* Description */}
+    <motion.p
+      className="text-xl md:text-2xl font-medium mb-8 text-blue-100"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.6 }}
+    >
+      Partner with us in reaching a billion souls across ten thousand cities 
+      with the transformative message of the gospel.
+    </motion.p>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
-            initial="hidden"
-            whileInView="visible"
-            variants={fadeUp}
-          >
-            <button
-              onClick={() => document.getElementById("bank-details")?.scrollIntoView({ behavior: "smooth" })}
-              className="bg-white text-blue-950 font-bold px-8 py-4 rounded-full shadow-xl hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
-            >
-              Give Now
-            </button>
-
-            <button
-              onClick={() => document.getElementById("other-ways")?.scrollIntoView({ behavior: "smooth" })}
-              className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-950 transition-all duration-300"
-            >
-              Other Ways to Give
-            </button>
-          </motion.div>
-        </div>
-      </section>
+    {/* Call-to-action buttons */}
+    <motion.div
+      className="flex flex-col sm:flex-row gap-4 justify-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8 }}
+    >
+      <button
+        onClick={() => document.getElementById("bank-details")?.scrollIntoView({ behavior: "smooth" })}
+        className="bg-white text-blue-900 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
+      >
+        Give Now
+      </button>
+      <button
+        onClick={() => document.getElementById("other-ways")?.scrollIntoView({ behavior: "smooth" })}
+        className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300"
+      >
+        GloryLand 
+      </button>
+    </motion.div>
+  </div>
+</section>
 
       {/* Introduction Section */}
       <section className="bg-gradient-to-br from-blue-50 to-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
@@ -142,13 +150,13 @@ export default function GivingSection() {
               onClick={() => setActiveTab("naira")}
               className={`px-6 sm:px-8 py-3 rounded-full font-bold transition-all duration-300 ${activeTab === "naira" ? "bg-blue-950 text-white shadow-lg" : "bg-blue-100 text-blue-950 hover:bg-blue-200"}`}
             >
-              Naira Account
+              Regular Giving
             </button>
             <button
               onClick={() => setActiveTab("domiciliary")}
               className={`px-6 sm:px-8 py-3 rounded-full font-bold transition-all duration-300 ${activeTab === "domiciliary" ? "bg-blue-950 text-white shadow-lg" : "bg-blue-100 text-blue-950 hover:bg-blue-200"}`}
             >
-              Domiciliary Account
+              Glory Land Project
             </button>
           </motion.div>
         </div>
@@ -283,8 +291,9 @@ export default function GivingSection() {
               across communities worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-              <button className="bg-white text-blue-950 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300">Give Online</button>
-              <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-950 transition-all duration-300">Contact Us</button>
+              <button className="bg-white text-blue-950 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300" onClick={() => document.getElementById("bank-details")?.scrollIntoView({ behavior: "smooth" })}>Give now</button>
+              <a href="tel:+2349010494622" className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-950 transition-all duration-300 inline-block">Contact Us</a>
+            
             </div>
           </motion.div>
         </div>
