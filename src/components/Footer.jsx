@@ -171,7 +171,7 @@ export default function Footer() {
       {/* Giving Section */}
       <section className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800 py-20 px-4 text-white">
         <div className="max-w-6xl mx-auto bg-white text-blue-900 rounded-xl p-8 md:p-12 shadow-xl relative border border-yellow-400/30">
-          <img src={C03} alt="Give" className="absolute bottom-0 right-0 opacity-20 w-72 md:w-[400px] pointer-events-none" />
+          
           <h2 className="text-[2.3em] md:text-5xl font-extrabold uppercase">Give into Truelight Glory House</h2>
           <p className="text-lg mb-8 max-w-xl">Your generosity keeps blessing lives. Thank you for giving.</p>
           <button
