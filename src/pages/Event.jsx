@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import Prayer from '../assets/home-page.jpg';
 import Word from "../assets/truelight-photo1.jpg"
 import WCC from "../assets/WCClogo.png"
-import OAV from "../assets/OAVlogo.png"
+import OAV from "../assets/OAVLogo.png"
 import GLCT from "../assets/GLCTlogo.png"
 import HIGHHEELS from "../assets/HIGHHEELSlogo.png"
 
