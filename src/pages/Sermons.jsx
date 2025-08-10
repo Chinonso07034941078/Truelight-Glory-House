@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence}     from 'framer-motion'
-import sermonImage from '../assets/wcc1.jpg'
+import sermonImage from '../assets/papa2.jpg'
 import heroImage from '../assets/truelight-photo3.jpg'
 import Footer from '../components/Footer'
 import { Sparkles } from 'lucide-react'
@@ -112,9 +112,7 @@ export default function SermonPage() {
       >
         Explore Sermons
       </button>
-      <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
-        Watch Live
-      </button>
+    
     </motion.div>
   </div>
 </div>
@@ -134,7 +132,7 @@ export default function SermonPage() {
           className="w-full px-4 py-2 mb-8 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm"
         />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        <div id="sermons" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {visibleMessages.map((msg, index) => (
             <motion.div
               key={index}
@@ -183,6 +181,7 @@ export default function SermonPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   )
 }

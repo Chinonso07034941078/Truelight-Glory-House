@@ -76,9 +76,7 @@ export default function About() {
             >
               Discover Our Mission
             </button>
-            <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
-              Join Our Community
-            </button>
+            
           </motion.div>
         </div>
       </section>

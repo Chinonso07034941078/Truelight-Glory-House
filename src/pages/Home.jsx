@@ -12,6 +12,8 @@ import Media from '../assets/media.jpg';
 import Evot from '../assets/Evot.jpg';
 import Creative from '../assets/creatives2.jpg';
 import Sunday from '../assets/truelight-photo2.jpg';
+import Word from '../assets/truelight-photo1.jpg';
+import Celebrate from '../assets/celebrate.jpg';
 
 const fadeUp = (i) => ({ 
   hidden: { opacity: 0, y: 30 }, 
@@ -43,7 +45,7 @@ const upcomingEvents = [
   { 
     title: "Word Feast", 
     date: "Ever Tuesday", 
-    image: "https://scontent.fabb1-3.fna.fbcdn.net/v/t39.30808-6/524156465_1148257704001925_7727432858456475697_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHgLlq6kWbRdyyAbU7kANiKs1VnwwJ3DIazVWfDAncMhgLuJt9PWxo_DKDjMz3W69jSZfRNipCW_6NryWLLnUUv&_nc_ohc=U7J-Ffm3bQAQ7kNvwEKKOlb&_nc_oc=Adm4uMhyOamLWkZ7NpJFw9dm4XDrsZQM3KmO4bGXffcQ9PQXsAz3Dwcm1QmhU-Wfdos&_nc_zt=23&_nc_ht=scontent.fabb1-3.fna&_nc_gid=lIqh4ym8D3nLdTISk6S7gQ&oh=00_AfTM31oi1RcjNfZygJnUt0F1UKAS5jA1sc8969wpPzRmqg&oe=6886767B", 
+    image: Word, 
     time: "5:00 PM", 
     description: "We let the word Transform our lives" 
   },
@@ -325,7 +327,7 @@ export default function Home() {
           >
             <div className="relative">
               <img 
-                src="https://scontent.fabb1-3.fna.fbcdn.net/v/t39.30808-6/515288359_24025196160495255_6756648974518825584_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEqbjwGrgMH1_cIRq_hb-n2UOctBcMh7xhQ5y0FwyHvGLLNZhKenEXL9j9TAZ9qvsdG8Nx135AYIap4GbbfvB97&_nc_ohc=sdgUXUm3gJ4Q7kNvwGIDtHq&_nc_oc=Adm6uhXHeoUZcmYyyp1PlsUGDJiBc33JMsG15WDx9s5JDBbNKxHYQioh24x62rsmnxs&_nc_zt=23&_nc_ht=scontent.fabb1-3.fna&_nc_gid=6fVd-BiDwSL9vDulIwRphQ&oh=00_AfX1kOpCjGUfmiO0SiI3LJIVMZTsZYAgWFWbTOhci7L3lg&oe=68983AC9" 
+                src={Celebrate} 
                 alt="Church Gathering" 
                 className="rounded-2xl shadow-xl w-full max-w-md object-cover hover:scale-105 transition-transform duration-300" 
               />

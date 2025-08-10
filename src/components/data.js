@@ -1,8 +1,14 @@
 export const missionVisionValues = [
   {
     title: "Our Mission",
-    content: "To discipline leaders for kingdom advancement.",
-  },
+  content: [
+    "To discipline leaders for kingdom advancement.",
+    // "To disciple saints for kingdom relevance (Dan 7:18)",
+    // "To plant churches and cells where kingdom generals will be formed (Acts 2:40-43)",
+    // "To reach out to our local environment and the ends of the earth with the gospel of the kingdom"
+  ]
+},
+
   {
     title: "Our Vision",
     content: "To disciple the nations for Christ and to discipline the devil Math 28:18-20, 1 John 3:8.",

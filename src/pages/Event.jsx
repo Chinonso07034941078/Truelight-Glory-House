@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Calendar, MapPin, Check, X , ArrowRight, Clock, Users, Heart, Star, Filter, Search, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
+import Prayer from '../assets/home-page.jpg';
+import Word from "../assets/truelight-photo1.jpg"
 
 // Mock images - replace with your actual imports
 const EventHero = "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000";
@@ -163,7 +165,7 @@ const regularEvents = [
     category: 'Word',
     attendees: 100,
     featured: false,
-    image: EventHero
+    image: Word
   },
   {
     id: 8,
@@ -175,7 +177,7 @@ const regularEvents = [
     category: 'Prayer',
     attendees: 600,
     featured: false,
-    image: EventHero
+    image: Prayer
   },
   {
     id: 9,
