@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import C03 from '../assets/Give12.jpg';
 import UBA from '../assets/ubalogo.png';
+import ACCESS from '../assets/accesslogo.png';
 
 export default function Footer() {
   const [form, setForm] = useState({
@@ -122,18 +123,18 @@ export default function Footer() {
             <div className="bg-blue-900/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-yellow-400/30">
               <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {['name', 'email', 'subject'].map((field) => (
+                {['name', 'email', 'phone',].map((field) => (
                   <div key={field}>
-                    <label htmlFor={field} className="block text-sm font-medium text-gray-200 mb-2 capitalize">{field}</label>
+                    <label htmlFor={field} className="block text-sm font-medium text-gray-200 mb-2 capitalize">{field === 'phone' ? 'Phone Number' : field}</label>
                     <input
-                      type={field === 'email' ? 'email' : 'text'}
+                      type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
                       id={field}
                       name={field}
                       value={form[field]}
                       onChange={handleChange}
-                      required
+                      required={field !== 'phone'}
                       className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
-                      placeholder={`Your ${field}`}
+                      placeholder={`Your ${field === 'phone' ? 'phone number' : field}`}
                     />
                   </div>
                 ))}
@@ -187,17 +188,25 @@ export default function Footer() {
               <button className="absolute top-4 right-4 text-red-500 text-lg" onClick={() => setShowPopup(false)}>✕</button>
               <div className="flex items-center gap-3 mb-6">
                 <Building className="w-8 h-8 text-yellow-500" />
-                <h2 className="text-2xl font-bold">Glory Land Building Project</h2>
+                <h2 className="text-2xl font-bold">For Tithes and Offerings</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
                   {
                     label: 'Naira Account',
-                    number: '1025413161',
+                    number: '0094316383',
                     currency: '₦',
-                    bank: 'UBA',
-                    name: 'TRUELIGHT GLORY HOUSE BUILDING PROJECT',
-                    logo: UBA,
+                    bank: 'Access Bank',
+                    name: 'Truelight Glory House Ministry',
+                    logo: ACCESS,
+                  },
+                  {
+                    label: 'Naira Account',
+                    number: '1911578888',
+                    currency: '₦',
+                    bank: 'Access Bank',
+                    name: 'Truelight Glory House Ministry',
+                    logo: ACCESS,
                   },
                   {
                     label: 'Dollar Account',

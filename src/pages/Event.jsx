@@ -4,14 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import Prayer from '../assets/home-page.jpg';
 import Word from "../assets/truelight-photo1.jpg"
+import WCC from "../assets/WCClogo.png"
+import OAV from "../assets/OAVlogo.png"
+import GLCT from "../assets/GLCTlogo.png"
+import HIGHHEELS from "../assets/HIGHHEELSlogo.png"
 
 // Mock images - replace with your actual imports
 const EventHero = "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000";
-const ConventionImage = "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1000";
-const VisitationImage = "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1000";
-const DinnerImage = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000";
-const PrayerImage = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000";
-const CrossoverImage = "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1000";
+
+// Fixed: Assign imported images directly, not as objects
+const ConventionImage = WCC;
+const VisitationImage = OAV;
+const DinnerImage = HIGHHEELS;
+const PrayerImage = "https://scontent.fabb1-1.fna.fbcdn.net/v/t39.30808-6/516759655_1137930058368023_1145055711123431194_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH8RsyPaGuc6EZfheFiyFdrx3ybJwTdmSnHfJsnBN2ZKeQgAA35xjfcVODiFzVKBvEp_xTLYmV8O85ijz0xv1Bg&_nc_ohc=uq62NbvVrhgQ7kNvwFuD-7_&_nc_oc=AdlETeAue5YGZv_jWMS5ZPdEt39SL2968iczVmDj3UygKjL4yk20hsEnLvYfauIxS9k&_nc_zt=23&_nc_ht=scontent.fabb1-1.fna&_nc_gid=VEUuKDLgpP4fGFC_--OfOw&oh=00_AfXWxf9mi5gmqHiwWqtLSgX7L5tK3rwrw7gBpA-8piBkgg&oe=689E768A";
+const CrossoverImage = GLCT;
 
 export default function Events() {
   const [currentSlogan, setCurrentSlogan] = useState(0);
@@ -19,29 +25,24 @@ export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showPastEvents, setShowPastEvents] = useState(false);
 
-
   
   const [email, setEmail] = useState('');
   const [subscribedEmails, setSubscribedEmails] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
-
   const handleSubmit = async () => {
     if (!email || !email.includes('@')) {
       alert('Please enter a valid email address');
       return;
     }
-
     if (subscribedEmails.includes(email)) {
       alert('This email is already subscribed!');
       return;
     }
-
     setIsLoading(true);
     
     // Simulate API call
@@ -52,11 +53,9 @@ export default function Events() {
       setIsLoading(false);
     }, 1000);
   };
-
   const closeSuccessMessage = () => {
     setShowSuccess(false);
   };
-
  
   const slogans = [
     'Where Faith Meets Action',
@@ -64,7 +63,6 @@ export default function Events() {
     'Your Spiritual Journey Awaits',
     'Building Tomorrow\'s Leaders'
   ];
-
   // Auto-cycle through slogans
   useEffect(() => {
     const interval = setInterval(() => {
@@ -72,7 +70,6 @@ export default function Events() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
 const majorEvents = [
   {
     id: 1,
@@ -126,19 +123,7 @@ const majorEvents = [
     image: PrayerImage,
     highlights: ['City-wide Impact', 'Intercession', 'Community Unity']
   },
-  {
-    id: 5,
-    title: 'CrossOver Service',
-    date: 'December 31, 2025',
-    time: '9:00 PM - 1:00 AM',
-    location: 'Main Auditorium',
-    description: 'Welcome the new year with powerful worship, prophecy, and thanksgiving.',
-    category: 'Celebration',
-    attendees: 4000,
-    featured: true,
-    image: CrossoverImage,
-    highlights: ['Prophetic Declarations', 'Midnight Worship', 'New Year Prayers']
-  },
+
   {
     id: 6,
     title: 'Global Leadership Training',
@@ -153,7 +138,6 @@ const majorEvents = [
     highlights: ['Prophetic Declarations', 'Midnight Worship', 'New Year Prayers']
   }
 ];
-
 const regularEvents = [
   {
     id: 7,
@@ -193,19 +177,15 @@ const regularEvents = [
   }
 ];
 
-
   const allEvents = [...majorEvents, ...regularEvents];
   const categories = ['All', 'Convention', 'Apostolic', 'Fellowship', 'Prayer', 'Celebration', 'Youth', 'Conference', 'Retreat'];
-
   const filteredEvents = allEvents.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || event.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-
  
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -227,7 +207,6 @@ const regularEvents = [
             <Sparkles className="w-4 h-4" />
             <span className="text-sm font-medium uppercase tracking-wide">Life-Changing Events</span>
           </motion.div>
-
           <motion.h1
             className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             initial={{ opacity: 0, y: 30 }}
@@ -236,7 +215,6 @@ const regularEvents = [
           >
             DIVINE ENCOUNTERS
           </motion.h1>
-
           <motion.div
             className="text-xl md:text-2xl font-medium mb-8 h-8 flex items-center justify-center"
             initial={{ opacity: 0 }}
@@ -256,7 +234,6 @@ const regularEvents = [
               </motion.span>
             </AnimatePresence>
           </motion.div>
-
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
@@ -275,7 +252,6 @@ const regularEvents = [
           </motion.div>
         </div>
       </section>
-
       {/* Events Section */}
       <section id="events" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
@@ -297,7 +273,6 @@ const regularEvents = [
               Join us for transformative gatherings that will strengthen your faith and build lasting connections.
             </p>
           </motion.div>
-
           {/* Search and Filter */}
           <div className="flex flex-col sm:flex-row gap-4 mb-12 max-w-2xl mx-auto">
             <div className="relative flex-1">
@@ -312,7 +287,6 @@ const regularEvents = [
             </div>
             
           </div>
-
           {/* Major Events Grid */}
           <div className="mb-16">
             <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Major Events</h3>
@@ -333,7 +307,6 @@ const regularEvents = [
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
-
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-blue-100 text-blue-900 px-3 py-1 rounded-full text-xs font-semibold uppercase">
@@ -344,10 +317,8 @@ const regularEvents = [
                         <span className="text-sm">{event.attendees.toLocaleString()}</span>
                       </div>
                     </div>
-
                     <h4 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h4>
                     <p className="text-gray-600 text-sm mb-4">{event.description}</p>
-
                     {event.highlights && (
                       <div className="mb-4">
                         <div className="flex flex-wrap gap-2">
@@ -359,7 +330,6 @@ const regularEvents = [
                         </div>
                       </div>
                     )}
-
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center gap-2 text-gray-600">
                         <Calendar className="w-4 h-4 text-blue-500" />
@@ -374,7 +344,6 @@ const regularEvents = [
                         <span className="text-sm">{event.location}</span>
                       </div>
                     </div>
-
                     <button className="w-full bg-blue-900 text-white font-semibold py-3 rounded-full hover:bg-blue-800 transition-all duration-300 flex items-center justify-center gap-2 group">
                       Join Us
                      
@@ -384,7 +353,6 @@ const regularEvents = [
               ))}
             </div>
           </div>
-
           {/* Regular Events */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Regular Events</h3>
@@ -432,7 +400,6 @@ const regularEvents = [
           </div>
         </div>
       </section>
-
       {/* Newsletter Section */}
         <div className="relative">
       <section className="bg-gradient-to-r from-blue-950 to-yellow-500/60 text-white py-20 px-6">
@@ -460,6 +427,7 @@ const regularEvents = [
               disabled={isLoading}
               className="bg-white text-blue-900 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
+      crossover
               {isLoading ? 'Subscribing...' : 'Subscribe'}
             </button>
           </div>
@@ -468,7 +436,6 @@ const regularEvents = [
           </p>
         </div>
       </section>
-
       {/* Success Message Popup */}
       {showSuccess && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -512,4 +479,4 @@ const regularEvents = [
       <Footer />
     </div>
   );
-  }
+}

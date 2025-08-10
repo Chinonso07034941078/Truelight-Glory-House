@@ -11,9 +11,13 @@ import YAN2 from '../assets/yan2.jpg';
 import Media from '../assets/media.jpg';
 import Evot from '../assets/Evot.jpg';
 import Creative from '../assets/creatives2.jpg';
-import Sunday from '../assets/truelight-photo2.jpg';
-import Word from '../assets/truelight-photo1.jpg';
-import Celebrate from '../assets/celebrate.jpg';
+import Sunday from '../assets/sunday.jpg';
+import very from '../assets/very.jpg';
+import very4 from '../assets/very4.jpg';
+import very2 from '../assets/very2.jpg';
+import very3 from '../assets/very3.jpg';
+import pama from '../assets/papaandmama.jpg';
+import wordfeast from '../assets/wordfeast.jpg';
 
 const fadeUp = (i) => ({ 
   hidden: { opacity: 0, y: 30 }, 
@@ -45,7 +49,7 @@ const upcomingEvents = [
   { 
     title: "Word Feast", 
     date: "Ever Tuesday", 
-    image: Word, 
+    image: wordfeast, 
     time: "5:00 PM", 
     description: "We let the word Transform our lives" 
   },
@@ -74,10 +78,10 @@ const ministries = [
 ];
 
 const cards = [
-  { titleTop: "JOIN OUR COMMUNITY", title: "Get Involved", button: "LEARN MORE", image: "https://images.unsplash.com/photo-1519491050282-cf00c82424b4?w=400&h=500&fit=crop", link: "#community" },
-  { titleTop: "GIVE GENEROUSLY", title: "Donate Today", button: "GIVE NOW", image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=500&fit=crop", link: "#donate" },
-  { titleTop: "CONNECT WITH US", title: "Fellowship", button: "CONNECT", image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400&h=500&fit=crop", link: "#fellowship" },
-  { titleTop: "WATCH ONLINE", title: "Livestream", button: "WATCH", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=500&fit=crop", link: "#livestream" }
+  { titleTop: "JOIN OUR COMMUNITY", title: "Get Involved", button: "LEARN MORE", image: very, action: "navigate", path: "/about" },
+  { titleTop: "GIVE GENEROUSLY", title: "Donate Today", button: "GIVE NOW", image: very3, action: "navigate", path: "/supports" },
+  { titleTop: "CONNECT WITH US", title: "Fellowship", button: "CONNECT", image: very4, action: "toggle" },
+  { titleTop: "WATCH ONLINE", title: "Livestream", button: "WATCH", image: very2, action: "toggle" }
 ];
 
 const stats = [
@@ -96,11 +100,12 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
+  const heroRef = useRef(null);
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ message: '', type: '' });
   const seamlessCards = [...cards, ...cards];
-
+  
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   
   const handleSubmit = async (e) => {
@@ -135,6 +140,21 @@ export default function Home() {
       setStatus({ message: 'Failed to send message. Please try again.', type: 'error' }); 
     }
     finally { setIsSubmitting(false); }
+  };
+
+  const handleCardAction = (card) => {
+    if (card.action === "toggle") {
+      // Toggle the showLinks state
+      setShowLinks(!showLinks);
+      
+      // Scroll to the hero section
+      if (heroRef.current) {
+        heroRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (card.action === "navigate") {
+      // For navigation, we'll use window.location since we don't have React Router setup
+      window.location.href = card.path;
+    }
   };
 
   useEffect(() => {
@@ -175,7 +195,7 @@ export default function Home() {
   return (
     <div className="bg-white text-white overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
         <video 
           ref={videoRef} 
           className="absolute inset-0 w-full h-full object-cover" 
@@ -271,8 +291,9 @@ export default function Home() {
                     rel="noopener noreferrer" 
                     className="bg-red-600/80 backdrop-blur-sm text-white p-3 rounded-full hover:bg-red-700 transition-all duration-300 shadow-lg hover:scale-110"
                   >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    {/* Fixed YouTube Logo */}
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                     </svg>
                   </a>
                 </motion.div>
@@ -281,7 +302,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      
       {/* Message Section */}
       <section className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-16">
         <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center gap-12">
@@ -327,7 +348,7 @@ export default function Home() {
           >
             <div className="relative">
               <img 
-                src={Celebrate} 
+                src={pama}
                 alt="Church Gathering" 
                 className="rounded-2xl shadow-xl w-full max-w-md object-cover hover:scale-105 transition-transform duration-300" 
               />
@@ -341,7 +362,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
+      
       {/* Stats Section */}
       <section id="stats-section" className="py-20 bg-gradient-to-r from-blue-900 to-indigo-900">
         <div className="max-w-7xl mx-auto px-6">
@@ -366,7 +387,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      
       {/* Regular Activities Section */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
@@ -422,4 +443,153 @@ export default function Home() {
                     </span>
                   </div>
                   
-     
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {event.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Ministries Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            className="text-center mb-16" 
+            initial={{ opacity: 0, y: 50 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Ministries</h2>
+            <p className="text-xl text-gray-600">Find your place to serve and grow</p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ministries.map((ministry, index) => (
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, scale: 0.9 }} 
+                whileInView={{ opacity: 1, scale: 1 }} 
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden"
+              >
+                <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                  <img 
+                    src={ministry.image} 
+                    alt={ministry.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
+                    <ministry.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{ministry.name}</h3>
+                  <p className="text-gray-600">{ministry.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Cards Section */}
+      <section className="bg-white py-16 overflow-hidden">
+        <div className="w-full">
+          <div className="flex w-max animate-scroll space-x-8">
+            {seamlessCards.map((card, index) => (
+              <motion.div 
+                key={`${card.title}-${index}`} 
+                className="relative w-[280px] md:w-[320px] h-[400px] flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl group cursor-pointer border border-yellow-400/20" 
+                whileHover={{ scale: 1.05 }} 
+                transition={{ duration: 0.3 }}
+                onClick={() => handleCardAction(card)}
+              >
+                <img 
+                  src={card.image} 
+                  alt={card.title} 
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-blue-900/50 to-transparent z-10" />
+                <div className="relative z-20 h-full flex flex-col justify-between p-6 text-white">
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-yellow-400">{card.titleTop}</h4>
+                    <h2 className="text-2xl md:text-3xl font-black text-white drop-shadow-lg">{card.title}</h2>
+                  </div>
+                  <button className="text-sm font-bold flex items-center gap-2 uppercase hover:gap-4 transition-all group-hover:text-yellow-400 text-white bg-blue-900/50 px-4 py-2 rounded-lg backdrop-blur-sm border border-yellow-400/30 hover:bg-yellow-400/20 hover:border-yellow-400/60">
+                    {card.button} <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Pastor Section */}
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
+        <motion.div 
+          className="w-full lg:w-1/2" 
+          initial={{ x: -100, opacity: 0 }} 
+          whileInView={{ x: 0, opacity: 1 }} 
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="relative">
+            <img 
+              src={Papa} 
+              alt={pastorInfo.title} 
+              className="w-full max-w-md h-auto object-cover rounded-[2rem] shadow-2xl mx-auto border-2 border-yellow-400/30" 
+            />
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20">
+              <BookOpen className="w-10 h-10 text-blue-900" />
+            </div>
+          </div>
+        </motion.div>
+        
+        <motion.div 
+          className="w-full lg:w-1/2 space-y-8 text-center lg:text-left" 
+          initial={{ x: 100, opacity: 0 }} 
+          whileInView={{ x: 0, opacity: 1 }} 
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="space-y-4">
+            <div className="text-yellow-400 text-base font-bold tracking-widest uppercase">{pastorInfo.subtitle}</div>
+            <h2 className="text-4xl md:text-5xl font-black tracking-wide uppercase bg-gradient-to-r from-white via-gray-100 to-yellow-100 bg-clip-text text-transparent">{pastorInfo.title}</h2>
+          </div>
+          <p className="text-sm leading-relaxed text-gray-300">{pastorInfo.description}</p>
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a 
+              href={`mailto:${pastorInfo.email}`} 
+              className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors bg-blue-900/30 px-4 py-2 rounded-lg border border-yellow-400/30 hover:border-yellow-400/60 backdrop-blur-sm"
+            >
+              <Mail className="w-4 h-4" />
+              <span className="text-sm">{pastorInfo.email}</span>
+            </a>
+          </div>
+        </motion.div>
+      </section>
+      
+      <Footer />
+      
+      <style jsx>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+    </div>
+  );
+}
