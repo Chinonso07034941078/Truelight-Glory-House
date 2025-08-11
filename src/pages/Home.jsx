@@ -8,7 +8,7 @@ import Pray from '../assets/home-page.jpg';
 import Choir from '../assets/choir4.jpg';
 import YAN from '../assets/yan.jpg';
 import YAN2 from '../assets/yan2.jpg';
-import Media from '../assets/media.jpg';
+import Media from '../assets/very5.jpg';
 import Evot from '../assets/Evot.jpg';
 import Creative from '../assets/creatives2.jpg';
 import Sunday from '../assets/sunday.jpg';
@@ -48,7 +48,7 @@ const upcomingEvents = [
   },
   { 
     title: "Word Feast", 
-    date: "Ever Tuesday", 
+    date: "Every Tuesday", 
     image: wordfeast, 
     time: "5:00 PM", 
     description: "We let the word Transform our lives" 
@@ -86,7 +86,7 @@ const cards = [
 
 const stats = [
   { number: "1500+", label: "Members", icon: Users },
-  { number: "9+", label: "Years Serving", icon: Heart },
+  { number: "10+", label: "Years Serving", icon: Heart },
   { number: "22", label: "Ministry Units", icon: Star },
   { number: "1000+", label: "Lives Changed", icon: Heart }
 ];

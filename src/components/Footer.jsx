@@ -94,7 +94,7 @@ export default function Footer() {
                 <MapPin className="w-6 h-6 text-yellow-400 mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg mb-2 text-white">Our Location</h3>
-                  <p className="text-gray-300">Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri</p>
+                  <p className="text-gray-300">Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri - Imo State</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -256,7 +256,7 @@ export default function Footer() {
               </a>
             ))}
           </div>
-          <p className="text-xs text-gray-300">289 Okigwe Rd, Opp. Access Bank Orji, Owerri</p>
+          <p className="text-xs text-gray-300">289 Okigwe Rd, Opp. Access Bank Orji, Owerri - Imo State</p>
           <p className="text-xs text-gray-300">info.truelight9@gmail.com</p>
         </div>
       </div>

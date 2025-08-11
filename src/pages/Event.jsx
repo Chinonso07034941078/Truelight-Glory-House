@@ -8,8 +8,11 @@ import WCC from "../assets/WCClogo.png"
 import OAV from "../assets/OAVLogo.png"
 import GLCT from "../assets/GLCTlogo.png"
 import HIGHHEELS from "../assets/HIGHHEELSlogo.png"
+import EventHerro from "../assets/very9.jpg"
+import evot from "../assets/very10.jpg"
+import congress from "../assets/very8.jpg"
 // Mock images - replace with your actual imports
-const EventHero = "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000";
+const EventHero = congress;
 // Fixed: Assign imported images directly, not as objects
 const ConventionImage = WCC;
 const VisitationImage = OAV;
@@ -119,12 +122,12 @@ const majorEvents = [
     category: 'Fellowship',
     attendees: 500,
     featured: true,
-    image: DinnerImage,
+    image: evot,
     highlights: ['Testimonial Sharing', 'Gourmet Dining', 'Award Ceremony']
   },
   {
     id: 4,
-    title: 'Owerri Prayer March',
+    title: 'HIGH HEELS IN HIGH PLACES',
     date: 'every half year',
     time: '7:00 AM - 12:00 PM',
     location: 'Matching round the city of owerri',
@@ -132,7 +135,7 @@ const majorEvents = [
     category: 'Prayer',
     attendees: 3000,
     featured: true,
-    image: PrayerImage,
+    image: DinnerImage,
     highlights: ['City-wide Impact', 'Intercession', 'Community Unity']
   },
   {
@@ -202,7 +205,7 @@ const regularEvents = [
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-yellow-600/50 to-blue-900/95 z-10" />
         <img 
-          src={EventHero} 
+          src= {EventHerro}
           alt="Events" 
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -400,12 +403,7 @@ const regularEvents = [
                         <span>{event.location}</span>
                       </div>
                     </div>
-                    <button 
-                      onClick={() => handleEventRegistration(event)}
-                      className="w-full bg-gray-900 text-white font-medium py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
-                    >
-                      Join us
-                    </button>
+                    
                   </div>
                 </motion.div>
               ))}
