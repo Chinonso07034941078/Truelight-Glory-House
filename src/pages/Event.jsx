@@ -8,23 +8,19 @@ import WCC from "../assets/WCClogo.png"
 import OAV from "../assets/OAVLogo.png"
 import GLCT from "../assets/GLCTlogo.png"
 import HIGHHEELS from "../assets/HIGHHEELSlogo.png"
-
 // Mock images - replace with your actual imports
 const EventHero = "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=1000";
-
 // Fixed: Assign imported images directly, not as objects
 const ConventionImage = WCC;
 const VisitationImage = OAV;
 const DinnerImage = HIGHHEELS;
 const PrayerImage = "https://scontent.fabb1-1.fna.fbcdn.net/v/t39.30808-6/516759655_1137930058368023_1145055711123431194_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH8RsyPaGuc6EZfheFiyFdrx3ybJwTdmSnHfJsnBN2ZKeQgAA35xjfcVODiFzVKBvEp_xTLYmV8O85ijz0xv1Bg&_nc_ohc=uq62NbvVrhgQ7kNvwFuD-7_&_nc_oc=AdlETeAue5YGZv_jWMS5ZPdEt39SL2968iczVmDj3UygKjL4yk20hsEnLvYfauIxS9k&_nc_zt=23&_nc_ht=scontent.fabb1-1.fna&_nc_gid=VEUuKDLgpP4fGFC_--OfOw&oh=00_AfXWxf9mi5gmqHiwWqtLSgX7L5tK3rwrw7gBpA-8piBkgg&oe=689E768A";
 const CrossoverImage = GLCT;
-
 export default function Events() {
   const [currentSlogan, setCurrentSlogan] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showPastEvents, setShowPastEvents] = useState(false);
-
   
   const [email, setEmail] = useState('');
   const [subscribedEmails, setSubscribedEmails] = useState([]);
@@ -70,14 +66,30 @@ export default function Events() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+  
+  // Function to handle event registration via email
+  const handleEventRegistration = (event) => {
+    const subject = encodeURIComponent(`Registration for ${event.title}`);
+    const body = encodeURIComponent(
+      `I would like to register for the following event:\n\n` +
+      `Event: ${event.title}\n` +
+      `Date: ${event.date}\n` +
+      `Time: ${event.time}\n` +
+      `Location: ${event.location}\n\n` +
+      `Please provide me with more information about registration.\n\n` +
+      `Thank you.`
+    );
+    window.location.href = `mailto:info.truelight9@gmail.com?subject=${subject}&body=${body}`;
+  };
+  
 const majorEvents = [
   {
     id: 1,
     title: 'World Changers Convention (WCC)',
-    date: 'August 15-17, 2025',
-    time: '6:00 PM - 9:00 PM',
+    date: 'Every Second week of November',
+    time: 'morning sessions from 8:00 AM - 12:00 PM, evening sessions from 5:00 PM - 9:00 PM',
     location: 'Main Auditorium',
-    description: 'Three days of life-transforming sessions, worship, and networking with global leaders.',
+    description: 'Five days of life-transforming sessions of Impact and Excellence',
     category: 'Convention',
     attendees: 2500,
     featured: true,
@@ -87,9 +99,9 @@ const majorEvents = [
   {
     id: 2,
     title: 'Owerri Apostolic Visitation (OAV)',
-    date: 'September 20-22, 2025',
-    time: '5:00 PM - 8:00 PM',
-    location: 'Cathedral Grounds',
+    date: 'Every 2nd week of April',
+    time: 'morning sessions from 8:00 AM - 12:00 PM, evening sessions from 5:00 PM - 9:00 PM',
+    location: 'Church Auditorium',
     description: 'Special apostolic visitation with prophetic declarations and spiritual impartation.',
     category: 'Apostolic',
     attendees: 1800,
@@ -100,8 +112,8 @@ const majorEvents = [
   {
     id: 3,
     title: 'Evening Of Truth Dinner',
-    date: 'October 12, 2025',
-    time: '6:00 PM - 10:00 PM',
+    date: 'Every 2nd Sunday in December ',
+    time: '3:00pm',
     location: 'Grand Ballroom',
     description: 'An elegant evening of fellowship, testimonies, and celebrating God\'s faithfulness.',
     category: 'Fellowship',
@@ -113,9 +125,9 @@ const majorEvents = [
   {
     id: 4,
     title: 'Owerri Prayer March',
-    date: 'November 8, 2025',
+    date: 'every half year',
     time: '7:00 AM - 12:00 PM',
-    location: 'City Center to Church',
+    location: 'Matching round the city of owerri',
     description: 'City-wide prayer march for spiritual awakening and transformation.',
     category: 'Prayer',
     attendees: 3000,
@@ -123,7 +135,6 @@ const majorEvents = [
     image: PrayerImage,
     highlights: ['City-wide Impact', 'Intercession', 'Community Unity']
   },
-
   {
     id: 6,
     title: 'Global Leadership Training',
@@ -176,7 +187,6 @@ const regularEvents = [
     image: EventHero
   }
 ];
-
   const allEvents = [...majorEvents, ...regularEvents];
   const categories = ['All', 'Convention', 'Apostolic', 'Fellowship', 'Prayer', 'Celebration', 'Youth', 'Conference', 'Retreat'];
   const filteredEvents = allEvents.filter(event => {
@@ -246,9 +256,7 @@ const regularEvents = [
             >
               Explore Events 
             </button>
-            <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
-              Get Notifications
-            </button>
+            
           </motion.div>
         </div>
       </section>
@@ -344,9 +352,11 @@ const regularEvents = [
                         <span className="text-sm">{event.location}</span>
                       </div>
                     </div>
-                    <button className="w-full bg-blue-900 text-white font-semibold py-3 rounded-full hover:bg-blue-800 transition-all duration-300 flex items-center justify-center gap-2 group">
-                      Join Us
-                     
+                    <button 
+                      onClick={() => handleEventRegistration(event)}
+                      className="w-full bg-blue-900 text-white font-semibold py-3 rounded-full hover:bg-blue-800 transition-all duration-300 flex items-center justify-center gap-2 group"
+                    >
+                      Register Now
                     </button>
                   </div>
                 </motion.div>
@@ -390,8 +400,11 @@ const regularEvents = [
                         <span>{event.location}</span>
                       </div>
                     </div>
-                    <button className="w-full bg-gray-900 text-white font-medium py-2 rounded-full hover:bg-gray-800 transition-all duration-300">
-                      Register Now
+                    <button 
+                      onClick={() => handleEventRegistration(event)}
+                      className="w-full bg-gray-900 text-white font-medium py-2 rounded-full hover:bg-gray-800 transition-all duration-300"
+                    >
+                      Join us
                     </button>
                   </div>
                 </motion.div>
@@ -427,7 +440,7 @@ const regularEvents = [
               disabled={isLoading}
               className="bg-white text-blue-900 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-      crossover
+      
               {isLoading ? 'Subscribing...' : 'Subscribe'}
             </button>
           </div>

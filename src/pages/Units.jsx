@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
-import Footer from "../components/Footer";
+
 const units = [
   { name: "Media", icon: Sparkles, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: 30, time: "Tuesday 9PM", contact: "media@truelight.org" },
   { name: "Music Department", icon: Music, description: "Leading souls into God's presence through worship", leader: "Esther Ifeanyi", members: 35, time: "Saturdays 5PM, Mondays 9PM", contact: "choir@truelight.org" },
@@ -25,21 +24,25 @@ const units = [
   { name: "Young Achievers Network", icon: Target, description: "Empowering youths for success and excellence", leader: "Tolu Adebayo", members: 24, time: "Saturdays 1PM", contact: "yan@truelight.org" },
   { name: "Partnership", icon: Handshake, description: "Supporting the church's vision through partnerships", leader: "Chike Nnamdi", members: 19, time: "Monthly (Last Sunday)", contact: "partnership@truelight.org" },
   { name: "Communion", icon: CupSoda, description: "Preparing and serving the Holy Communion with reverence", leader: "Helen Chika", members: 9, time: "Monthly (First Sunday)", contact: "communion@truelight.org" }
-]
+];
+
 const testimonials = [
   { name: "Min Moyo", unit: "Choir", text: "Serving here transformed my life completely!" },
   { name: "DKK", unit: "Media", text: "We're changing lives through technology and faith!" },
   { name: "Mr. Flourish", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." }
 ];
+
 const stats = [
   { label: "Active Units", value: "22", icon: Target },
   { label: "Total Members", value: "420+", icon: Users },
   { label: "Lives Impacted", value: "25K+", icon: Heart },
   { label: "Years Strong", value: "15", icon: Award }
 ];
+
+import Footer from "../components/Footer";
 export default function MinistryUnits() {
-  const [search, setSearch] = useState('')
-  const [selectedUnit, setSelectedUnit] = useState(null)
+  const [search, setSearch] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState(null);
   
   const filteredUnits = units.filter(unit => 
     unit.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -49,6 +52,14 @@ export default function MinistryUnits() {
   const handleJoin = (unit) => {
     // Fixed to use info.truelight9@gmail.com for all unit join requests
     window.location.href = `mailto:info.truelight9@gmail.com?subject=Interest in ${unit.name}&body=Hello,%0A%0AI'm interested in joining ${unit.name}. Please let me know the next steps.%0A%0AThank you!`;
+  };
+
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:info.truelight9@gmail.com?subject=Ministry Unit Interest&body=Hello,%0A%0AI would like to learn more about joining a ministry unit at True Light Chapel. Please provide me with more information.%0A%0AThank you!';
+  };
+
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+2349010494622';
   };
   
   return (
@@ -70,6 +81,7 @@ export default function MinistryUnits() {
           />
         ))}
       </div>
+
       {/* Hero Section */}
       <section className="relative py-20 px-6 text-center">
         <div className="max-w-6xl mx-auto">
@@ -99,6 +111,7 @@ export default function MinistryUnits() {
           </button>
         </div>
       </section>
+
       {/* Stats */}
       <section className="py-16 px-6 bg-white/5 backdrop-blur-sm border-y border-white/10">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -113,6 +126,7 @@ export default function MinistryUnits() {
           ))}
         </div>
       </section>
+
       {/* Search */}
       <section className="py-12 px-6">
         <div className="max-w-2xl mx-auto relative">
@@ -126,6 +140,7 @@ export default function MinistryUnits() {
           />
         </div>
       </section>
+
       {/* Units Grid */}
       <section id="units" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
@@ -152,7 +167,6 @@ export default function MinistryUnits() {
                     <span>{unit.time}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    
                     <button
                       onClick={(e) => { e.stopPropagation(); handleJoin(unit); }}
                       className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-4 py-2 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition-all"
@@ -166,6 +180,7 @@ export default function MinistryUnits() {
           </div>
         </div>
       </section>
+
       {/* Testimonials */}
       <section className="py-20 px-6 bg-gradient-to-r from-yellow-400/10 to-yellow-500/10">
         <div className="max-w-6xl mx-auto">
@@ -193,33 +208,9 @@ export default function MinistryUnits() {
           </div>
         </div>
       </section>
+
       {/* CTA */}
-    <section className="py-20 px-6">
-  <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-5xl font-black text-transparent bg-gradient-to-r from-white to-yellow-400 bg-clip-text mb-6">
-      Ready for Your Divine Assignment?
-    </h2>
-    <p className="text-xl text-blue-200 mb-10 max-w-2xl mx-auto">
-      Your gifts can transform lives. Join a ministry unit today and discover your heavenly purpose.
-    </p>
-    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <button
-        onClick={() => window.location.href = 'mailto:info.truelight9@gmail.com?subject=Ministry Unit Interest'}
-        className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold rounded-full shadow-2xl hover:shadow-yellow-400/50 hover:scale-105 transition-all duration-300 flex items-center gap-3 justify-center"
-      >
-        <Mail className="w-5 h-5" />
-        Start Your Journey
-      </button>
-      <button
-        onClick={() => window.location.href = 'tel:+2349010494622'}
-        className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-full hover:bg-yellow-400 hover:text-blue-900 transition-all duration-300 flex items-center gap-3 justify-center"
-      >
-        <Phone className="w-5 h-5" />
-        Call Us
-      </button>
-    </div>
-  </div>
-</section>
+     
 
       {/* Unit Detail Modal */}
       {selectedUnit && (
@@ -253,9 +244,6 @@ export default function MinistryUnits() {
                 <span>{selectedUnit.members} souls</span>
               </div>
             </div>
-            <div className="text-blue-300 mb-6">
-              
-            </div>
             <button
               onClick={() => handleJoin(selectedUnit)}
               className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold py-4 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
@@ -266,6 +254,7 @@ export default function MinistryUnits() {
           </div>
         </div>
       )}
+
       <Footer />
     </div>
   );

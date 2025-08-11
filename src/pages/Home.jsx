@@ -85,10 +85,10 @@ const cards = [
 ];
 
 const stats = [
-  { number: "500+", label: "Members", icon: Users },
-  { number: "15+", label: "Years Serving", icon: Heart },
+  { number: "1500+", label: "Members", icon: Users },
+  { number: "9+", label: "Years Serving", icon: Heart },
   { number: "22", label: "Ministry Units", icon: Star },
-  { number: "100+", label: "Lives Changed", icon: Heart }
+  { number: "1000+", label: "Lives Changed", icon: Heart }
 ];
 
 export default function Home() {
