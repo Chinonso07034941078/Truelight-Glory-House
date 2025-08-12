@@ -84,8 +84,7 @@ export default function GivingSection() {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.6 }}
     >
-      Partner with us in reaching a billion souls across ten thousand cities 
-      with the transformative message of the gospel.
+    "Join our mission," "Unite with us," "Walk alongside us," "Stand with us"
     </motion.p>
 
     {/* Call-to-action buttons */}
