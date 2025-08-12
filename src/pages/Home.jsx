@@ -73,7 +73,7 @@ const upcomingEvents = [
 const cards = [
   { titleTop: "JOIN OUR COMMUNITY", title: "Get Involved", button: "LEARN MORE", image: very, action: "navigate", path: "/about" },
   { titleTop: "GIVE GENEROUSLY", title: "Donate Today", button: "GIVE NOW", image: very3, action: "navigate", path: "/support" },
-  { titleTop: "CONNECT WITH US", title: "Contact", button: "CONNECT", image: very4, action: "navigate", path: "/support"  },
+  { titleTop: "CONNECT WITH US", title: "Contact", button: "CONNECT", image: very4, action: "navigate", path: "/contact"  },
   { titleTop: "WATCH ONLINE", title: "Sermons", button: "LISTEN", image: very2, action: "navigate", path: "/sermons"  }
 ];
 
