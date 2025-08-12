@@ -5,6 +5,7 @@ import About from "./pages/About"
 import Sermons from "./pages/Sermons"
 import Event from "./pages/Event"
 import Units from "./pages/Units"
+import Contact from "./pages/Contact"
 import Support from "./pages/Support"
 import ScrollToTop from "./components/ScrollToTop"
 
@@ -18,6 +19,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/units" element={<Units />} />
         <Route path="/sermons" element={<Sermons />} />
         <Route path="/events" element={<Event />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, MapPin, Check, X , ArrowRight, Clock, Users, Heart, Star, Filter, Search, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Calendar, MapPin, Check, X, ArrowRight, Clock, Users, Heart, Star, Filter, Search, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import Prayer from '../assets/home-page.jpg';
@@ -25,37 +25,11 @@ export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showPastEvents, setShowPastEvents] = useState(false);
   
-  const [email, setEmail] = useState('');
-  const [subscribedEmails, setSubscribedEmails] = useState([]);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
-  const handleSubmit = async () => {
-    if (!email || !email.includes('@')) {
-      alert('Please enter a valid email address');
-      return;
-    }
-    if (subscribedEmails.includes(email)) {
-      alert('This email is already subscribed!');
-      return;
-    }
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setSubscribedEmails([...subscribedEmails, email]);
-      setEmail('');
-      setShowSuccess(true);
-      setIsLoading(false);
-    }, 1000);
-  };
-  const closeSuccessMessage = () => {
-    setShowSuccess(false);
-  };
- 
+  
   const slogans = [
     'Where Faith Meets Action',
     'Transforming Lives Together',
@@ -94,10 +68,10 @@ const majorEvents = [
     location: 'Main Auditorium',
     description: 'Five days of life-transforming sessions of Impact and Excellence',
     category: 'Convention',
-    attendees: 2500,
     featured: true,
     image: ConventionImage,
-    highlights: ['International Speakers', 'Leadership Training', 'Networking Sessions']
+    highlights: ['International Speakers', 'Leadership Training', 'Networking Sessions'],
+    registrationOpen: false // Added property
   },
   {
     id: 2,
@@ -107,23 +81,23 @@ const majorEvents = [
     location: 'Church Auditorium',
     description: 'Special apostolic visitation with prophetic declarations and spiritual impartation.',
     category: 'Apostolic',
-    attendees: 1800,
     featured: true,
     image: VisitationImage,
-    highlights: ['Prophetic Ministry', 'Healing Services', 'Spiritual Impartation']
+    highlights: ['Prophetic Ministry', 'Healing Services', 'Spiritual Impartation'],
+    registrationOpen: false // Added property
   },
   {
     id: 3,
     title: 'Evening Of Truth Dinner',
-    date: 'Every 2nd Sunday in December ',
+    date: 'Every 2nd Sunday in December',
     time: '3:00pm',
     location: 'Grand Ballroom',
     description: 'An elegant evening of fellowship, testimonies, and celebrating God\'s faithfulness.',
     category: 'Fellowship',
-    attendees: 500,
     featured: true,
     image: evot,
-    highlights: ['Testimonial Sharing', 'Gourmet Dining', 'Award Ceremony']
+    highlights: ['Testimonial Sharing', 'Gourmet Dining', 'Award Ceremony'],
+    registrationOpen: false // Added property
   },
   {
     id: 4,
@@ -133,10 +107,10 @@ const majorEvents = [
     location: 'Matching round the city of owerri',
     description: 'City-wide prayer march for spiritual awakening and transformation.',
     category: 'Prayer',
-    attendees: 3000,
     featured: true,
     image: DinnerImage,
-    highlights: ['City-wide Impact', 'Intercession', 'Community Unity']
+    highlights: ['City-wide Impact', 'Intercession', 'Community Unity'],
+    registrationOpen: false // Added property
   },
   {
     id: 6,
@@ -146,10 +120,10 @@ const majorEvents = [
     location: 'Main Auditorium',
     description: 'True Leaders raise Leaders.',
     category: 'Leader',
-    attendees: 4000,
     featured: true,
     image: CrossoverImage,
-    highlights: ['Prophetic Declarations', 'Midnight Worship', 'New Year Prayers']
+    highlights: ['Prophetic Declarations', 'Midnight Worship', 'New Year Prayers'],
+    registrationOpen: false // Added property
   }
 ];
 const regularEvents = [
@@ -161,9 +135,9 @@ const regularEvents = [
     location: 'Church Auditorium',
     description: 'We Feast on God\'s Word and His Presence',
     category: 'Word',
-    attendees: 100,
     featured: false,
-    image: Word
+    image: Word,
+    registrationOpen: true // Added property
   },
   {
     id: 8,
@@ -173,9 +147,9 @@ const regularEvents = [
     location: 'Church Auditorium',
     description: 'Dwell in His Prescence with Prayers.',
     category: 'Prayer',
-    attendees: 600,
     featured: false,
-    image: Prayer
+    image: Prayer,
+    registrationOpen: true // Added property
   },
   {
     id: 9,
@@ -185,9 +159,9 @@ const regularEvents = [
     location: 'Church Auditorium',
     description: 'Building strong, godly wprkers for family and community.',
     category: 'Retreat',
-    attendees: 400,
     featured: false,
-    image: EventHero
+    image: EventHero,
+    registrationOpen: true // Added property
   }
 ];
   const allEvents = [...majorEvents, ...regularEvents];
@@ -305,7 +279,7 @@ const regularEvents = [
               {filteredEvents.filter(event => event.featured).map((event) => (
                 <motion.div
                   key={event.id}
-                  className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 flex flex-col"
                   variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
@@ -318,18 +292,15 @@ const regularEvents = [
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-blue-100 text-blue-900 px-3 py-1 rounded-full text-xs font-semibold uppercase">
                         {event.category}
                       </span>
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <Users className="w-4 h-4" />
-                        <span className="text-sm">{event.attendees.toLocaleString()}</span>
-                      </div>
+                      {/* Removed attendees count */}
                     </div>
                     <h4 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h4>
-                    <p className="text-gray-600 text-sm mb-4">{event.description}</p>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">{event.description}</p>
                     {event.highlights && (
                       <div className="mb-4">
                         <div className="flex flex-wrap gap-2">
@@ -357,9 +328,14 @@ const regularEvents = [
                     </div>
                     <button 
                       onClick={() => handleEventRegistration(event)}
-                      className="w-full bg-blue-900 text-white font-semibold py-3 rounded-full hover:bg-blue-800 transition-all duration-300 flex items-center justify-center gap-2 group"
+                      disabled={!event.registrationOpen}
+                      className={`w-full font-semibold py-3 rounded-full transition-all duration-300 flex items-center justify-center gap-2 group ${
+                        event.registrationOpen 
+                          ? 'bg-blue-900 text-white hover:bg-blue-800' 
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
                     >
-                      Register Now
+                      {event.registrationOpen ? 'Register Now' : 'Coming Soon'}
                     </button>
                   </div>
                 </motion.div>
@@ -373,7 +349,7 @@ const regularEvents = [
               {filteredEvents.filter(event => !event.featured).map((event) => (
                 <motion.div
                   key={event.id}
-                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300"
+                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
                   variants={fadeUp}
                   initial="hidden"
                   whileInView="visible"
@@ -381,18 +357,15 @@ const regularEvents = [
                   <div className="h-48 overflow-hidden">
                     <img src={event.image} alt={event.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                   </div>
-                  <div className="p-5">
+                  <div className="p-5 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
                         {event.category}
                       </span>
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <Users className="w-4 h-4" />
-                        <span className="text-sm">{event.attendees}</span>
-                      </div>
+                      {/* Removed attendees count */}
                     </div>
                     <h4 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h4>
-                    <p className="text-gray-600 text-sm mb-3">{event.description}</p>
+                    <p className="text-gray-600 text-sm mb-3 flex-grow">{event.description}</p>
                     <div className="text-sm text-gray-500 mb-4">
                       <div className="flex items-center gap-2 mb-1">
                         <Calendar className="w-3 h-3" />
@@ -411,82 +384,6 @@ const regularEvents = [
           </div>
         </div>
       </section>
-      {/* Newsletter Section */}
-        <div className="relative">
-      <section className="bg-gradient-to-r from-blue-950 to-yellow-500/60 text-white py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-white/20">
-            <Heart className="w-4 h-4" />
-            <span className="text-sm font-medium uppercase tracking-wide">Stay Connected</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            NEVER MISS AN EVENT
-          </h2>
-          <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-            Subscribe to receive updates about our upcoming events, special announcements, and spiritual gatherings.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-6">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50 border border-white/20"
-            />
-            <button 
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="bg-white text-blue-900 font-bold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-      
-              {isLoading ? 'Subscribing...' : 'Subscribe'}
-            </button>
-          </div>
-          <p className="text-blue-200 text-sm">
-            Join {2000 + subscribedEmails.length}+ members who never miss our events!
-          </p>
-        </div>
-      </section>
-      {/* Success Message Popup */}
-      {showSuccess && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center relative">
-            <button
-              onClick={closeSuccessMessage}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check className="w-8 h-8 text-green-600" />
-            </div>
-            
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">
-              Email Received Successfully!
-            </h3>
-            
-            <p className="text-gray-600 mb-6">
-              Thank you for subscribing! You'll be notified about upcoming events and special announcements.
-            </p>
-            
-            <div className="bg-blue-50 rounded-lg p-4 mb-6">
-              <p className="text-sm text-blue-800">
-                <strong>What's next?</strong><br />
-                You'll receive notifications when events are approaching and updates about our spiritual gatherings.
-              </p>
-            </div>
-            
-            <button
-              onClick={closeSuccessMessage}
-              className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors font-medium"
-            >
-              Got it!
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
       <Footer />
     </div>
   );

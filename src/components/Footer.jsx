@@ -18,59 +18,8 @@ import UBA from '../assets/ubalogo.png';
 import ACCESS from '../assets/accesslogo.png';
 
 export default function Footer() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState({ message: '', type: '' });
   const [showPopup, setShowPopup] = useState(false);
   const [copiedAccount, setCopiedAccount] = useState(null);
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setStatus({ message: '', type: '' });
-    
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent(form.subject);
-      const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-      );
-      const mailtoLink = `mailto:info.truelight9@gmail.com?subject=${subject}&body=${body}`;
-      
-      // Open default email client
-      window.location.href = mailtoLink;
-      
-      setStatus({ 
-        message: 'Email client opened! Please send the email to complete your message.', 
-        type: 'success' 
-      });
-      
-      // Reset form after a delay
-      setTimeout(() => {
-        setForm({ name: '', email: '', subject: '', message: '' });
-      }, 2000);
-      
-    } catch (error) {
-      setStatus({ 
-        message: 'Failed to open email client. Please try again.', 
-        type: 'error' 
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const handleCopyAccount = (number) => {
     navigator.clipboard.writeText(number);
@@ -78,96 +27,15 @@ export default function Footer() {
     setTimeout(() => setCopiedAccount(null), 2000);
   };
 
+  // Function to get current year dynamically
+  const getCurrentYear = () => {
+    return new Date().getFullYear();
+  };
+
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white px-4">
       {/* Contact Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Visit Us</h2>
-            <p className="text-xl text-blue-100">We'd love to meet you in person</p>
-          </motion.div>
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Location/Times */}
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="space-y-8">
-              <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Our Location</h3>
-                  <p className="text-gray-300">Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri - Imo State</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Clock className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Service Times</h3>
-                  <p className="text-gray-300">
-                    Sunday Service: 7:00 AM, 8:45 AM & 10:30 AM<br />
-                    Tuesday Bible Study: 5:00 PM<br />
-                    Friday Prayer Meeting: 5:00 PM
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-yellow-400 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-white">Contact Info</h3>
-                  <p className="text-gray-300">
-                    Phone: +234 813 045 6427<br />
-                    Email: info.truelight9@gmail.com
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-            {/* Contact Form */}
-            <div className="bg-blue-900/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md border border-yellow-400/30">
-              <h2 className="text-3xl font-bold text-white text-center mb-8">Contact Us</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {['name', 'email', 'phone',].map((field) => (
-                  <div key={field}>
-                    <label htmlFor={field} className="block text-sm font-medium text-gray-200 mb-2 capitalize">{field === 'phone' ? 'Phone Number' : field}</label>
-                    <input
-                      type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
-                      id={field}
-                      name={field}
-                      value={form[field]}
-                      onChange={handleChange}
-                      required={field !== 'phone'}
-                      className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm"
-                      placeholder={`Your ${field === 'phone' ? 'phone number' : field}`}
-                    />
-                  </div>
-                ))}
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-200 mb-2">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    rows="4"
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-yellow-400/40 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 backdrop-blur-sm resize-none"
-                    placeholder="Your message here..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                >
-                  {isSubmitting ? 'Opening Email...' : 'Send Message'}
-                </button>
-              </form>
-              {status.message && (
-                <div className={`mt-4 p-3 rounded-lg ${status.type === 'success' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`}>
-                  {status.message}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+     
       {/* Giving Section */}
       <section className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800 py-20 px-4 text-white">
         <div className="max-w-6xl mx-auto bg-white text-blue-900 rounded-xl p-8 md:p-12 shadow-xl relative border border-yellow-400/30">
@@ -250,18 +118,22 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-2 text-yellow-400">Connect With Us</h3>
           <div className="flex justify-center md:justify-start gap-4 mb-2">
-            {[Facebook, Instagram, Youtube, Twitter].map((Icon, i) => (
-              <a key={i} href="#" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition">
-                <Icon size={20} />
-              </a>
-            ))}
+            <a href="https://www.facebook.com/Truelightghofficial" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition">
+              <Facebook size={20} />
+            </a>
+            <a href="https://www.instagram.com/truelightgloryhouse?igsh=YzljYTk1ODg3Zg==" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition">
+              <Instagram size={20} />
+            </a>
+            <a href="http://www.youtube.com/@truelightgloryhouse" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition">
+              <Youtube size={20} />
+            </a>
           </div>
           <p className="text-xs text-gray-300">289 Okigwe Rd, Opp. Access Bank Orji, Owerri - Imo State</p>
           <p className="text-xs text-gray-300">info.truelight9@gmail.com</p>
         </div>
       </div>
       <div className="text-center text-xs text-gray-400 border-t border-yellow-400/30 pt-3 pb-6">
-        &copy; {new Date().getFullYear()} Truelight Glory House. All rights reserved.
+        &copy; {getCurrentYear()} Truelight Glory House. All rights reserved.
       </div>
     </footer>
   );

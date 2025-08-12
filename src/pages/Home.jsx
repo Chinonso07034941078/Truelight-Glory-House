@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, Users, Sparkles, Heart, Star, Calendar, Clock, Mail, Music, UserMinus2Icon, LucideAlarmPlus, BookOpen } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Users, Sparkles, Heart, Star, Calendar, Clock, Mail, Music, UserMinus2Icon, LucideAlarmPlus, BookOpen, CalendarDays } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import BgVideo from '../assets/truelight-video1.mp4';
@@ -40,9 +41,9 @@ const pastorInfo = {
 
 const upcomingEvents = [
   { 
-    title: "Sunday 3 Super Services", 
+    title: "3 Super Services", 
     date: "Every Sunday", 
-    time: "1st Service - 7:00 AM PROMPT, 2nd Service-8:45, AM 3rd Service-10:30 AM", 
+    time: ["1st Service - 7:00 AM PROMPT", "2nd Service - 8:45 AM", "3rd Service - 10:30 AM"], 
     description: "Join us every Sunday as we fellowship in God's house", 
     image: Sunday 
   },
@@ -69,29 +70,24 @@ const upcomingEvents = [
   }
 ];
 
-const ministries = [
-  { name: "Lighters Choir", icon: Music, description: "Leading the congregation in heartfelt worship", image: Choir },
-  { name: "Young Achiever's Network", icon: Users, description: "Empowering the next generation", image: YAN },
-  { name: "Truelight Media", icon: Heart, description: "Service with Excellence!!!", image: Media },
-  { name: "Evening Of Truth", icon: UserMinus2Icon, description: "Relationship Classic - 2nd Sunday of the month, 3:00pm", image: Evot },
-  { name: "The Creatives", icon: LucideAlarmPlus, description: "Harnessing Special talents", image: Creative }
-];
-
 const cards = [
-  { titleTop: "JOIN OUR COMMUNITY", title: "Get Involved", button: "LEARN MORE", image: very, action: "navigate", path: "/about" },
-  { titleTop: "GIVE GENEROUSLY", title: "Donate Today", button: "GIVE NOW", image: very3, action: "navigate", path: "/supports" },
-  { titleTop: "CONNECT WITH US", title: "Fellowship", button: "CONNECT", image: very4, action: "toggle" },
-  { titleTop: "WATCH ONLINE", title: "Livestream", button: "WATCH", image: very2, action: "toggle" }
+  { titleTop: "JOIN OUR COMMUNITY", title: "Get Involved", button: "LEARN MORE", image: very, action: "navigate", path: "/About" },
+  { titleTop: "GIVE GENEROUSLY", title: "Donate Today", button: "GIVE NOW", image: very3, action: "navigate", path: "/Support" },
+  { titleTop: "CONNECT WITH US", title: "Contact", button: "CONNECT", image: very4, action: "navigate", path: "/support"  },
+  { titleTop: "WATCH ONLINE", title: "Sermons", button: "LISTEN", image: very2, action: "navigate", path: "/Sermons"  }
 ];
 
 const stats = [
   { number: "1500+", label: "Members", icon: Users },
-  { number: "10+", label: "Years Serving", icon: Heart },
+  { number: "10+", label: "Years Serving", icon: CalendarDays },
   { number: "22", label: "Ministry Units", icon: Star },
   { number: "1000+", label: "Lives Changed", icon: Heart }
 ];
 
+const getCurrentYear = () => new Date().getFullYear();
+
 export default function Home() {
+  const navigate = useNavigate();
   const [showLinks, setShowLinks] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedMessage, setDisplayedMessage] = useState("");
@@ -141,22 +137,18 @@ export default function Home() {
     }
     finally { setIsSubmitting(false); }
   };
-
+  
   const handleCardAction = (card) => {
     if (card.action === "toggle") {
-      // Toggle the showLinks state
       setShowLinks(!showLinks);
-      
-      // Scroll to the hero section
       if (heroRef.current) {
         heroRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     } else if (card.action === "navigate") {
-      // For navigation, we'll use window.location since we don't have React Router setup
-      window.location.href = card.path;
+      navigate(card.path);
     }
   };
-
+  
   useEffect(() => {
     if (isTyping) {
       if (charIndex < messages[currentMessageIndex].length) {
@@ -183,11 +175,11 @@ export default function Home() {
       }
     }
   }, [charIndex, isTyping, currentMessageIndex]);
-
+  
   useEffect(() => {
     if (videoRef.current) isPlaying ? videoRef.current.play() : videoRef.current.pause();
   }, [isPlaying]);
-
+  
   useEffect(() => {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
@@ -291,7 +283,6 @@ export default function Home() {
                     rel="noopener noreferrer" 
                     className="bg-red-600/80 backdrop-blur-sm text-white p-3 rounded-full hover:bg-red-700 transition-all duration-300 shadow-lg hover:scale-110"
                   >
-                    {/* Fixed YouTube Logo */}
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                     </svg>
@@ -436,60 +427,24 @@ export default function Home() {
                     {event.title}
                   </h3>
                   
-                  <div className="flex items-center gap-2 mb-3">
-                    <Clock className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm text-gray-600">
-                      {event.time}
-                    </span>
+                  <div className="flex items-start gap-2 mb-3">
+                    <Clock className="w-4 h-4 text-gray-500 mt-1" />
+                    <div className="text-sm text-gray-600">
+                      {Array.isArray(event.time) ? (
+                        <ul className="list-disc pl-5 space-y-1">
+                          {event.time.map((time, i) => (
+                            <li key={i}>{time}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <span>{event.time}</span>
+                      )}
+                    </div>
                   </div>
                   
                   <p className="text-gray-600 text-sm leading-relaxed">
                     {event.description}
                   </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Ministries Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16" 
-            initial={{ opacity: 0, y: 50 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Ministries</h2>
-            <p className="text-xl text-gray-600">Find your place to serve and grow</p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ministries.map((ministry, index) => (
-              <motion.div 
-                key={index} 
-                initial={{ opacity: 0, scale: 0.9 }} 
-                whileInView={{ opacity: 1, scale: 1 }} 
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden"
-              >
-                <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                  <img 
-                    src={ministry.image} 
-                    alt={ministry.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
-                    <ministry.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{ministry.name}</h3>
-                  <p className="text-gray-600">{ministry.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -576,7 +531,7 @@ export default function Home() {
         </motion.div>
       </section>
       
-      <Footer />
+      <Footer currentYear={getCurrentYear()} />
       
       <style jsx>{`
         @keyframes scroll {
