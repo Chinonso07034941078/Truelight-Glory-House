@@ -43,36 +43,36 @@ export default function GivingSection() {
   {/* Enhanced gradient overlay */}
   <div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-yellow-900/50 to-blue-900/95 z-10" />
 
-  {/* Background Image */}
-  <motion.img
-    src={BGI}
-    alt="Giving Background"
-    className="absolute inset-0 w-full h-full object-cover"
-    initial={{ scale: 1.1, opacity: 0.7 }}
-    animate={{ scale: 1, opacity: 1 }}
-    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-  />
-  
-  {/* Main content */}
-  <div className="relative z-20 text-center text-white px-6 max-w-4xl">
-    {/* Badge */}
-    <motion.div
-      className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
-      <Heart className="w-4 h-4" />
-      <span className="text-sm font-medium uppercase tracking-wide">Give Generously</span>
-    </motion.div>
-
-    {/* Main heading */}
-    <motion.h1
-      className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
-    >
+            {/* Background Image */}
+            <motion.img
+              src={BGI}
+              alt="Giving Background"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ scale: 1.1, opacity: 0.7 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            />
+            
+            {/* Main content */}
+            <div className="relative z-20 text-center text-white px-6 max-w-4xl">
+              {/* Badge */}
+              <motion.div
+                className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Heart className="w-4 h-4" />
+                <span className="text-sm font-medium uppercase tracking-wide">Give Generously</span>
+              </motion.div>
+          
+              {/* Main heading */}
+              <motion.h1
+                className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
       YOUR GENEROSITY.<br />
       OUR MISSION.
     </motion.h1>

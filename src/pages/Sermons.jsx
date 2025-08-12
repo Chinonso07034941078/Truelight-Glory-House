@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence}     from 'framer-motion'
-import sermonImage from '../assets/papa2.jpg'
+import sermonImage from '../assets/truelight-logo.png'
 import heroImage from '../assets/truelight-photo3.jpg'
 import Footer from '../components/Footer'
 import { Sparkles } from 'lucide-react'
@@ -144,7 +144,7 @@ export default function SermonPage() {
               <img
                 src={sermonImage}
                 alt="Sermon"
-                className="w-full h-32 object-cover"
+                className="w-full bg-gradient-to-br from-blue-600 to-blue-950 p-4 pt-6 pr-11 h-32 object-cover"
               />
               <div className="p-2">
                 <h3 className="text-sm font-medium text-blue-900 line-clamp-2 capitalize">

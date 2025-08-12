@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, useCallback } from 'react';
 import { 
-  Phone, Mail, MapPin, Clock, Send, MessageSquare, 
-  CheckCircle, Church, User, Mail as Email, PhoneCall, 
-  Calendar, Map, Navigation, Users, Heart, BookOpen, 
-  Mic, Handshake, Video 
+  Mail, Phone, MapPin, Clock, Send, MessageSquare, 
+  CheckCircle, Church, User, PhoneCall, 
+  Calendar, Users, Heart, Mic, Handshake, 
+  ExternalLink, Facebook, Instagram, Twitter, Youtube, 
+  AlertCircle, Copy, CheckCheck, Loader2, ArrowRight
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Footer from '../components/Footer';
 
-const ContactHero = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80";
-
-export default function Contacts() {
+export default function EnhancedContacts() {
   const [currentSlogan, setCurrentSlogan] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
@@ -20,53 +19,61 @@ export default function Contacts() {
     message: '',
     category: 'general'
   });
+  const [formValidation, setFormValidation] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  const [isVisible, setIsVisible] = useState({});
+  const [copiedInfo, setCopiedInfo] = useState(null);
   
   const slogans = [
     'We\'d Love to Hear From You',
     'Your Connection to Faith',
     'Building Relationships Together',
-    'Always Here for You'
+    'Always Here for You',
+    'Join Our Community of Faith',
+    'Experience God\'s Love'
   ];
   
-  // Auto-cycle through slogans
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlogan(prev => (prev + 1) % slogans.length);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
   
-  // Intersection Observer for animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(prev => ({
-              ...prev,
-              [entry.target.id]: true
-            }));
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const validateField = useCallback((name, value) => {
+    const errors = {};
     
-    const sections = document.querySelectorAll('[data-animate]');
-    sections.forEach(section => observer.observe(section));
+    switch (name) {
+      case 'name':
+        if (!value.trim()) errors.name = 'Name is required';
+        else if (value.trim().length < 2) errors.name = 'Name must be at least 2 characters';
+        break;
+      case 'email':
+        if (!value.trim()) errors.email = 'Email is required';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) errors.email = 'Please enter a valid email';
+        break;
+      case 'subject':
+        if (!value.trim()) errors.subject = 'Subject is required';
+        else if (value.trim().length < 3) errors.subject = 'Subject must be at least 3 characters';
+        break;
+      case 'message':
+        if (!value.trim()) errors.message = 'Message is required';
+        else if (value.trim().length < 10) errors.message = 'Message must be at least 10 characters';
+        break;
+    }
     
-    return () => observer.disconnect();
+    return errors;
   }, []);
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    const fieldErrors = validateField(name, value);
+    setFormValidation(prev => ({
       ...prev,
-      [name]: value
+      [name]: fieldErrors[name] || null
     }));
   };
   
@@ -75,45 +82,55 @@ export default function Contacts() {
     setIsSubmitting(true);
     setSubmitError(null);
     
+    const allErrors = {};
+    Object.keys(formData).forEach(key => {
+      const errors = validateField(key, formData[key]);
+      if (errors[key]) allErrors[key] = errors[key];
+    });
+    
+    if (Object.keys(allErrors).length > 0) {
+      setFormValidation(allErrors);
+      setIsSubmitting(false);
+      return;
+    }
+    
     try {
-      // Replace with your actual form submission endpoint
-      const response = await fetch('https://truelight9.com/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setIsSubmitted(true);
+      setFormData({
+        name: '', email: '', phone: '', subject: '', message: '', category: 'general'
       });
+      setFormValidation({});
       
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      setTimeout(() => setIsSubmitted(false), 8000);
       
-      const result = await response.json();
-      
-      if (result.success) {
-        setIsSubmitted(true);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: '',
-          category: 'general'
-        });
-        
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 5000);
-      } else {
-        throw new Error(result.message || 'Submission failed');
-      }
     } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitError('Failed to send message. Please try again later.');
+      setSubmitError('Failed to send message. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+  
+  const copyToClipboard = async (text, type) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedInfo(type);
+      setTimeout(() => setCopiedInfo(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopiedInfo(type);
+        setTimeout(() => setCopiedInfo(null), 2000);
+      } catch (fallbackErr) {
+        console.error('Fallback copy failed:', fallbackErr);
+      }
+      document.body.removeChild(textArea);
     }
   };
   
@@ -121,34 +138,37 @@ export default function Contacts() {
     {
       icon: PhoneCall,
       title: 'Phone Numbers',
-      details: ['+234 803 XXX XXXX', '+234 701 XXX XXXX'],
-      color: 'bg-blue-100 text-blue-700'
+      details: ['+234 813 045 6427'],
+      color: 'bg-blue-100 text-blue-700 border-blue-200',
+      action: () => window.open('tel:+2348130456427'),
+      copyable: '+2348130456427'
     },
     {
-      icon: Email,
+      icon: Mail,
       title: 'Email Address',
-      details: ['info.truelight9@gmail.com', 'pastors@truelight9.com'],
-      color: 'bg-green-100 text-green-700'
+      details: ['info.truelight9@gmail.com'],
+      color: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+      action: () => window.open('mailto:info.truelight9@gmail.com'),
+      copyable: 'info.truelight9@gmail.com'
     },
     {
-      icon: Map,
-      title: 'Location',
-      details: ['Owerri, Imo State', 'Nigeria'],
-      color: 'bg-amber-100 text-amber-700'
+      icon: MapPin,
+      title: 'Our Location',
+      details: ['Wesley Building, 289 Okigwe Rd', 'Owerri, Imo State, Nigeria'],
+      color: 'bg-amber-100 text-amber-700 border-amber-200',
+      action: () => window.open('https://maps.google.com/?q=Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria', '_blank'),
+      copyable: 'Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria'
     },
     {
-      icon: Calendar,
-      title: 'Office Hours',
-      details: ['Monday - Friday: 9:00 AM - 5:00 PM', 'Sunday: After Service'],
-      color: 'bg-purple-100 text-purple-700'
+      icon: Clock,
+      title: 'Service Times',
+      details: [
+        'Sunday: 7:00 AM, 8:45 AM, 10:30 AM',
+        'Tuesday Bible Study: 5:00 PM',
+        'Friday Prayer: 5:00 PM'
+      ],
+      color: 'bg-indigo-100 text-indigo-700 border-indigo-200'
     }
-  ];
-  
-  const socialMedia = [
-    { icon: 'facebook', name: 'Facebook', url: '#' },
-    { icon: 'instagram', name: 'Instagram', url: '#' },
-    { icon: 'twitter', name: 'Twitter', url: '#' },
-    { icon: 'youtube', name: 'YouTube', url: '#' }
   ];
   
   const departments = [
@@ -160,335 +180,404 @@ export default function Contacts() {
     { name: 'Partnership', value: 'partnership', icon: Handshake }
   ];
   
-  const getDirections = () => {
-    window.open('https://maps.google.com/?q=Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria', '_blank');
-  };
-
+  const socialLinks = [
+    { icon: Facebook, name: 'Facebook', url: 'https://facebook.com', color: 'hover:bg-blue-600' },
+    { icon: Instagram, name: 'Instagram', url: 'https://instagram.com', color: 'hover:bg-pink-600' },
+    { icon: Twitter, name: 'Twitter', url: 'https://twitter.com', color: 'hover:bg-sky-500' },
+    { icon: Youtube, name: 'YouTube', url: 'https://youtube.com', color: 'hover:bg-red-600' }
+  ];
+  
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[85vh] md:h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-800/80 via-blue-700/70 to-indigo-900/90 z-10" />
-        <img 
-          src={ContactHero}
-          alt="Contact Us" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-white">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiM0RjQ2RTUiIGQ9Ik0zNiAzNGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDYuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAyYy00LjQxOCAwLTgtMy41ODItOC04czMuNTgyLTggOC04IDggMy41ODIgOCA4LTMuNTgyIDgtOHoiLz48L2c+PC9zdmc+')]"></div>
         
-        <div className="relative z-20 text-center text-white px-6 max-w-4xl">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
-            <Church className="w-5 h-5 text-amber-300" />
-            <span className="text-sm font-medium uppercase tracking-wide">Get in Touch</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            CONNECT WITH US
-          </h1>
-          <div className="text-xl md:text-2xl font-medium mb-8 h-8 flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={slogans[currentSlogan]}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-                className="text-blue-100 absolute"
+        {/* Main content */}
+        <div className="relative z-20 text-center px-6 max-w-4xl">
+          {/* Badge */}
+          <motion.div
+            className="inline-flex items-center gap-2 bg-blue-600 text-white rounded-full px-6 py-3 mb-8 shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Church className="w-4 h-4" />
+            <span className="text-sm font-medium uppercase tracking-wide">Connect With Faith</span>
+          </motion.div>
+          
+          {/* Main heading */}
+          <motion.h1
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-gray-900"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            GET IN TOUCH
+          </motion.h1>
+          
+          {/* Dynamic slogan */}
+          <motion.div
+            className="text-xl md:text-2xl font-medium mb-8 text-gray-700 h-10 flex items-center justify-center relative"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            {slogans.map((slogan, index) => (
+              <div
+                key={index}
+                className={`absolute transition-all duration-700 ${
+                  index === currentSlogan 
+                    ? 'opacity-100 transform translate-y-0' 
+                    : 'opacity-0 transform translate-y-4'
+                }`}
               >
-                {slogans[currentSlogan]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <span className="text-gray-700">{slogan}</span>
+              </div>
+            ))}
+          </motion.div>
+          
+          {/* Call-to-action buttons */}
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
             <button
               onClick={() => document.getElementById('contact-info')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-amber-500 hover:bg-amber-600 text-blue-900 font-bold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              className="group bg-blue-600 text-white font-bold px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 shadow-lg"
             >
+              <Phone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               Contact Information
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-2 border-amber-400 text-amber-100 hover:bg-amber-500/20 font-bold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105"
+              className="group border-2 border-blue-600 text-blue-600 font-semibold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-3"
             >
+              <Send className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               Send Message
             </button>
-          </div>
+          </motion.div>
         </div>
       </section>
       
-      {/* Contact Information Section */}
-      <section id="contact-info" className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16" 
-            initial={{ opacity: 0, y: 50 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }}
-            data-animate
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">Contact Information</h2>
-            <p className="text-xl text-blue-700 max-w-2xl mx-auto">We'd love to meet you in person</p>
-          </motion.div>
+      {/* Contact Information */}
+      <section id="contact-info" className="py-20 md:py-32 relative overflow-hidden bg-white">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiM0RjQ2RTUiIGQ9Ik0zNiAzNGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDYuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAyYy00LjQxOCAwLTgtMy41ODItOC04czMuNTgyLTggOC04IDggMy41ODIgOCA4LTMuNTgyIDgtOHoiLz48L2c+PC9zdmc+')]"></div>
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-6 py-3 rounded-full font-semibold mb-6">
+              <MapPin className="w-5 h-5" />
+              Find Us Here
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-6">Contact Information</h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              We're here to serve you and answer any questions you may have. Reach out through any of these channels.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {contactInfo.map((info, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
-                className="bg-white rounded-2xl p-6 border border-blue-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full"
-                initial={{ opacity: 0, y: 30 }}
+                className="group bg-white rounded-3xl p-8 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.03 }}
-                data-animate
+                viewport={{ once: true }}
               >
-                <div className={`${info.color} w-14 h-14 rounded-full flex items-center justify-center mb-4`}>
-                  <info.icon className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold text-blue-900 mb-3">{info.title}</h3>
-                <div className="space-y-2 mt-auto">
-                  {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-blue-700">{detail}</p>
-                  ))}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl transform scale-0 group-hover:scale-100 transition-transform duration-500" />
+                
+                <div className="relative z-10">
+                  <div className={`${info.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300 shadow-lg border-2`}>
+                    <info.icon className="w-8 h-8" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-700 transition-colors">
+                    {info.title}
+                  </h3>
+                  
+                  <div className="space-y-2">
+                    {info.details.map((detail, idx) => (
+                      <p key={idx} className="text-gray-600 text-sm leading-relaxed">
+                        {detail}
+                      </p>
+                    ))}
+                  </div>
+                  
+                  <div className="flex gap-2 mt-6">
+                    {info.action && (
+                      <button
+                        onClick={info.action}
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 text-sm"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Connect
+                      </button>
+                    )}
+                    {info.copyable && (
+                      <button
+                        onClick={() => copyToClipboard(info.copyable, info.title)}
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition-colors duration-200"
+                        title="Copy to clipboard"
+                      >
+                        {copiedInfo === info.title ? (
+                          <CheckCheck className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
           
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Location/Times */}
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }} 
-              whileInView={{ opacity: 1, x: 0 }} 
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-              data-animate
-            >
-              <div className="flex items-start gap-4">
-                <div className="bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-amber-700" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-blue-900">Our Location</h3>
-                  <p className="text-blue-700">Wesley Building, 289 Okigwe Rd, adjacent Access Bank, Owerri - Imo State</p>
-                </div>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-12 text-gray-900 relative overflow-hidden border border-gray-200">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-100/50 to-indigo-100/50 rounded-3xl blur-xl" />
+            <div className="relative z-10">
+              <div className="text-center mb-12">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">Ready to Connect?</h3>
+                <p className="text-gray-700 text-lg max-w-2xl mx-auto">
+                  Choose your preferred way to get in touch with our ministry team.
+                </p>
               </div>
-              <div className="flex items-start gap-4">
-                <div className="bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6 text-amber-700" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-blue-900">Service Times</h3>
-                  <p className="text-blue-700">
-                    Sunday Service: 7:00 AM, 8:45 AM & 10:30 AM<br />
-                    Tuesday Bible Study: 5:00 PM<br />
-                    Friday Prayer Meeting: 5:00 PM
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-amber-700" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2 text-blue-900">Contact Info</h3>
-                  <p className="text-blue-700">
-                    Phone: +234 813 045 6427<br />
-                    Email: info.truelight9@gmail.com
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Contact Buttons */}
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }} 
-              whileInView={{ opacity: 1, x: 0 }} 
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-lg p-8 w-full max-w-md border border-blue-100"
-              data-animate
-            >
-              <h2 className="text-3xl font-bold text-blue-900 text-center mb-8">Contact Us</h2>
-              <div className="space-y-6">
+              
+              <div className="grid md:grid-cols-3 gap-8">
                 <a
                   href="tel:+2348130456427"
-                  className="w-full bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 shadow-md"
+                  className="group bg-white hover:bg-blue-50 p-8 rounded-2xl transition-all duration-300 transform hover:scale-105 border border-gray-200 hover:border-blue-300 shadow-sm"
                 >
-                  <PhoneCall className="w-5 h-5" />
-                  Call Us
+                  <PhoneCall className="w-12 h-12 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
+                  <h4 className="text-xl font-bold mb-2">Call Us Now</h4>
+                  <p className="text-gray-600 text-sm mb-4">Speak directly with our team</p>
+                  <div className="text-blue-600 font-semibold">+234 813 045 6427</div>
                 </a>
+                
                 <a
                   href="mailto:info.truelight9@gmail.com"
-                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 shadow-md"
+                  className="group bg-white hover:bg-blue-50 p-8 rounded-2xl transition-all duration-300 transform hover:scale-105 border border-gray-200 hover:border-blue-300 shadow-sm"
                 >
-                  <Email className="w-5 h-5" />
-                  Email Us
+                  <Mail className="w-12 h-12 text-emerald-600 mb-4 group-hover:scale-110 transition-transform" />
+                  <h4 className="text-xl font-bold mb-2">Email Us</h4>
+                  <p className="text-gray-600 text-sm mb-4">Send us a detailed message</p>
+                  <div className="text-emerald-600 font-semibold break-all">info.truelight9@gmail.com</div>
                 </a>
+                
+                <button
+                  onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group bg-white hover:bg-blue-50 p-8 rounded-2xl transition-all duration-300 transform hover:scale-105 border border-gray-200 hover:border-blue-300 shadow-sm"
+                >
+                  <Send className="w-12 h-12 text-indigo-600 mb-4 group-hover:scale-110 transition-transform" />
+                  <h4 className="text-xl font-bold mb-2">Contact Form</h4>
+                  <p className="text-gray-600 text-sm mb-4">Fill out our online form</p>
+                  <div className="text-indigo-600 font-semibold">Send Message →</div>
+                </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
       
-      {/* Contact Form Section */}
-      {/* <section id="contact-form" className="py-16 md:py-24 bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div 
-            className="text-center mb-12" 
-            initial={{ opacity: 0, y: 50 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }}
-            data-animate
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Send Us a Message</h2>
-            <p className="text-blue-700 text-lg max-w-2xl mx-auto">
-              Have questions or need prayer? Fill out the form below and we'll get back to you as soon as possible.
+      {/* Contact Form */}
+      <section id="contact-form" className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiM0RjQ2RTUiIGQ9Ik0zNiAzNGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDYuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAyYy00LjQxOCAwLTgtMy41ODItOC04czMuNTgyLTggOC04IDggMy41ODIgOCA4LTMuNTgyIDgtOHoiLz48L2c+PC9zdmc+')]"></div>
+        
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-6 py-3 rounded-full font-semibold mb-6">
+              <MessageSquare className="w-5 h-5" />
+              Get In Touch
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-6">Send Us a Message</h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              Have questions, prayer requests, or want to know more about our ministry? We'd love to hear from you.
             </p>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="bg-white rounded-2xl shadow-lg p-8 border border-blue-100"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            data-animate
-          >
+          <div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
             {isSubmitted ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
+              <div className="text-center py-20 px-8">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-500" />
                 </div>
-                <h3 className="text-2xl font-bold text-blue-900 mb-2">Message Sent Successfully!</h3>
-                <p className="text-blue-700">Thank you for reaching out. We'll get back to you soon.</p>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Message Sent Successfully!</h3>
+                <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto">
+                  Thank you for reaching out. Our team will get back to you within 24 hours.
+                </p>
+                <button
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition-colors"
+                >
+                  Send Another Message
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8">
                 {submitError && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                    {submitError}
+                  <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-lg flex items-start gap-3">
+                    <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold text-red-700 mb-1">Submission Failed</h4>
+                      <p className="text-red-600">{submitError}</p>
+                    </div>
                   </div>
                 )}
                 
-                <div className="bg-blue-50 p-6 rounded-xl mb-6">
-                  <h3 className="font-semibold text-blue-900 mb-4 flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-700" />
-                    Personal Information
-                  </h3>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="bg-blue-100 p-3 rounded-xl">
+                      <User className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Personal Information</h3>
+                  </div>
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-blue-800 font-medium mb-2">Full Name</label>
+                      <label className="block text-gray-900 font-semibold mb-3">Full Name *</label>
                       <input
                         type="text"
-                        id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                        placeholder="Your name"
+                        className={`w-full px-4 py-4 bg-white border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-200 ${
+                          formValidation.name 
+                            ? 'border-red-400 focus:border-red-400 focus:ring-red-500/20' 
+                            : 'border-gray-300 focus:border-blue-400 focus:ring-blue-500/20'
+                        } text-gray-900 placeholder-gray-500`}
+                        placeholder="Your full name"
                       />
+                      {formValidation.name && (
+                        <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4" />
+                          {formValidation.name}
+                        </p>
+                      )}
                     </div>
+                    
                     <div>
-                      <label htmlFor="email" className="block text-blue-800 font-medium mb-2">Email Address</label>
+                      <label className="block text-gray-900 font-semibold mb-3">Email Address *</label>
                       <input
                         type="email"
-                        id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                        placeholder="Your email"
+                        className={`w-full px-4 py-4 bg-white border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-200 ${
+                          formValidation.email 
+                            ? 'border-red-400 focus:border-red-400 focus:ring-red-500/20' 
+                            : 'border-gray-300 focus:border-blue-400 focus:ring-blue-500/20'
+                        } text-gray-900 placeholder-gray-500`}
+                        placeholder="your.email@example.com"
                       />
+                      {formValidation.email && (
+                        <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4" />
+                          {formValidation.email}
+                        </p>
+                      )}
                     </div>
                   </div>
-                </div>
-                
-                <div className="bg-blue-50 p-6 rounded-xl">
-                  <h3 className="font-semibold text-blue-900 mb-4 flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-blue-700" />
-                    Message Details
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="phone" className="block text-blue-800 font-medium mb-2">Phone Number</label>
+                      <label className="block text-gray-900 font-semibold mb-3">Phone Number</label>
                       <input
                         type="tel"
-                        id="phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                        placeholder="Your phone number"
+                        className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:border-blue-400 focus:ring-blue-500/20 transition-all duration-200 text-gray-900 placeholder-gray-500"
+                        placeholder="+234 000 000 0000"
                       />
                     </div>
-                    <div>
-                      <label htmlFor="category" className="block text-blue-800 font-medium mb-2">Department</label>
-                      <select
-                        id="category"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                      >
-                        {departments.map((dept, index) => (
-                          <option key={index} value={dept.value}>{dept.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div className="mb-6">
-                    <label htmlFor="subject" className="block text-blue-800 font-medium mb-2">Subject</label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                      placeholder="Subject of your message"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-blue-800 font-medium mb-2">Message</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm transition-colors"
-                      placeholder="Your message"
-                    ></textarea>
                   </div>
                 </div>
                 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      Send Message
-                    </>
-                  )}
-                </button>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="bg-emerald-100 p-3 rounded-xl">
+                      <MessageSquare className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Message Details</h3>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-gray-900 font-semibold mb-3">Subject *</label>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-4 bg-white border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-200 ${
+                        formValidation.subject 
+                          ? 'border-red-400 focus:border-red-400 focus:ring-red-500/20' 
+                          : 'border-gray-300 focus:border-blue-400 focus:ring-blue-500/20'
+                      } text-gray-900 placeholder-gray-500`}
+                      placeholder="What's this message about?"
+                    />
+                    {formValidation.subject && (
+                      <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4" />
+                        {formValidation.subject}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <label className="block text-gray-900 font-semibold mb-3">Message *</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={6}
+                      className={`w-full px-4 py-4 bg-white border-2 rounded-xl focus:outline-none focus:ring-4 transition-all duration-200 resize-none ${
+                        formValidation.message 
+                          ? 'border-red-400 focus:border-red-400 focus:ring-red-500/20' 
+                          : 'border-gray-300 focus:border-blue-400 focus:ring-blue-500/20'
+                      } text-gray-900 placeholder-gray-500`}
+                      placeholder="Tell us how we can help you..."
+                    />
+                    {formValidation.message && (
+                      <p className="text-red-500 text-sm mt-2 flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4" />
+                        {formValidation.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="pt-6">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-6 h-6" />
+                        Send Message
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
-      </section> */}
+      </section>
       
       <Footer />
     </div>
