@@ -38,8 +38,8 @@ export default function Navbar() {
     { to: "/units", label: "Units" },
     { to: "/sermons", label: "Sermons" },
     { to: "/events", label: "Events" },
-    { to: "/support", label: "Support" },
-    { to: "/contact", label: "Contact" } // Added to both desktop and mobile
+    { to: "/contact", label: "Contact" }, // Added to both desktop and mobile
+    { to: "/support", label: "Support" }
   ];
 
   return (
