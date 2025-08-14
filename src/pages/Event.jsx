@@ -105,14 +105,14 @@ const majorEvents = [
   {
     id: 4,
     title: 'High Heels in High Places',
-    date: 'Every half year',
-    time: '7:00 AM - 12:00 PM',
-    location: 'Marching round the city of Owerri',
-    description: 'City-wide prayer march for spiritual awakening and transformation.',
+    date: 'Every 3rd Week of July',
+    time: '5:00 PM - 9:00 PM',
+    location: 'Raising Kingdom Ladies',
+    description: 'Ladies with high Infuence in high environments',
     category: 'Prayer',
     featured: true,
     image: DinnerImage,
-    highlights: ['City-wide Impact', 'Intercession', 'Community Unity'],
+    highlights: ['City-wide Impact', 'Influence', 'Ladies Unity'],
     registrationOpen: false
   },
   {

@@ -82,8 +82,8 @@ const cards = [
 
 const stats = [
   { number: "1500+", label: "Members", icon: Users },
-  { number: "10+", label: "Years Serving", icon: CalendarDays },
-  { number: "22", label: "Ministry Units", icon: CalendarHeart },
+  { number: "10+", label: "Years Serving", icon: CalendarHeart },
+  { number: "22", label: "Ministry Units", icon: CalendarDays },
   { number: "1000+", label: "Lives Changed", icon: UserRoundPen }
 ];
 
@@ -190,19 +190,38 @@ export default function Home() {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
+  const [currentSlogan, setCurrentSlogan] = useState(0);
+  const slogans = [
+    'We Disciple the Nations and Discipline the Devil',
+    'In Our Camp There Shall Be No Loss', 
+    'Serving God pays and it will pay me'
+  ];
+  
+  // Add this useEffect to cycle through slogans
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlogan((prev) => (prev + 1) % slogans.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="bg-white font-light text-gray-900 overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
-      <video 
-        className="absolute inset-0 w-full h-full object-cover" 
-        autoPlay 
-        loop 
-        muted={isMuted} 
-        playsInline
-      >
-        <source src={BgVideo} type="video/mp4" />
-      </video>
+      <motion.video
+  className="absolute inset-0 w-full h-full object-cover"
+  autoPlay
+  loop
+  muted={isMuted}
+  playsInline
+  initial={{ opacity: 0, scale: 1.05 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 2, ease: "easeOut" }}
+>
+  <source src={BgVideo} type="video/mp4" />
+</motion.video>
+
       
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-yellow-900/60 to-blue-900/80" />
       
@@ -224,15 +243,18 @@ export default function Home() {
           <span className="text-sm font-medium tracking-wider text-white/90">Global Church</span>
         </motion.div>
         
-        <motion.h1 
-          className="text-4xl md:text-6xl lg:text-7xl font-extralight text-white mb-6 leading-tight tracking-tight"
-          initial={{ opacity: 0, scale: 0.9 }} 
-          animate={{ opacity: 1, scale: 1 }} 
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
-          <span className="font-light">TRUELIGHT </span>
-          <span className="font-semibold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">GLORY HOUSE</span>
-        </motion.h1>
+        <motion.h1
+  className="text-4xl md:text-6xl lg:text-7xl font-extralight text-white mb-6 leading-tight tracking-tight"
+  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+>
+  <span className="font-light">TRUELIGHT </span>
+  <span className="font-semibold bg-gradient-to-r from-white via-white to-blue-200 bg-clip-text text-transparent">
+    GLORY HOUSE
+  </span>
+</motion.h1>
+
         
         <motion.h2 
           className="text-lg md:text-xl font-light text-blue-200/90 mb-8 max-w-2xl tracking-wide min-h-[2rem] flex items-center justify-center"
@@ -242,13 +264,13 @@ export default function Home() {
         >
            <div className="text-blue-200/90 tracking-wide text-center leading-relaxed">
                         <Typewriter
-                           words={['We Disciple the Nations and Discipline the Devil', 'In Our Camp There Shall Be No Loss']}
+                           words={['We Disciple the Nations and Discipline the Devil', 'In Our Camp There Shall Be No Loss', 'Serving God pays and it will pay me']}
                            loop={true} // keeps typing infinitely
                            cursor
                            cursorStyle="|"
-                           typeSpeed={50}   // ms per character
-                           deleteSpeed={30} // ms per character delete
-                           delaySpeed={100} // wait before deleting
+                           typeSpeed={30}
+                           deleteSpeed={40}
+                           delaySpeed={300}// wait before deleting
                          />
                       </div>
         </motion.h2>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
 import Footer from "../components/Footer";
 
@@ -47,6 +47,26 @@ const stats = [
 ];
 
 export default function MinistryUnits() {
+
+
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+
+
   const [search, setSearch] = useState('');
   const [selectedUnit, setSelectedUnit] = useState(null);
   
@@ -88,43 +108,135 @@ export default function MinistryUnits() {
       </div>
 
       {/* Hero Section - Refined */}
-      <section className="relative py-24 px-6 text-center">
-        <div className="max-w-5xl mx-auto">
-          {/* Subtle badge */}
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25">
-            <Crown className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm font-medium tracking-wider">Divine Assignment</span>
-          </div>
+      <section 
+      className="relative py-24 px-6 text-center overflow-hidden"
+      onMouseMove={handleMouseMove}
+     
+    >
+      {/* Floating particles background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-yellow-400/30 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
 
-          {/* Main heading - more refined */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight">
-            <span className="font-extralight">Find Your</span>{' '}
-            <span className="font-semibold bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
-              Purpose
-            </span>
-            <br />
-            <span className="text-2xl md:text-4xl lg:text-5xl font-light text-yellow-200 block mt-2">
-              Serve with impact
-            </span>
-          </h1>
-
-          {/* Refined description */}
-          <p className="text-lg md:text-xl font-light mb-12 text-blue-200 leading-relaxed max-w-3xl mx-auto">
-            Join a ministry unit where your gifts meet God's perfect plan. Over <span className="text-yellow-300 font-medium">500 members</span> serving across <span className="text-yellow-300 font-medium">22 dynamic units</span>.
-          </p>
-
-          {/* Call-to-action button */}
-          <button
-            onClick={() => document.getElementById('units').scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105"
-          >
-            <span className="flex items-center gap-2">
-              Discover Your Unit
-              <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse" />
-            </span>
-          </button>
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-yellow-400/20 to-blue-500/20 rounded-full blur-xl animate-pulse" />
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-blue-400/20 to-yellow-300/20 rounded-full blur-xl animate-pulse animation-delay-1000" />
+      
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Animated badge */}
+        <div className={`inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25 transform transition-all duration-1000 ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}>
+          <Crown className="w-4 h-4 text-yellow-400 animate-bounce" style={{ animationDelay: '0.5s' }} />
+          <span className="text-sm font-medium tracking-wider">Divine Assignment</span>
         </div>
-      </section>
+
+        {/* Main heading with staggered animation */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight">
+          <span className={`inline-block font-extralight transform transition-all duration-1000 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+          }`} style={{ transitionDelay: '0.2s' }}>
+            Find Your
+          </span>{' '}
+          <span className={`inline-block font-semibold bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent transform transition-all duration-1000 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+          }`} style={{ transitionDelay: '0.4s' }}>
+            <span className="relative bg-gradient-to-r from-yellow-500 via-slate-100 to-yellow-400 bg-clip-text text-transparent">
+              Purpose
+              {/* <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-transparent blur animate-pulse" /> */}
+            </span>
+          </span>
+          <br />
+          <span className={`text-2xl md:text-4xl lg:text-5xl font-light text-yellow-200 block mt-2 transform transition-all duration-1000 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+          }`} style={{ transitionDelay: '0.6s' }}>
+            Serve with impact
+          </span>
+        </h1>
+
+        {/* Description with fade-in */}
+        <p className={`text-lg md:text-xl font-light mb-12 text-blue-200 leading-relaxed max-w-3xl mx-auto transform transition-all duration-1000 ${
+          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+        }`} style={{ transitionDelay: '0.8s' }}>
+          Join a ministry unit where your gifts meet God's perfect plan. Over{' '}
+          <span className="text-yellow-300 font-medium relative">
+            <span className="relative z-10">500 members</span>
+            <span className="absolute inset-0 bg-yellow-300/20 blur rounded animate-pulse" />
+          </span>{' '}
+          serving across{' '}
+          <span className="text-yellow-300 font-medium relative">
+            <span className="relative z-10">22 dynamic units</span>
+            <span className="absolute inset-0 bg-yellow-300/20 blur rounded animate-pulse animation-delay-500" />
+          </span>.
+        </p>
+
+        {/* Animated CTA button */}
+        <button
+          onClick={() => document.getElementById('units')?.scrollIntoView({ behavior: 'smooth' })}
+          className={`group relative bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+          }`}
+          style={{ transitionDelay: '1s' }}
+        >
+          {/* Button background glow effect */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400/50 to-blue-500/50 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <span className="relative flex items-center gap-2">
+            Discover Your Unit
+            <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse group-hover:animate-bounce" />
+          </span>
+          
+          {/* Ripple effect on hover */}
+          <div className="absolute inset-0 rounded-full bg-white/20 transform scale-0 group-hover:scale-110 transition-transform duration-500 opacity-0 group-hover:opacity-100" />
+        </button>
+      </div>
+
+      {/* Floating elements */}
+      <div className="absolute top-1/4 left-10 animate-float">
+        <div className="w-2 h-2 bg-yellow-400/60 rounded-full" />
+      </div>
+      <div className="absolute top-1/3 right-16 animate-float animation-delay-1000">
+        <div className="w-1 h-1 bg-blue-300/60 rounded-full" />
+      </div>
+      <div className="absolute bottom-1/4 left-1/4 animate-float animation-delay-2000">
+        <div className="w-1.5 h-1.5 bg-yellow-300/50 rounded-full" />
+      </div>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          33% { transform: translateY(-10px) rotate(120deg); }
+          66% { transform: translateY(5px) rotate(240deg); }
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animation-delay-500 {
+          animation-delay: 0.5s;
+        }
+        
+        .animation-delay-1000 {
+          animation-delay: 1s;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+      `}</style>
+    </section>
 
      
 
