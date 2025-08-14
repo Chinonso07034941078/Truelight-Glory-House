@@ -246,8 +246,8 @@ export default function Home() {
                            loop={true} // keeps typing infinitely
                            cursor
                            cursorStyle="|"
-                           typeSpeed={30}   // ms per character
-                           deleteSpeed={20} // ms per character delete
+                           typeSpeed={50}   // ms per character
+                           deleteSpeed={30} // ms per character delete
                            delaySpeed={100} // wait before deleting
                          />
                       </div>
