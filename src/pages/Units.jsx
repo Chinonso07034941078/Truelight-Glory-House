@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
+import Footer from "../components/Footer";
 
 const units = [
   { name: "Media", icon: Sparkles, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: "30+", time: "Tuesday 9PM", contact: "media@truelight.org", phone: "+2348012345678" },
@@ -27,25 +28,23 @@ const units = [
 ];
 
 const testimonials = [
-  { name: "Min. Moyo", unit: "Media", text: "Serving here transformed my life completely!" },
+  { name: "Chika Blessing", unit: "Media", text: "Serving here transformed my life completely!" },
   { name: "DKK", unit: "Media", text: "We're changing lives through technology and faith!" },
   { name: "Mr. Flourish", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." },
-  { name: "Esther Ifeanyi", unit: "Music Department", text: "Leading worship has deepened my relationship with God in ways I never imagined." },
-  { name: "Chibuzor Okeke", unit: "Protocol", text: "The discipline and excellence I've learned serving here has impacted every area of my life." },
-  { name: "Joy Eze", unit: "Children Church", text: "Teaching children about God's love has renewed my own faith daily." },
-  { name: "Emeka Obi", unit: "Sound Hub", text: "Creating the perfect sound environment for worship is my way of contributing to the move of God." },
-  { name: "Ada Uche", unit: "Greeters", text: "The joy I feel welcoming people to God's house is indescribable." },
-  { name: "Daniel Okafor", unit: "Evangelism", text: "Every soul won to Christ through our outreach efforts is a testament to God's faithfulness." }
+  { name: "Ahaneku Chidera", unit: "Music Department", text: "Leading worship has deepened my relationship with God in ways I never imagined." },
+  { name: "Aguruo Valentine", unit: "Protocol", text: "The discipline and excellence I've learned serving here has impacted every area of my life." },
+  { name: "Mary Ben", unit: "Children Church", text: "Teaching children about God's love has renewed my own faith daily." },
+  { name: "Ajeboh", unit: "Sound Hub", text: "Creating the perfect sound environment for worship is my way of contributing to the move of God." },
+  { name: "Innocent Peace", unit: "Greeters", text: "The joy I feel welcoming people to God's house is indescribable." },
+  { name: "Joshua Jude", unit: "Evangelism", text: "Every soul won to Christ through our outreach efforts is a testament to God's faithfulness." }
 ];
 
 const stats = [
   { label: "Active Units", value: "22", icon: Target },
   { label: "Total Members", value: "500+", icon: Users },
   { label: "Lives Impacted", value: "50K+", icon: Heart },
-  { label: "Years Strong", value: "15", icon: Award }
+  { label: "Years Strong", value: "10", icon: Award }
 ];
-
-import Footer from "../components/Footer";
 
 export default function MinistryUnits() {
   const [search, setSearch] = useState('');
@@ -56,9 +55,8 @@ export default function MinistryUnits() {
     unit.description.toLowerCase().includes(search.toLowerCase())
   );
   
-  const handleJoin = (unit) => {
-    // Updated to call the team lead's phone number
-    window.location.href = `tel:${unit.phone}`;
+  const handleJoinCall = () => {
+    window.location.href = `tel:+2349134943551`;
   };
   
   const handleEmailClick = () => {
@@ -89,98 +87,86 @@ export default function MinistryUnits() {
         ))}
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 px-6 text-center">
-        <div className="max-w-6xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400/20 border border-yellow-400/50 rounded-full text-yellow-400 font-bold mb-8">
-            <Crown className="w-4 h-4" />
-            Find Your Divine Assignment
+      {/* Hero Section - Refined */}
+      <section className="relative py-24 px-6 text-center">
+        <div className="max-w-5xl mx-auto">
+          {/* Subtle badge */}
+          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25">
+            <Crown className="w-4 h-4 text-yellow-400" />
+            <span className="text-sm font-medium tracking-wider">Divine Assignment</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight">
-            <span className="text-transparent bg-gradient-to-r from-white via-yellow-400 to-white bg-clip-text">
-              Transform Lives
+
+          {/* Main heading - more refined */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight">
+            <span className="font-extralight">Find Your</span>{' '}
+            <span className="font-semibold bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
+              Purpose
             </span>
             <br />
-            <span className="text-transparent bg-gradient-to-r from-yellow-400 via-white to-yellow-400 bg-clip-text">
-              Serve with Purpose
+            <span className="text-2xl md:text-4xl lg:text-5xl font-light text-yellow-200 block mt-2">
+              Serve with impact
             </span>
           </h1>
-          <p className="text-xl text-blue-200 max-w-3xl mx-auto mb-12">
-            Join a ministry unit where your gifts meet God's perfect plan. Over 500 members serving across 22 dynamic units.
+
+          {/* Refined description */}
+          <p className="text-lg md:text-xl font-light mb-12 text-blue-200 leading-relaxed max-w-3xl mx-auto">
+            Join a ministry unit where your gifts meet God's perfect plan. Over <span className="text-yellow-300 font-medium">500 members</span> serving across <span className="text-yellow-300 font-medium">22 dynamic units</span>.
           </p>
+
+          {/* Call-to-action button */}
           <button
             onClick={() => document.getElementById('units').scrollIntoView({ behavior: 'smooth' })}
-            className="group px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold rounded-full shadow-2xl hover:shadow-yellow-400/50 hover:scale-105 transition-all duration-500 flex items-center gap-3 mx-auto"
+            className="bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105"
           >
-            <Zap className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-            Discover Your Unit
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span className="flex items-center gap-2">
+              Discover Your Unit
+              <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse" />
+            </span>
           </button>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 px-6 bg-white/5 backdrop-blur-sm border-y border-white/10">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, i) => (
-            <div key={i} className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <stat.icon className="w-8 h-8 text-blue-900" />
-              </div>
-              <div className="text-3xl font-black text-yellow-400 mb-1">{stat.value}</div>
-              <div className="text-blue-300">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+     
 
-      {/* Search */}
-      <section className="py-12 px-6">
+      {/* Search - Refined */}
+      <section className="py-16 px-6">
         <div className="max-w-2xl mx-auto relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-yellow-400 w-5 h-5" />
           <input
             type="text"
-            placeholder="Search for your divine calling..."
+            placeholder="Search for your calling..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all"
+            className="w-full pl-12 pr-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-yellow-300 focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-light"
           />
         </div>
       </section>
 
-      {/* Units Grid */}
+      {/* Units Grid - Simplified */}
       <section id="units" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredUnits.map((unit, i) => (
               <div
                 key={unit.name}
-                className="group bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:border-yellow-400/50 transition-all duration-300 hover:scale-105 cursor-pointer flex flex-col"
+                className="group bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:border-yellow-400/50 transition-all duration-300 cursor-pointer flex flex-col"
                 onClick={() => setSelectedUnit(unit)}
               >
                 <div className="p-6 flex-grow flex flex-col">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
-                      <unit.icon className="w-6 h-6 text-blue-900" />
+                    <div className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
+                      <unit.icon className="w-5 h-5 text-yellow-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{unit.name}</h3>
-                      <div className="text-yellow-400 text-sm">{unit.members} members</div>
+                      <h3 className="text-lg font-medium text-white">{unit.name}</h3>
+                      <div className="text-yellow-300 text-sm font-light">{unit.members} members</div>
                     </div>
                   </div>
-                  <p className="text-blue-200 text-sm mb-4 flex-grow">{unit.description}</p>
-                  <div className="flex items-center gap-2 text-sm text-blue-300 mb-4">
+                  <p className="text-blue-200 text-sm font-light mb-4 flex-grow leading-relaxed">{unit.description}</p>
+                  <div className="flex items-center gap-2 text-sm text-yellow-300 font-light">
                     <Clock className="w-4 h-4" />
                     <span>{unit.time}</span>
                   </div>
-                  <div className="mt-auto">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleJoin(unit); }}
-                      className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-4 py-2 rounded-full font-bold text-sm hover:shadow-lg hover:scale-105 transition-all"
-                    >
-                      Join this unit
-                    </button>
-                  </div>
                 </div>
               </div>
             ))}
@@ -188,22 +174,49 @@ export default function MinistryUnits() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-6 bg-gradient-to-r from-yellow-400/10 to-yellow-500/10">
+      {/* Join Unit Button - Refined */}
+      <section className="py-16 px-6 text-center">
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight">
+            <span className="font-extralight">Ready to</span>{' '}
+            <span className="font-medium bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
+              Serve?
+            </span>
+          </h2>
+          <p className="text-lg font-light text-blue-200 mb-8 leading-relaxed">
+            Contact the <span className="text-yellow-300 font-medium">Head of Operations</span> to find your place in the church.
+          </p>
+
+          <a
+            href="tel:+2349134943551"
+            className="bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 inline-flex items-center gap-3"
+          >
+            <Phone className="w-5 h-5" />
+            <span>Join a Unit</span>
+            <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse" />
+          </a>
+        </div>
+      </section>
+
+      {/* Testimonials - Refined */}
+      <section className="py-20 px-6 bg-gradient-to-r from-yellow-400/5 to-yellow-500/5 border-y border-white/10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black text-transparent bg-gradient-to-r from-white to-yellow-400 bg-clip-text mb-4">
-              Divine Testimonies
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight">
+              <span className="font-extralight">Member</span>{' '}
+              <span className="font-medium bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
+                Testimonies
+              </span>
             </h2>
-            <p className="text-xl text-blue-200">Hear from our ministry champions</p>
+            <p className="text-lg font-light text-yellow-200">Stories from our ministry champions</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, i) => (
+            {testimonials.slice(0, 6).map((testimonial, i) => (
               <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-yellow-400/50 transition-all duration-300">
-                <p className="text-blue-200 mb-4 italic">"{testimonial.text}"</p>
+                <p className="text-blue-200 mb-4 font-light italic leading-relaxed">"{testimonial.text}"</p>
                 <div>
-                  <h4 className="text-white font-bold">{testimonial.name}</h4>
-                  <p className="text-yellow-400 text-sm">{testimonial.unit}</p>
+                  <h4 className="text-white font-medium">{testimonial.name}</h4>
+                  <p className="text-yellow-300 text-sm font-light">{testimonial.unit}</p>
                 </div>
               </div>
             ))}
@@ -211,49 +224,44 @@ export default function MinistryUnits() {
         </div>
       </section>
 
-      {/* Unit Detail Modal */}
+      {/* Unit Detail Modal - Refined */}
       {selectedUnit && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 z-50" onClick={() => setSelectedUnit(null)}>
           <div className="bg-slate-900/90 backdrop-blur-sm rounded-2xl max-w-2xl w-full p-8 border border-white/20 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
-                  <selectedUnit.icon className="w-8 h-8 text-blue-900" />
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
+                  <selectedUnit.icon className="w-6 h-6 text-yellow-400" />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white">{selectedUnit.name}</h3>
-                  <p className="text-yellow-400">{selectedUnit.members} members</p>
+                  <h3 className="text-2xl font-medium text-white">{selectedUnit.name}</h3>
+                  <p className="text-yellow-300 font-light">{selectedUnit.members} members</p>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedUnit(null)}
-                className="text-white/60 hover:text-white transition-colors text-xl"
+                className="text-white/60 hover:text-white transition-colors text-xl font-light"
               >
                 ✕
               </button>
             </div>
-            <p className="text-blue-200 text-lg mb-6">{selectedUnit.description}</p>
+            <p className="text-blue-200 text-lg font-light mb-6 leading-relaxed">{selectedUnit.description}</p>
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-blue-300">
+              <div className="flex items-center gap-2 text-yellow-300 font-light">
                 <Clock className="w-5 h-5" />
                 <span>{selectedUnit.time}</span>
               </div>
-              <div className="flex items-center gap-2 text-blue-300">
+              <div className="flex items-center gap-2 text-yellow-300 font-light">
                 <Users className="w-5 h-5" />
-                <span>{selectedUnit.members} souls</span>
+                <span>{selectedUnit.members} members</span>
               </div>
             </div>
-            <button
-              onClick={() => handleJoin(selectedUnit)}
-              className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold py-4 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
-            >
-              <Phone className="w-5 h-5" />
-              Call {selectedUnit.leader} to Join
-            </button>
+            <p className="text-lg text-blue-200 mb-6 text-center font-light leading-relaxed">
+              Contact the <span className="text-yellow-300 font-medium">Head of Operations</span> to join this ministry unit.
+            </p>
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );

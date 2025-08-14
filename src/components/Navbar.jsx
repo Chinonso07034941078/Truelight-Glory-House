@@ -76,17 +76,17 @@ export default function Navbar() {
               <li key={item.to}>
                 <Link 
                   to={item.to} 
-                  className={`relative font-medium transition-all duration-300 group ${
+                  className={`relative font-light tracking-wide transition-all duration-300 group ${
                     hasScrolled ? 'text-sm' : 'text-sm'
-                  } hover:text-blue-300 ${
-                    location.pathname === item.to ? 'text-blue-300' : 'text-white'
+                  } hover:text-blue-200 ${
+                    location.pathname === item.to ? 'text-blue-200 font-medium' : 'text-white/90'
                   }`}
                   aria-current={location.pathname === item.to ? 'page' : undefined}
                 >
                   {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-blue-200 transition-all duration-300 ${
-                    location.pathname === item.to ? 'w-full' : 'w-0'
-                  } group-hover:w-full`} />
+                  <span className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent transition-all duration-300 ${
+                    location.pathname === item.to ? 'w-full opacity-100' : 'w-0 opacity-0'
+                  } group-hover:w-full group-hover:opacity-100`} />
                 </Link>
               </li>
             ))}
@@ -97,7 +97,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             to="/support"
-            className="bg-gradient-to-r from-blue-600 to-blue-400 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:from-blue-500 hover:to-blue-300 px-3 py-1.5 text-xs"
+            className="bg-white/10 backdrop-blur-md text-white font-medium tracking-wide rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 px-6 py-2 text-sm"
             aria-label="Support Truelight"
           >
             Give Now
@@ -106,7 +106,7 @@ export default function Navbar() {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-white hover:text-blue-300 transition-colors duration-300 z-10" 
+          className="md:hidden text-white hover:text-blue-200 transition-colors duration-300 z-10" 
           onClick={toggleMenu} 
           aria-label="Toggle Menu"
           aria-expanded={isOpen}
@@ -135,11 +135,11 @@ export default function Navbar() {
         aria-label="Navigation Menu"
       >
         {/* Mobile Menu Header */}
-        <div className="p-4 flex justify-between items-center border-b border-blue-400/10">
-          <span className="text-white font-bold text-lg">Menu</span>
+        <div className="p-6 flex justify-between items-center border-b border-blue-400/10">
+          <span className="text-white font-light text-xl tracking-wider">Menu</span>
           <button 
             onClick={closeMenu} 
-            className="text-white hover:text-blue-300 transition-colors duration-300"
+            className="text-white hover:text-blue-200 transition-colors duration-300"
             aria-label="Close Menu"
           >
             <X size={24} />
@@ -147,15 +147,15 @@ export default function Navbar() {
         </div>
         
         {/* Mobile Menu Items */}
-        <div className="px-4 py-4">
-          <ul className="flex flex-col gap-2 text-white">
+        <div className="px-6 py-8">
+          <ul className="flex flex-col gap-3 text-white">
             {navItems.map((item) => (
               <li key={item.to}>
                 <Link 
                   to={item.to} 
                   onClick={closeMenu} 
-                  className={`block py-2 px-3 rounded-lg font-medium transition-all duration-300 hover:bg-white/10 hover:text-blue-300 border-b border-transparent hover:border-blue-400/20 ${
-                    location.pathname === item.to ? 'text-blue-300 bg-white/5' : ''
+                  className={`block py-3 px-4 rounded-xl font-light tracking-wide transition-all duration-300 hover:bg-white/10 hover:text-blue-200 border-b border-transparent hover:border-blue-400/20 ${
+                    location.pathname === item.to ? 'text-blue-200 bg-white/5 font-medium' : 'text-white/90'
                   }`}
                   aria-current={location.pathname === item.to ? 'page' : undefined}
                 >
@@ -166,11 +166,11 @@ export default function Navbar() {
           </ul>
           
           {/* Mobile CTA Button */}
-          <div className="mt-6 pt-4 border-t border-blue-400/10">
+          <div className="mt-8 pt-6 border-t border-blue-400/10">
             <Link
               to="/support"
               onClick={closeMenu}
-              className="block w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white text-center font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="block w-full bg-white/10 backdrop-blur-md text-white text-center font-medium tracking-wide py-4 rounded-2xl border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105"
               aria-label="Support Truelight"
             >
               Give Now

@@ -11,7 +11,7 @@ export const missionVisionValues = [
 
   {
     title: "Our Vision",
-    content: "To disciple the nations for Christ and to discipline the devil Math 28:18-20, 1 John 3:8.",
+    content: "To disciple the nations for Christ and to discipline the devil. Math 28:18-20, 1 John 3:8.",
   },
   {
     title: "Our Values",
