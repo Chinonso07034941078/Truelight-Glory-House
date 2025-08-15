@@ -10,6 +10,8 @@ import GLCT from "../assets/GLCTlogo.png"
 import HIGHHEELS from "../assets/HIGHHEELSlogo.png"
 import EventHerro from "../assets/very9.jpg"
 import evot from "../assets/very10.jpg"
+import NUMW from "../assets/notunder.jpg"
+import PM from "../assets/prayerwalk.jpg"
 import congress from "../assets/very8.jpg"
 
 // Mock images - replace with your actual imports
@@ -18,7 +20,7 @@ const EventHero = congress;
 const ConventionImage = WCC;
 const VisitationImage = OAV;
 const DinnerImage = HIGHHEELS;
-const PrayerImage = "https://scontent.fabb1-1.fna.fbcdn.net/v/t39.30808-6/516759655_1137930058368023_1145055711123431194_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH8RsyPaGuc6EZfheFiyFdrx3ybJwTdmSnHfJsnBN2ZKeQgAA35xjfcVODiFzVKBvEp_xTLYmV8O85ijz0xv1Bg&_nc_ohc=uq62NbvVrhgQ7kNvwFuD-7_&_nc_oc=AdlETeAue5YGZv_jWMS5ZPdEt39SL2968iczVmDj3UygKjL4yk20hsEnLvYfauIxS9k&_nc_zt=23&_nc_ht=scontent.fabb1-1.fna&_nc_gid=VEUuKDLgpP4fGFC_--OfOw&oh=00_AfXWxf9mi5gmqHiwWqtLSgX7L5tK3rwrw7gBpA-8piBkgg&oe=689E768A";
+// const PrayerImage = "https://scontent.fabb1-1.fna.fbcdn.net/v/t39.30808-6/516759655_1137930058368023_1145055711123431194_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH8RsyPaGuc6EZfheFiyFdrx3ybJwTdmSnHfJsnBN2ZKeQgAA35xjfcVODiFzVKBvEp_xTLYmV8O85ijz0xv1Bg&_nc_ohc=uq62NbvVrhgQ7kNvwFuD-7_&_nc_oc=AdlETeAue5YGZv_jWMS5ZPdEt39SL2968iczVmDj3UygKjL4yk20hsEnLvYfauIxS9k&_nc_zt=23&_nc_ht=scontent.fabb1-1.fna&_nc_gid=VEUuKDLgpP4fGFC_--OfOw&oh=00_AfXWxf9mi5gmqHiwWqtLSgX7L5tK3rwrw7gBpA-8piBkgg&oe=689E768A";
 const CrossoverImage = GLCT;
 
 export default function Events() {
@@ -166,7 +168,31 @@ const regularEvents = [
     featured: false,
     image: EventHero,
     registrationOpen: true
-  }
+  },
+  {
+    id: 10,
+    title: 'Owerri Prayer Match',
+    date: 'Every half year',
+    time: '6:00 AM',
+    location: 'Leave from Church Auditorium',
+    description: 'Praying round the city.',
+    category: 'Prayer',
+    featured: false,
+    image: PM,
+    registrationOpen: true
+  },
+  {
+    id: 10,
+    title: 'Not Under My Watch',
+    date: 'Every third friday of the month',
+    time: '9:00 PM',
+    location: 'Church Auditorium',
+    description: 'Intercession, breaking negative family patterns.',
+    category: 'Prayer',
+    featured: false,
+    image: NUMW,
+    registrationOpen: true
+  },
 ];
 
   const allEvents = [...majorEvents, ...regularEvents];

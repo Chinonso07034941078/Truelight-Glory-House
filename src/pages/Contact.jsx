@@ -7,7 +7,11 @@ import {
   AlertCircle, Copy, CheckCheck, Loader2, ArrowRight, Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import Footer from '../components/Footer';
+
+// Footer component - keeping it simple
+
 
 export default function EnhancedContacts() {
   const [currentSlogan, setCurrentSlogan] = useState(0);
@@ -24,6 +28,7 @@ export default function EnhancedContacts() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [copiedInfo, setCopiedInfo] = useState(null);
+  const [isEmailJSReady, setIsEmailJSReady] = useState(false);
   
   const slogans = [
     'We\'d love to hear from you',
@@ -33,6 +38,13 @@ export default function EnhancedContacts() {
     'Join our community of faith',
     'Experience God\'s love'
   ];
+
+  // Initialize EmailJS
+  useEffect(() => {
+    // Initialize EmailJS with your public key
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+    setIsEmailJSReady(true);
+  }, []);
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -82,10 +94,13 @@ export default function EnhancedContacts() {
     setIsSubmitting(true);
     setSubmitError(null);
     
+    // Validate all fields
     const allErrors = {};
     Object.keys(formData).forEach(key => {
-      const errors = validateField(key, formData[key]);
-      if (errors[key]) allErrors[key] = errors[key];
+      if (key !== 'phone' && key !== 'category') { // phone is optional
+        const errors = validateField(key, formData[key]);
+        if (errors[key]) allErrors[key] = errors[key];
+      }
     });
     
     if (Object.keys(allErrors).length > 0) {
@@ -93,20 +108,49 @@ export default function EnhancedContacts() {
       setIsSubmitting(false);
       return;
     }
-    
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setIsSubmitted(true);
-      setFormData({
-        name: '', email: '', phone: '', subject: '', message: '', category: 'general'
-      });
-      setFormValidation({});
-      
-      setTimeout(() => setIsSubmitted(false), 8000);
+      if (!isEmailJSReady) {
+        throw new Error('EmailJS is not ready');
+      }
+
+      // Prepare email template parameters
+      const templateParams = {
+        to_email: 'cokorie158@gmail.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        subject: formData.subject,
+        message: formData.message,
+        category: formData.category,
+        reply_to: formData.email,
+        // Add timestamp
+        timestamp: new Date().toLocaleString()
+      };
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        'YOUR_SERVICE_ID',    // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID',   // Replace with your EmailJS template ID
+        templateParams
+      );
+
+      if (response.status === 200) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '', email: '', phone: '', subject: '', message: '', category: 'general'
+        });
+        setFormValidation({});
+        
+        // Auto-hide success message after 8 seconds
+        setTimeout(() => setIsSubmitted(false), 8000);
+      } else {
+        throw new Error('Failed to send email');
+      }
       
     } catch (error) {
-      setSubmitError('Failed to send message. Please try again or contact us directly.');
+      console.error('EmailJS Error:', error);
+      setSubmitError('Failed to send message. Please try again or contact us directly at cokorie158@gmail.com');
     } finally {
       setIsSubmitting(false);
     }
@@ -282,11 +326,11 @@ export default function EnhancedContacts() {
             </p>
           </div>
           
-          <div className=" flex flex-col md:flex-row items-center gap-4 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-4 mb-20">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
-                className=" bg-white rounded-2xl max-h-[20rem] p-8 border border-gray-200 hover:border-blue-200 hover:shadow-sm transition-all duration-500"
+                className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-200 hover:shadow-sm transition-all duration-500 flex flex-col group"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -294,7 +338,7 @@ export default function EnhancedContacts() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 rounded-2xl transform scale-0 group-hover:scale-100 transition-transform duration-500" />
                 
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col h-full">
                   <div className={`${info.color} w-12 h-12 rounded-xl flex items-center justify-center mb-6 border border-white/50`}>
                     <info.icon className="w-6 h-6" />
                   </div>
@@ -303,15 +347,15 @@ export default function EnhancedContacts() {
                     {info.title}
                   </h3>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-2 flex-grow mb-6">
                     {info.details.map((detail, idx) => (
                       <p key={idx} className="text-gray-600 text-sm font-light leading-relaxed">
                         {detail}
                       </p>
                     ))}
-                  </div><br /><br />
+                  </div>
                   
-                  <div className="flex items-center gap-4 mt-6">
+                  <div className="flex items-center gap-4 mt-auto">
                     {info.action && (
                       <button
                         onClick={info.action}
@@ -389,7 +433,7 @@ export default function EnhancedContacts() {
         </div>
       </section>
       
-      {/* Contact Form - Refined */}
+      {/* Contact Form - Refined with EmailJS */}
       <section id="contact-form" className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiM0RjQ2RTUiIGQ9Ik0zNiAzNGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDYuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAyYy00LjQxOCAwLTgtMy41ODItOC04czMuNTgyLTggOC04IDggMy41ODIgOCA4LTMuNTgyIDgtOHoiLz48L2c+PC9zdmc+')]"></div>
         
@@ -491,18 +535,16 @@ export default function EnhancedContacts() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-gray-900 font-medium mb-3">Phone number</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:border-blue-400 focus:ring-blue-500/20 transition-all duration-200 font-light text-gray-900 placeholder-gray-500"
-                        placeholder="+234 000 000 0000"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-gray-900 font-medium mb-3">Phone number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:border-blue-400 focus:ring-blue-500/20 transition-all duration-200 font-light text-gray-900 placeholder-gray-500"
+                      placeholder="+234 000 000 0000"
+                    />
                   </div>
                 </div>
                 
@@ -512,6 +554,22 @@ export default function EnhancedContacts() {
                       <MessageSquare className="w-5 h-5 text-emerald-600" />
                     </div>
                     <h3 className="text-xl font-medium text-gray-900">Message details</h3>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-gray-900 font-medium mb-3">Category</label>
+                    <select
+                      name="category"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:border-blue-400 focus:ring-blue-500/20 transition-all duration-200 font-light text-gray-900"
+                    >
+                      {departments.map((dept) => (
+                        <option key={dept.value} value={dept.value}>
+                          {dept.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   
                   <div>
@@ -562,7 +620,7 @@ export default function EnhancedContacts() {
                 <div className="pt-6">
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !isEmailJSReady}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed shadow-sm hover:shadow-md flex items-center justify-center gap-3"
                   >
                     {isSubmitting ? (
@@ -582,9 +640,35 @@ export default function EnhancedContacts() {
                       </>
                     )}
                   </button>
+                  
+                  {!isEmailJSReady && (
+                    <p className="text-center text-gray-500 text-sm mt-3 font-light">
+                      Initializing email service...
+                    </p>
+                  )}
                 </div>
               </form>
             )}
+          </div>
+          
+          {/* Additional Contact Options */}
+          <div className="mt-16 text-center">
+            <h3 className="text-xl font-medium text-gray-900 mb-8">Other ways to connect</h3>
+            <div className="flex justify-center gap-4">
+              {socialLinks.map((social, index) => (
+                <motion.a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`bg-gray-800 text-white p-4 rounded-xl transition-all duration-300 transform hover:scale-110 ${social.color}`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <social.icon className="w-6 h-6" />
+                </motion.a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
