@@ -178,7 +178,7 @@ export default function GivingSection() {
             variants={fadeUp}
           >
             <button
-              onClick={() => setActiveTab("naira")}
+              onClick={() => document.getElementById('bank-details')?.scrollIntoView({ behavior: 'smooth' }) && setActiveTab("naira")}
               className={`px-8 py-4 rounded-full font-medium transition-all duration-500 ${
                 activeTab === "naira" 
                   ? "bg-blue-950 text-white shadow-lg transform scale-105" 
@@ -187,8 +187,8 @@ export default function GivingSection() {
             >
               Regular Giving
             </button>
-            <button
-              onClick={() => setActiveTab("domiciliary")}
+            <button id="other-ways"
+              onClick={() => document.getElementById('bank-details')?.scrollIntoView({ behavior: 'smooth' }) && setActiveTab("domiciliary")}
               className={`px-8 py-4 rounded-full font-medium transition-all duration-500 ${
                 activeTab === "domiciliary" 
                   ? "bg-blue-950 text-white shadow-lg transform scale-105" 

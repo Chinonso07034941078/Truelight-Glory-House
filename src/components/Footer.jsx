@@ -172,13 +172,13 @@ export default function Footer() {
           </h3>
           <div className="flex justify-center md:justify-start gap-4 mb-4">
             <a href="https://www.facebook.com/Truelightghofficial" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition-colors duration-300 p-2 rounded-full hover:bg-white/10">
-              <Facebook size={20} />
+              <Facebook size={30} />
             </a>
             <a href="https://www.instagram.com/truelightgloryhouse?igsh=YzljYTk1ODg3Zg==" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition-colors duration-300 p-2 rounded-full hover:bg-white/10">
-              <Instagram size={20} />
+              <Instagram size={30} />
             </a>
             <a href="http://www.youtube.com/@truelightgloryhouse" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition-colors duration-300 p-2 rounded-full hover:bg-white/10">
-              <Youtube size={20} />
+              <Youtube size={30} />
             </a>
           </div>
           <p className="text-xs font-light text-gray-300 leading-relaxed mb-1 tracking-wide">

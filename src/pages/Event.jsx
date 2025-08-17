@@ -135,7 +135,7 @@ const majorEvents = [
 const regularEvents = [
   {
     id: 7,
-    title: 'World Feast',
+    title: 'Word Feast',
     date: 'Every Tuesday',
     time: '5:00 PM - 7:00 PM',
     location: 'Church Auditorium',
@@ -171,7 +171,7 @@ const regularEvents = [
   },
   {
     id: 10,
-    title: 'Owerri Prayer Match',
+    title: 'Owerri Prayer Walk',
     date: 'Every half year',
     time: '6:00 AM',
     location: 'Leave from Church Auditorium',
