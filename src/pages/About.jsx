@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import "react-lazy-load-image-component/src/effects/blur.css"; // for blur effect
+import "react-lazy-load-image-component/src/effects/opacity.css"; // for fade-in
 import Footer from "../components/Footer";
 import heroImage from "../assets/very6.jpg";
 import papa from "../assets/papa.jpg";
@@ -19,7 +21,7 @@ export default function About() {
             className="w-full h-full object-cover object-center md:object-center sm:object-[center_20%]"
             initial={{ scale: 1.05, opacity: 0.8 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 2, ease: "easeOut" }}
+            transition={{ duration: 0, ease: "easeOut" }}
           />
         </div>
         

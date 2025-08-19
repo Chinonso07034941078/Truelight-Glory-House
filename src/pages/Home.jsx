@@ -217,7 +217,7 @@ export default function Home() {
   playsInline
   initial={{ opacity: 0, scale: 1.05 }}
   animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 2, ease: "easeOut" }}
+  transition={{ duration: 0, ease: "easeOut" }}
 >
   <source src={BgVideo} type="video/mp4" />
 </motion.video>

@@ -65,7 +65,7 @@ export default function GivingSection() {
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
+          transition={{ duration: 0, ease: "easeOut" }}
         />
         
         {/* Main content */}
