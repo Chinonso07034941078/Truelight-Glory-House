@@ -71,17 +71,17 @@ export default function About() {
           </motion.div>
           
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center px-2"
+            className="flex flex-col sm:flex-row gap-4 justify-center sm:px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
             <button
               onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
-              className="group bg-white/10 backdrop-blur-md text-white font-medium tracking-wide px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 text-sm sm:text-base"
+              className="group bg-white/10 backdrop-blur-md text-white font-medium tracking-wide px-6 py-3 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 text-sm sm:text-base"
               aria-label="Discover Our Mission"
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 Discover Our Mission
                 <motion.div
                   className="w-1 h-1 bg-current rounded-full"
