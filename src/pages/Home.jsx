@@ -9,15 +9,16 @@ import Pray from '../assets/home-page.jpg';
 import Choir from '../assets/choir4.jpg';
 import YAN from '../assets/yan.jpg';
 import YAN2 from '../assets/yan2.jpg';
-import Media from '../assets/very5.jpg';
+import Media from '../assets/media.jpg';
 import Evot from '../assets/Evot.jpg';
 import Creative from '../assets/creatives2.jpg';
 import Sunday from '../assets/sunday.jpg';
+import logo from '../assets/truelight-logo.png';
 import very from '../assets/very1.jpg';
 import very4 from '../assets/very4.jpg';
 import very2 from '../assets/papa5.jpg';
 import very3 from '../assets/very3.jpg';
-import pama from '../assets/papaandmama.jpg';
+import pama from '../assets/MAPA.jpg';
 import wordfeast from '../assets/wordfeast.jpg';
 import { Typewriter, useTypewriter } from 'react-simple-typewriter';
 
@@ -605,6 +606,7 @@ export default function Home() {
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
+          
           <div className="relative">
             <img 
               src={Papa} 
@@ -617,32 +619,52 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
-        
+       
         <motion.div 
-          className="w-full lg:w-1/2 space-y-8 text-center lg:text-left" 
-          initial={{ x: 100, opacity: 0 }} 
-          whileInView={{ x: 0, opacity: 1 }} 
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="space-y-4">
-            <div className="text-yellow-400 text-sm font-medium tracking-widest uppercase">{pastorInfo.subtitle}</div>
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight">
-              <span className="font-extralight">Pastor</span>{' '}
-              <span className="font-semibold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">{pastorInfo.title.split(' ').slice(1).join(' ')}</span>
-            </h2>
-          </div>
-          <p className="text-sm font-light leading-relaxed text-gray-300">{pastorInfo.description}</p>
-          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-            <a 
-              href={`mailto:${pastorInfo.email}`} 
-              className="flex items-center gap-2 text-yellow-300 hover:text-blue-200 transition-colors bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 hover:border-white/40 font-light"
-            >
-              <Mail className="w-4 h-4" />
-              <span className="text-sm">{pastorInfo.email}</span>
-            </a>
-          </div>
-        </motion.div>
+  className="w-full lg:w-1/2 space-y-6 text-center" 
+  initial={{ x: 100, opacity: 0 }} 
+  whileInView={{ x: 0, opacity: 1 }} 
+  transition={{ duration: 1 }}
+  viewport={{ once: true }}
+>
+  <div className="space-y-4">
+    {/* Logo positioned closer to text */}
+    <div className="flex justify-center">
+      <img 
+        src={logo} 
+        alt="logo" 
+        className="w-28 h-auto drop-shadow-lg" 
+      />
+    </div>
+    
+    {/* Text content with reduced spacing */}
+    <div className="space-y-3">
+      <div className="text-yellow-400 text-sm font-medium tracking-widest uppercase">
+        {pastorInfo.subtitle}
+      </div>
+      <h2 className="text-3xl md:text-4xl font-light tracking-tight">
+        <span className="font-extralight">Pastor</span>{' '}
+        <span className="font-semibold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+          {pastorInfo.title.split(' ').slice(1).join(' ')}
+        </span>
+      </h2>
+    </div>
+  </div>
+  
+  <p className="text-sm font-light leading-relaxed text-gray-300">
+    {pastorInfo.description}
+  </p>
+  
+  <div className="flex flex-wrap gap-4 justify-center">
+    <a 
+      href={`mailto:${pastorInfo.email}`} 
+      className="flex items-center gap-2 text-yellow-300 hover:text-blue-200 transition-colors bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 hover:border-white/40 font-light"
+    >
+      <Mail className="w-4 h-4" />
+      <span className="text-sm">{pastorInfo.email}</span>
+    </a>
+  </div>
+</motion.div>
       </section>
       
       <Footer currentYear={getCurrentYear()} />
