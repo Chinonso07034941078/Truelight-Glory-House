@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
+import { Video, Recycle, Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
 import Footer from "../components/Footer";
 
 const units = [
-  { name: "Media", icon: Sparkles, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: "30+", time: "Tuesday 9PM", contact: "media@truelight.org", phone: "+2348012345678" },
+  { name: "Media", icon: Video, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: "30+", time: "Tuesday 9PM", contact: "media@truelight.org", phone: "+2348012345678" },
   { name: "Music Department", icon: Music, description: "Leading souls into God's presence through worship", leader: "Esther Ifeanyi", members: "35+", time: "Saturdays 5PM, Mondays 9PM", contact: "choir@truelight.org", phone: "+2348023456789" },
   { name: "Protocol", icon: Award, description: "Excellence in events and hospitality", leader: "Chibuzor Okeke", members: "18+", time: "Varies", contact: "protocol@truelight.org", phone: "+2348034567890" },
   { name: "Logistics", icon: Truck, description: "Ensuring seamless movement of resources and equipment", leader: "Grace Ojo", members: "7+", time: "online", contact: "logistics@truelight.org", phone: "+2348045678901" },
@@ -13,7 +13,7 @@ const units = [
   { name: "Evangelism", icon: Globe, description: "Taking the gospel beyond church walls", leader: "Daniel Okafor", members: "22+", time: "Saturdays 5PM", contact: "evangelism@truelight.org", phone: "+2348089012345" },
   { name: "Follow-Up", icon: UserCheck, description: "Connecting and following up with new converts and visitors", leader: "Chinedu John", members: "14+", time: "Saturday 5PM", contact: "followup@truelight.org", phone: "+2348090123456" },
   { name: "Marketing", icon: Megaphone, description: "Promoting church events and initiatives effectively", leader: "Nkechi Okorie", members: "16+", time: "Sunday Services", contact: "marketing@truelight.org", phone: "+2348101234567" },
-  { name: "Sanctuary Keepers", icon: Sparkles, description: "Maintaining cleanliness and sanctity of God's house", leader: "Blessing Okafor", members: "22+", time: "Saturdays 5PM", contact: "sanctuary@truelight.org", phone: "+2348112345678" },
+  { name: "Sanctuary Keepers", icon: Recycle, description: "Maintaining cleanliness and sanctity of God's house", leader: "Blessing Okafor", members: "22+", time: "Saturdays 5PM", contact: "sanctuary@truelight.org", phone: "+2348112345678" },
   { name: "Ushering", icon: UserCheck, description: "Creating order and comfort in God's house", leader: "Blessing Musa", members: "28+", time: "Saturdays 5PM, Wednesdays 9PM", contact: "ushering@truelight.org", phone: "+2348123456789" },
   { name: "Greeters", icon: Smile, description: "Giving a warm and friendly welcome to everyone", leader: "Ada Uche", members: "13+", time: "Sundays 8:30AM", contact: "greeters@truelight.org", phone: "+2348134567890" },
   { name: "Sound Hub", icon: MonitorSpeaker, description: "Delivering crystal-clear audio for worship", leader: "Emeka Obi", members: "12+", time: "Saturday 5PM", contact: "sound@truelight.org", phone: "+2348145678901" },

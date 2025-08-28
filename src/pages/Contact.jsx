@@ -75,9 +75,30 @@ export default function EnhancedContacts() {
   };
 
   const contactInfo = [
-    { icon: PhoneCall, title: 'Phone Numbers', details: ['+234 813 045 6427'], color: 'bg-blue-100 text-blue-700 border-blue-200', action: () => window.open('tel:+2348130456427'), copyable: '+2348130456427' },
-    { icon: Mail, title: 'Email Address', details: ['info.truelight9@gmail.com'], color: 'bg-emerald-100 text-emerald-700 border-emerald-200', action: () => window.open('mailto:info.truelight9@gmail.com'), copyable: 'info.truelight9@gmail.com' },
-    { icon: MapPin, title: 'Our Location', details: ['Wesley Building, 289 Okigwe Rd', 'Owerri, Imo State, Nigeria'], color: 'bg-amber-100 text-amber-700 border-amber-200', action: () => window.open('https://maps.google.com/?q=Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria', '_blank'), copyable: 'Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria' }
+    { 
+      icon: PhoneCall, 
+      title: 'WhatsApp', 
+      details: ['+234 813 045 6427'], 
+      color: 'bg-green-100 text-green-700 border-green-200', 
+      action: () => window.open('https://wa.me/2348130456427', '_blank'), 
+      copyable: '+2348130456427' 
+    },
+    { 
+      icon: Mail, 
+      title: 'Email Address', 
+      details: ['info.truelight9@gmail.com'], 
+      color: 'bg-emerald-100 text-emerald-700 border-emerald-200', 
+      action: () => window.open('mailto:info.truelight9@gmail.com'), 
+      copyable: 'info.truelight9@gmail.com' 
+    },
+    { 
+      icon: MapPin, 
+      title: 'Our Location', 
+      details: ['Wesley Building, 289 Okigwe Rd', 'Owerri, Imo State, Nigeria'], 
+      color: 'bg-amber-100 text-amber-700 border-amber-200', 
+      action: () => window.open('https://maps.google.com/?q=Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria', '_blank'), 
+      copyable: 'Wesley Building, 289 Okigwe Rd, Owerri, Imo State, Nigeria' 
+    }
   ];
   const departments = [
     { name: 'General Inquiry', value: 'general', icon: MessageSquare },
