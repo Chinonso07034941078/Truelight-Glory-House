@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, CalendarHeart, UserRoundPen, Users,  Heart, Sparkles, Calendar, Clock, Mail, Music, UserMinus2Icon, LucideAlarmPlus, BookOpen, CalendarDays } from 'lucide-react';
+import { Landmark, ArrowRight, CalendarHeart, UserRoundPen, Users,  Heart, Sparkles, Calendar, Clock, Mail, Music, UserMinus2Icon, LucideAlarmPlus, BookOpen, CalendarDays } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
 import BgVideo from '../assets/truelight-video1.mp4';
@@ -240,7 +240,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Sparkles className="w-4 h-4 text-blue-300" />
+          <Landmark className="w-4 h-4 text-blue-300" />
           <span className="text-sm font-medium tracking-wider text-white/90">Global Church</span>
         </motion.div>
         
