@@ -21,6 +21,9 @@ import very3 from '../assets/very3.jpg';
 import pama from '../assets/MAPA.jpg';
 import wordfeast from '../assets/wordfeast.jpg';
 import { Typewriter, useTypewriter } from 'react-simple-typewriter';
+import { pastorInfo } from "../components/data";
+import {Link} from 'react-router-dom';
+import { HashLink } from "react-router-hash-link";
 
 
 
@@ -36,12 +39,10 @@ const messages = [
   "Let Your Light Shine Bright"
 ];
 
-const pastorInfo = {
-  title: "Pastor Ifeanyi Uwakwe",
-  subtitle: "Lead Pastor",
-  description: "Pastor Ifeanyi Uwakwe is the Lead Pastor of Truelight Glory House, a vibrant ministry known for prophetic teaching, prayer, and leadership. He is passionate about spiritual growth, discipleship, and equipping believers to impact their families, careers, and communities. With humility and authority, he mentors many and emphasizes intimacy with God, kingdom purpose, and victorious living through faith. Under his leadership, the church has become a center of worship, intercession, and transformation. He is married and blessed with three children: David, Daniel, and Deborah, and serves faithfully alongside his wife.",
-  email: "Pastorifeanyiuwakwe@gmail.com"
-};
+ const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + "...";
+  };
 
 const upcomingEvents = [
   { 
@@ -614,7 +615,7 @@ export default function Home() {
               className="w-full max-w-md h-auto object-cover rounded-3xl shadow-2xl mx-auto border-2 border-white/20" 
             />
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-blue-900/20 to-transparent"></div>
-            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-xl border-2 border-white/20">
+            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-xl border-2 border-white/20">
               <BookOpen className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -639,7 +640,7 @@ export default function Home() {
     
     {/* Text content with reduced spacing */}
     <div className="space-y-3">
-      <div className="text-yellow-400 text-sm font-medium tracking-widest uppercase">
+      <div className="text-blue-300 text-sm font-medium tracking-widest uppercase">
         {pastorInfo.subtitle}
       </div>
       <h2 className="text-3xl md:text-4xl font-light tracking-tight">
@@ -652,18 +653,25 @@ export default function Home() {
   </div>
   
   <p className="text-sm font-light leading-relaxed text-gray-300">
-    {pastorInfo.description}
+     {truncateText(pastorInfo.description, 820)}
   </p>
-  
-  <div className="flex flex-wrap gap-4 justify-center">
-    <a 
-      href={`mailto:${pastorInfo.email}`} 
-      className="flex items-center gap-2 text-yellow-300 hover:text-blue-200 transition-colors bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 hover:border-white/40 font-light"
+  <HashLink
+       smooth
+      to="/about#pastor"
+      className="text-blue-500 hover:underline font-medium"
     >
-      <Mail className="w-4 h-4" />
-      <span className="text-sm">{pastorInfo.email}</span>
-    </a>
-  </div>
+      See More
+</HashLink>
+  
+      <div className="flex flex-wrap gap-4 justify-center">
+        <a 
+          href={`mailto:${pastorInfo.email}`} 
+          className="flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 hover:border-white/40 font-light"
+        >
+          <Mail className="w-4 h-4" />
+          <span className="text-sm">{pastorInfo.email}</span>
+        </a>
+      </div>
 </motion.div>
       </section>
       

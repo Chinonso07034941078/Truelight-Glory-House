@@ -1,14 +1,29 @@
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import "react-lazy-load-image-component/src/effects/blur.css"; // for blur effect
 import "react-lazy-load-image-component/src/effects/opacity.css"; // for fade-in
 import Footer from "../components/Footer";
 import heroImage from "../assets/very6.jpg";
 import papa from "../assets/papa.jpg";
 import { Typewriter } from 'react-simple-typewriter';
-import { BookOpen, Phone, Mail, Sparkles } from "lucide-react";
+import { BookOpen, Facebook, Sparkles } from "lucide-react";
 import { missionVisionValues, history, pastorInfo } from "../components/data";
+import { useLocation } from 'react-router-dom';
 
 export default function About() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      // Wait a tick to ensure DOM is ready
+      setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [location]);
   return (
     <div className="text-gray-900 font-light overflow-x-hidden">
       {/* Hero Section */}
@@ -152,7 +167,7 @@ export default function About() {
       </section>
 
       {/* Pastor's section */}
-      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 py-16 sm:py-24 gap-12 sm:gap-16">
+      <section id="pastor" className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 py-16 sm:py-24 gap-12 sm:gap-16">
         <motion.div
           className="w-full lg:w-1/2"
           initial={{ x: -100, opacity: 0 }}
@@ -174,7 +189,7 @@ export default function About() {
           </div>
         </motion.div>
         <motion.div
-          className="w-full lg:w-1/2 space-y-6 sm:space-y-8 text-center lg:text-left"
+          className="w-full lg:w-1/2 space-y-6 sm:space-y-8 text-center "
           initial={{ x: 100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
@@ -191,19 +206,14 @@ export default function About() {
               </span>
             </h2>
           </div>
-          <p className="text-sm sm:text-base font-light leading-relaxed text-gray-300 tracking-wide">
+          <p className="text-sm font-light leading-relaxed text-gray-300">
             {pastorInfo.description}
           </p>
-          <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-            <a 
-              href={`mailto:${pastorInfo.email}`} 
-              className="flex items-center gap-2 text-blue-300 hover:text-blue-200 transition-colors bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 hover:border-white/40 font-light focus:outline-none focus:ring-2 focus:ring-blue-300"
-              aria-label={`Email ${pastorInfo.title}`}
-            >
-              <Mail className="w-4 h-4" aria-hidden="true" />
-              <span className="text-sm tracking-wide">{pastorInfo.email}</span>
-            </a>
-          </div>
+          {/* <div className="flex flex-wrap gap-4 items-center ml-48 justify-center bg-blue-700 border rounded-full p-4 w-fit mx-auto">
+            <a
+              href=""
+            <Facebook />
+          </div> */}
         </motion.div>
       </section>
 
