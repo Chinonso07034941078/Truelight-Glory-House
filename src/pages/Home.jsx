@@ -23,7 +23,7 @@ import wordfeast from '../assets/wordfeast.jpg';
 import { Typewriter, useTypewriter } from 'react-simple-typewriter';
 import { pastorInfo } from "../components/data";
 import { HashLink } from "react-router-hash-link";
-import LazyImage from "../components/LazyImage"
+
 
 
 const fadeUp = (i) => ({ 
