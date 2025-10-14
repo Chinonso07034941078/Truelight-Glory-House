@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
-import "react-lazy-load-image-component/src/effects/blur.css"; // for blur effect
-import "react-lazy-load-image-component/src/effects/opacity.css"; // for fade-in
+import "react-lazy-load-image-component/src/effects/blur.css"; 
+import "react-lazy-load-image-component/src/effects/opacity.css"; 
 import Footer from "../components/Footer";
 import heroImage from "../assets/very6.jpg";
 import papa from "../assets/papa.jpg";

@@ -369,7 +369,7 @@ export default function MinistryUnits() {
               </div>
             </div>
             <p className="text-lg text-blue-200 mb-6 text-center font-light leading-relaxed">
-              Contact the <span className="text-yellow-300 font-medium">Head of Operations</span> to join this ministry unit.
+              Contact the <a href="tel:+2349134943551"><span className="text-yellow-300 font-medium hover:text-yellow-100">Head of Operations</span></a> to join this ministry unit.
             </p>
           </div>
         </div>

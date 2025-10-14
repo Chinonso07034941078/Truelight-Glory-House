@@ -46,7 +46,7 @@ export default function Events() {
     <div className="min-h-screen bg-gray-50">
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-yellow-900/60 to-blue-900/80 z-10" />
-        <img src={EventHerro} alt="Events" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={EventHerro} alt="Events" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-6 max-w-5xl">
           <motion.div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
@@ -110,7 +110,7 @@ export default function Events() {
                 <motion.div key={event.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-300 flex flex-col"
                   variants={fadeUp} initial="hidden" whileInView="visible">
                   <div className="relative h-48 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    <img src={event.image} alt={event.title} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 border border-white/50">
                       <Star className="w-3 h-3" />Featured
                     </div>
@@ -154,7 +154,12 @@ export default function Events() {
                 <motion.div key={event.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-300 flex flex-col"
                   variants={fadeUp} initial="hidden" whileInView="visible">
                   <div className="h-40 overflow-hidden">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    <img 
+                    src={event.image} 
+                    alt={event.title} 
+                    loading="lazy"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+                    />
                   </div>
                   <div className="p-5 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-3">

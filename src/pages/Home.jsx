@@ -10,7 +10,7 @@ import Choir from '../assets/choir4.jpg';
 import YAN from '../assets/yan.jpg';
 import YAN2 from '../assets/yan2.jpg';
 import Media from '../assets/media.jpg';
-import Evot from '../assets/Evot.jpg';
+
 import Creative from '../assets/creatives2.jpg';
 import Sunday from '../assets/sunday.jpg';
 import logo from '../assets/truelight-logo.png';
@@ -18,13 +18,12 @@ import very from '../assets/very1.jpg';
 import very4 from '../assets/very4.jpg';
 import very2 from '../assets/papa5.jpg';
 import very3 from '../assets/very3.jpg';
-import pama from '../assets/MAPA.jpg';
+import pama from '../assets/MAPA.webp';
 import wordfeast from '../assets/wordfeast.jpg';
 import { Typewriter, useTypewriter } from 'react-simple-typewriter';
 import { pastorInfo } from "../components/data";
-import {Link} from 'react-router-dom';
 import { HashLink } from "react-router-hash-link";
-
+import LazyImage from "../components/LazyImage"
 
 
 const fadeUp = (i) => ({ 
@@ -48,7 +47,7 @@ const upcomingEvents = [
   { 
     title: "3 Super Services", 
     date: "Every Sunday", 
-    time: ["1st Service - 7:00 AM", "2nd Service - 8:45 AM", "3rd Service - 10:30 AM"], 
+    time: ["1st Service - 7:00 AM", "2nd Service - 8:30 AM", "3rd Service - 10:30 AM"], 
     description: "Join us every Sunday as we fellowship in God's house", 
     image: Sunday 
   },
@@ -388,7 +387,8 @@ export default function Home() {
             <div className="relative">
               <img 
                 src={pama}
-                alt="Church Gathering" 
+                alt="Church Gathering"
+                loading="lazy" 
                 className="rounded-3xl shadow-xl w-full max-w-md object-cover hover:scale-105 transition-transform duration-500" 
               />
               
@@ -465,6 +465,7 @@ export default function Home() {
             <img
               src={ministry.image}
               alt={ministry.title}
+              loading="lazy"
               className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
             />
           </div>
@@ -523,7 +524,8 @@ export default function Home() {
                 <div className="h-48 bg-gray-200 overflow-hidden">
                   <img 
                     src={event.image} 
-                    alt={event.title} 
+                    alt={event.title}
+                    loading="lazy" 
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" 
                   />
                 </div>
@@ -579,7 +581,8 @@ export default function Home() {
               >
                 <img 
                   src={card.image} 
-                  alt={card.title} 
+                  alt={card.title}
+                  loading="lazy" 
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-blue-900/40 to-transparent z-10" />
@@ -612,6 +615,7 @@ export default function Home() {
             <img 
               src={Papa} 
               alt={pastorInfo.title} 
+              loading="lazy"
               className="w-full max-w-md h-auto object-cover rounded-3xl shadow-2xl mx-auto border-2 border-white/20" 
             />
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-blue-900/20 to-transparent"></div>
@@ -634,6 +638,7 @@ export default function Home() {
       <img 
         src={logo} 
         alt="logo" 
+        loading="lazy"
         className="w-28 h-auto drop-shadow-lg" 
       />
     </div>
