@@ -116,33 +116,40 @@ export default function EnhancedContacts() {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-white">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden" 
+        style={{
+          backgroundImage: `url('https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767189739/e204c080-f9ba-466c-8e9f-2c1da7b19d20.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
         <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiM0RjQ2RTUiIGQ9Ik0zNiAzNGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDYuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAyYy00LjQxOCAwLTgtMy41ODItOC04czMuNTgyLTggOC04IDggMy41ODIgOCA4LTMuNTgyIDgtOHoiLz48L2c+PC9zdmc+')]"></div>
         <div className="relative z-20 text-center px-6 max-w-5xl">
           <motion.div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Church className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-medium tracking-wider text-blue-600">Connect With Faith</span>
           </motion.div>
-          <motion.h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight text-gray-900" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          <motion.h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight text-white" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <span className="font-extralight">Get In</span>{' '}
-            <span className="font-semibold bg-gradient-to-r from-gray-900 to-blue-700 bg-clip-text text-transparent">Touch</span>
+            <span className="font-semibold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">Touch</span>
             <br />
-            <span className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-600 block mt-2">We're here for you</span>
+            <span className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-100 block mt-2">We're here for you</span>
           </motion.h1>
           <motion.div className="text-lg md:text-xl font-light mb-12 h-14 flex items-center justify-center max-w-3xl mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
             <AnimatePresence mode="wait">
-              <motion.p key={currentSlogan} className="text-gray-600 leading-relaxed" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.6 }}>
+              <motion.p key={currentSlogan} className="text-gray-100 leading-relaxed" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.6 }}>
                 {slogans[currentSlogan]}
               </motion.p>
             </AnimatePresence>
           </motion.div>
           <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-            <button onClick={() => document.getElementById('contact-info')?.scrollIntoView({ behavior: 'smooth' })} className="bg-white/10 backdrop-blur-md text-gray-900 font-medium px-8 py-4 rounded-full border border-gray-200 hover:bg-white hover:shadow-md transition-all duration-500 transform hover:scale-105 flex items-center justify-center gap-3">
+            <button onClick={() => document.getElementById('contact-info')?.scrollIntoView({ behavior: 'smooth' })} className="bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/25 hover:bg-white/20 hover:shadow-md transition-all duration-500 transform hover:scale-105 flex items-center justify-center gap-3">
               <Phone className="w-5 h-5" />
               Contact Information
               <motion.div className="w-1 h-1 bg-current rounded-full" animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity }} />
             </button>
-            <button onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })} className="border-2 border-blue-600 text-blue-600 font-medium px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-3">
+            <button onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })} className="border-2 border-white text-white font-medium px-8 py-4 rounded-full hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3">
               <Send className="w-5 h-5" />Send Message
             </button>
           </motion.div>
@@ -280,6 +287,3 @@ export default function EnhancedContacts() {
     </div>
   );
 }
-
-
-// info.truelight9@gmail.com

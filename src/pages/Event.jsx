@@ -8,7 +8,6 @@ import WCC from "../assets/WCClogo.png";
 import OAV from "../assets/OAVLogo.png";
 import GLCT from "../assets/GLCTlogo.png";
 import HIGHHEELS from "../assets/HIGHHEELSlogo.png";
-import EventHerro from "../assets/very9.jpg";
 import evot from "../assets/very10.jpg";
 import NUMW from "../assets/notunder.jpg";
 import PM from "../assets/prayerwalk.jpg";
@@ -46,7 +45,7 @@ export default function Events() {
     <div className="min-h-screen bg-gray-50">
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-yellow-900/60 to-blue-900/80 z-10" />
-        <img src={EventHerro} alt="Events" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        <img src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188371/56c60b29-3f46-40e5-b495-3962e95b1b15.png' alt="Events" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-6 max-w-5xl">
           <motion.div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>

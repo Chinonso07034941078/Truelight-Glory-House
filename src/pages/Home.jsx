@@ -1,25 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Landmark, ArrowRight, CalendarHeart, UserRoundPen, Users,  Heart, Sparkles, Calendar, Clock, Mail, Music, UserMinus2Icon, LucideAlarmPlus, BookOpen, CalendarDays } from 'lucide-react';
+import { Landmark, ArrowRight, CalendarHeart, UserRoundPen, Users,  Heart, Sparkles, Calendar, Clock, Mail, BookOpen, CalendarDays } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
-import BgVideo from '../assets/truelight-video1.mp4';
-import Papa from '../assets/papa.jpg';
-import Pray from '../assets/home-page.jpg';
-import Choir from '../assets/choir4.jpg';
-import YAN from '../assets/yan.jpg';
-import YAN2 from '../assets/yan2.jpg';
-import Media from '../assets/media.jpg';
 
+import Papa from '../assets/papa.jpg';
 import Creative from '../assets/creatives2.jpg';
-import Sunday from '../assets/sunday.jpg';
 import logo from '../assets/truelight-logo.png';
-import very from '../assets/very1.jpg';
 import very4 from '../assets/very4.jpg';
-import very2 from '../assets/papa5.jpg';
-import very3 from '../assets/very3.jpg';
-import pama from '../assets/MAPA.webp';
-import wordfeast from '../assets/wordfeast.jpg';
 import { Typewriter, useTypewriter } from 'react-simple-typewriter';
 import { pastorInfo } from "../components/data";
 import { HashLink } from "react-router-hash-link";
@@ -49,36 +37,36 @@ const upcomingEvents = [
     date: "Every Sunday", 
     time: ["1st Service - 7:00 AM", "2nd Service - 8:30 AM", "3rd Service - 10:30 AM"], 
     description: "Join us every Sunday as we fellowship in God's house", 
-    image: Sunday 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767187757/3521f5bb-441b-4715-8173-31f3f0ded370.png' 
   },
   { 
     title: "Word Feast", 
     date: "Every Tuesday", 
-    image: wordfeast, 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767187879/b63529f4-a17d-4678-a33a-0a775671e4fb.png', 
     time: "5:00 PM", 
     description: "We let the word transform our lives" 
   },
   { 
     title: "Prayer Meeting", 
     date: "Every Friday", 
-    image: Pray, 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188029/home-page_fx0wwv.jpg', 
     time: "5:00 PM", 
     description: "We wait on the Lord in fervent prayers" 
   },
   { 
     title: "Teens Church", 
     date: "Every Saturday", 
-    image: YAN2, 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767187046/yanphotoo_ispvis.jpg', 
     time: "1:00 PM", 
     description: "Vibrant teenagers fellowship together in His presence" 
   }
 ];
 
 const cards = [
-  { titleTop: "Join Our Community", title: "Get Involved", button: "Learn More", image: very, action: "navigate", path: "/about" },
-  { titleTop: "Give Generously", title: "Donate Today", button: "Give Now", image: very3, action: "navigate", path: "/support" },
+  { titleTop: "Join Our Community", title: "Get Involved", button: "Learn More", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188571/da0ec241-15a8-488f-9f97-37cdc78f8231.png', action: "navigate", path: "/about" },
+  { titleTop: "Give Generously", title: "Donate Today", button: "Give Now", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188932/1486b35a-4207-41f1-871e-7174963a4e28.png', action: "navigate", path: "/support" },
   { titleTop: "Connect With Us", title: "Contact", button: "Connect", image: very4, action: "navigate", path: "/contact"  },
-  { titleTop: "Listen To Our Sermons", title: "Sermons", button: "Listen", image: very2, action: "navigate", path: "/sermons"  }
+  { titleTop: "Listen To Our Sermons", title: "Sermons", button: "Listen", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188371/56c60b29-3f46-40e5-b495-3962e95b1b15.png', action: "navigate", path: "/sermons"  }
 ];
 
 const stats = [
@@ -220,7 +208,7 @@ export default function Home() {
   animate={{ opacity: 1, scale: 1 }}
   transition={{ duration: 0, ease: "easeOut" }}
 >
-  <source src={BgVideo} type="video/mp4" />
+  <source src='https://res.cloudinary.com/dnvgl9k4i/video/upload/v1767163856/truelight-video1_nqkqjd.mp4' type="video/mp4" />
 </motion.video>
 
       
@@ -386,7 +374,7 @@ export default function Home() {
           >
             <div className="relative">
               <img 
-                src={pama}
+                src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767186200/MAPA_bwxn13.webp'
                 alt="Church Gathering"
                 loading="lazy" 
                 className="rounded-3xl shadow-xl w-full max-w-md object-cover hover:scale-105 transition-transform duration-500" 
@@ -448,10 +436,10 @@ export default function Home() {
 
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       {[
-        { title: "Lighters Choir", image: Choir, description: "Leading the congregation into the presence of God through worship and praise." },
-        { title: "TL Media", image: Media, description: "Leveraging skill and expertise to share the Gospel and amplify the church's message." },
+        { title: "Lighters Choir", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188181/84482564-9f8f-493c-9f2a-8b6ab87edbbf.png', description: "Leading the congregation into the presence of God through worship and praise." },
+        { title: "TL Media", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767189143/a4de81d8-0602-4333-baee-55a39e76aad5.png', description: "Leveraging skill and expertise to share the Gospel and amplify the church's message." },
         { title: "TL Creatives", image: Creative, description: "Using artistic gifts to glorify God and enhance the experience in church." },
-        { title: "Young Achievers Network", image: YAN, description: "Empowering the teens to grow in faith, leadership, and purpose." },
+        { title: "Young Achievers Network", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767187046/yanphotoo_ispvis.jpg', description: "Empowering the teens to grow in faith, leadership, and purpose." },
       ].map((ministry, index) => (
         <motion.div
           key={index}

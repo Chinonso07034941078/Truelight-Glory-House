@@ -46,7 +46,7 @@ export default function SermonPage() {
 
         {/* Background Image */}
         <motion.img
-          src={heroImage}
+          src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767190019/7b97ba1f-38c7-4570-a3ae-158523309ea7.png'
           alt="Sermon Hero"
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.05 }}

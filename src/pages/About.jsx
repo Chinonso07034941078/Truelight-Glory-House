@@ -200,7 +200,7 @@ export default function About() {
               {pastorInfo.subtitle}
             </div>
             <h2 className="text-3xl sm:text-4xl font-light tracking-tight">
-              <span className="font-extralight">Pastor</span>{' '}
+              {' '}
               <span className="font-semibold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
                 {pastorInfo.title.split(' ').slice(1).join(' ')}
               </span>

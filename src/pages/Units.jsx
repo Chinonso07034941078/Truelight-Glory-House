@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Video, Recycle, Search, Sparkles, Users, Heart, Award, Target, Phone, Mail, Star, ChevronRight, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Zap, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
+import { Video, Recycle, Search, Users, Heart, Award, Target, Phone, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
 import Footer from "../components/Footer";
 
 const units = [
