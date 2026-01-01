@@ -5,17 +5,10 @@ import {
   Instagram,
   Youtube,
   Twitter,
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
   Building,
   Copy,
   CheckCircle,
 } from 'lucide-react';
-import C03 from '../assets/Give12.jpg';
-import UBA from '../assets/ubalogo.png';
-import ACCESS from '../assets/accesslogo.png';
 
 export default function Footer() {
   const [showPopup, setShowPopup] = useState(false);
@@ -96,7 +89,7 @@ export default function Footer() {
                     currency: '₦',
                     bank: 'Access Bank',
                     name: 'Truelight Glory House Ministry',
-                    logo: ACCESS,
+                    logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
                   },
                   {
                     label: 'Naira Account',
@@ -104,7 +97,7 @@ export default function Footer() {
                     currency: '₦',
                     bank: 'Access Bank',
                     name: 'Truelight Glory House Ministry',
-                    logo: ACCESS,
+                    logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
                   },
                   {
                     label: 'Dollar Account',
@@ -112,7 +105,7 @@ export default function Footer() {
                     currency: '$',
                     bank: 'UBA',
                     name: 'TRUELIGHT GLORY HOUSE BUILDING PROJECT',
-                    logo: UBA,
+                    logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png',
                   }
                 ].map(({ label, number, currency, bank, name, logo }, i) => (
                   <motion.div

@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, CheckCircle, Heart, Globe, Building, Gift, Sparkles } from "lucide-react";
-import BGI from "../assets/Give2.jpeg"
-import UBAL from "../assets/ubalogo.png"
-import ACCSS from "../assets/accesslogo.png"
 import Footer from "../components/Footer";
 
-const ACCESS = ACCSS;
-const UBA = UBAL;
+const ACCESS = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png';
+const UBA = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png';
 
 export default function GivingSection() {
   const [activeTab, setActiveTab] = useState("naira");
@@ -60,7 +57,7 @@ export default function GivingSection() {
 
         {/* Background Image */}
         <motion.img
-          src={BGI}
+          src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767276559/7eb01ac3-e91f-4ae9-a327-245692958e01.png'
           alt="Giving Background"
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.05 }}

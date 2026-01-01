@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Play, Search } from 'lucide-react'
-import heroImage from '../assets/very5.jpg'
 import Footer from '../components/Footer'
 // Using a placeholder for heroImage since we can't import the actual file
 
@@ -46,7 +45,7 @@ export default function SermonPage() {
 
         {/* Background Image */}
         <motion.img
-          src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767190019/7b97ba1f-38c7-4570-a3ae-158523309ea7.png'
+          src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188371/56c60b29-3f46-40e5-b495-3962e95b1b15.png'
           alt="Sermon Hero"
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ scale: 1.05 }}

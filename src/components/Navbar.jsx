@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import truelightLogo from '../assets/truelight-logo.png'; // Fixed typo in import name
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center z-10" aria-label="Truelight Home">
           <img
-            src={truelightLogo} // Fixed variable name
+            src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270378/truelight-logo_ta57tl.png' // Fixed variable name
             alt="Truelight Logo"
             className="h-16 scale-150 md:scale-125 lg:scale-[1.7] transition-transform duration-500 origin-left drop-shadow-2xl"
             style={{

@@ -84,7 +84,7 @@ export default function MinistryUnits() {
   };
   
   const handlePhoneClick = () => {
-    window.location.href = 'tel:+2349010494622';
+    window.location.href = 'tel:++2347067593650';
   };
   
   return (
@@ -296,7 +296,7 @@ export default function MinistryUnits() {
             </span>
           </h2>
           <p className="text-lg font-light text-blue-200 mb-8 leading-relaxed">
-            Contact the <span className="text-yellow-300 font-medium">Head of Operations</span> to find your place in the church.
+            Contact the <span className="text-yellow-300 font-medium">Head of Operations Team</span> to find your place in the church.
           </p>
 
           <a

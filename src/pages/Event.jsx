@@ -2,22 +2,14 @@ import { useEffect, useState } from 'react';
 import { Calendar, MapPin, Clock, Star, Search, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
-import Prayer from '../assets/home-page.jpg';
-import Word from "../assets/truelight-photo1.jpg";
-import WCC from "../assets/WCClogo.png";
-import OAV from "../assets/OAVLogo.png";
-import GLCT from "../assets/GLCTlogo.png";
-import HIGHHEELS from "../assets/HIGHHEELSlogo.png";
-import evot from "../assets/very10.jpg";
-import NUMW from "../assets/notunder.jpg";
-import PM from "../assets/prayerwalk.jpg";
-import congress from "../assets/very8.jpg";
-const EventHero = congress, ConventionImage = WCC, VisitationImage = OAV, DinnerImage = HIGHHEELS, CrossoverImage = GLCT;
+
+
+const EventHero = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767272187/41f205fb-7c91-4ecd-8b7c-b05dec358cad.png', ConventionImage = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270037/WCClogo_b5llkb.png', VisitationImage = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767273017/fc78df5d-b664-49b5-a6dd-7dd98790b69c.png', DinnerImage = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270251/HIGHHEELSlogo_r6irgw.png', CrossoverImage = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270256/GLCTlogo_iutvln.png';
 export default function Events() {
   const [currentSlogan, setCurrentSlogan] = useState(0), [searchTerm, setSearchTerm] = useState('');
   useEffect(() => { const interval = setInterval(() => setCurrentSlogan(v => (v + 1) % 4), 3000); return () => clearInterval(interval); }, []);
   const handleEventRegistration = (event) => {
-    if (event.id === 1) window.open("https://wcc.truelightgloryhouse.org/register", "_blank");
+    if (event.id === 2) window.open("https://docs.google.com/forms/d/1V1a3B0mLUOAs4IKETAzhHf7XKYzTtcp1rHEPm43Y1Go/edit", "_blank");
     else {
       const subject = encodeURIComponent(`Registration for ${event.title}`), body = encodeURIComponent(
         `I would like to register for the following event:\n\nEvent: ${event.title}\nDate: ${event.date}\nTime: ${event.time}\nLocation: ${event.location}\n\nPlease provide me with more information about registration.\n\nThank you.`);
@@ -25,17 +17,17 @@ export default function Events() {
     }
   };
   const majorEvents = [
-    { id: 1, title: 'World Changers Convention (WCC)', date: 'Every Second week of November', time: 'Morning sessions 8:00 AM - 12:00 PM, Evening sessions 5:00 PM - 9:00 PM', location: 'Main Auditorium', description: 'Five days of life-transforming sessions of impact and excellence', category: 'Convention', featured: true, image: ConventionImage, highlights: ['International Speakers', 'Leadership Training', 'Networking Sessions'], registrationOpen: true },
-    { id: 2, title: 'Owerri Apostolic Visitation (OAV)', date: 'Every 2nd week of April', time: 'Morning sessions 8:00 AM - 12:00 PM, Evening sessions 5:00 PM - 9:00 PM', location: 'Church Auditorium', description: 'Special apostolic visitation with prophetic declarations and spiritual impartation.', category: 'Apostolic', featured: true, image: VisitationImage, highlights: ['Prophetic Ministry', 'Healing Services', 'Spiritual Impartation'], registrationOpen: false },
-    { id: 3, title: 'Evening Of Truth Dinner', date: 'Every 2nd Sunday in December', time: '3:00 PM', location: 'Grand Ballroom', description: 'An elegant evening of fellowship, testimonies, and celebrating God\'s faithfulness.', category: 'Fellowship', featured: true, image: evot, highlights: ['Testimonial Sharing', 'Gourmet Dining', 'Award Ceremony'], registrationOpen: false },
+    { id: 1, title: 'World Changers Convention (WCC)', date: 'Every Second week of November', time: 'Morning sessions 8:00 AM - 12:00 PM, Evening sessions 5:00 PM - 9:00 PM', location: 'Main Auditorium', description: 'Five days of life-transforming sessions of impact and excellence', category: 'Convention', featured: true, image: ConventionImage, highlights: ['International Speakers', 'Leadership Training', 'Networking Sessions'], registrationOpen: false },
+    { id: 2, title: 'Owerri Apostolic Visitation (OAV)', date: 'Every 2nd week of April', time: 'Morning sessions 8:00 AM - 12:00 PM, Evening sessions 5:00 PM - 9:00 PM', location: 'Church Auditorium', description: 'Special apostolic visitation with prophetic declarations and spiritual impartation.', category: 'Apostolic', featured: true, image: VisitationImage, highlights: ['Prophetic Ministry', 'Healing Services', 'Spiritual Impartation'], registrationOpen: true },
+    { id: 3, title: 'Evening Of Truth Dinner', date: 'Every 2nd Sunday in December', time: '3:00 PM', location: 'Grand Ballroom', description: 'An elegant evening of fellowship, testimonies, and celebrating God\'s faithfulness.', category: 'Fellowship', featured: true, image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270006/very10_ekqoyd.jpg', highlights: ['Testimonial Sharing', 'Gourmet Dining', 'Award Ceremony'], registrationOpen: false },
     { id: 4, title: 'High Heels in High Places', date: 'Every 3rd Week of July', time: '5:00 PM - 9:00 PM', location: 'Raising Kingdom Ladies', description: 'Ladies with high Infuence in high environments', category: 'Prayer', featured: true, image: DinnerImage, highlights: ['City-wide Impact', 'Influence', 'Ladies Unity'], registrationOpen: false },
     { id: 6, title: 'Global Leadership Training', date: 'Every January', time: 'To be announced', location: 'Main Auditorium', description: 'True leaders raise leaders.', category: 'Leader', featured: true, image: CrossoverImage, highlights: ['Prophetic Declarations', 'Midnight Worship', 'New Year Prayers'], registrationOpen: false }
   ], regularEvents = [
-    { id: 7, title: 'Word Feast', date: 'Every Tuesday', time: '5:00 PM - 7:00 PM', location: 'Church Auditorium', description: 'We feast on God\'s Word and His presence', category: 'Word', featured: false, image: Word, registrationOpen: true },
-    { id: 8, title: 'Let\'s Pray', date: 'Every Friday', time: '5:00 PM - 7:00 PM', location: 'Church Auditorium', description: 'Dwell in His presence with prayers.', category: 'Prayer', featured: false, image: Prayer, registrationOpen: true },
+    { id: 7, title: 'Word Feast', date: 'Every Tuesday', time: '5:00 PM - 7:00 PM', location: 'Church Auditorium', description: 'We feast on God\'s Word and His presence', category: 'Word', featured: false, image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767187879/b63529f4-a17d-4678-a33a-0a775671e4fb.png', registrationOpen: true },
+    { id: 8, title: 'Let\'s Pray', date: 'Every Friday', time: '5:00 PM - 7:00 PM', location: 'Church Auditorium', description: 'Dwell in His presence with prayers.', category: 'Prayer', featured: false, image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269474/60335dee-8d13-43f1-afde-286f6e6238b7.png', registrationOpen: true },
     { id: 9, title: 'Worker\'s Congress', date: 'Quarterly', time: '8:00 AM - 6:00 PM', location: 'Church Auditorium', description: 'Building strong, godly workers for family and community.', category: 'Retreat', featured: false, image: EventHero, registrationOpen: true },
-    { id: 10, title: 'Owerri Prayer Walk', date: 'Every half year', time: '6:00 AM', location: 'Leave from Church Auditorium', description: 'Praying round the city.', category: 'Prayer', featured: false, image: PM, registrationOpen: true },
-    { id: 11, title: 'Not Under My Watch', date: 'Every third friday of the month', time: '9:00 PM', location: 'Church Auditorium', description: 'Intercession, breaking negative family patterns.', category: 'Prayer', featured: false, image: NUMW, registrationOpen: true }
+    { id: 10, title: 'Owerri Prayer Walk', date: 'Every half year', time: '6:00 AM', location: 'Leave from Church Auditorium', description: 'Praying round the city.', category: 'Prayer', featured: false, image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269921/prayerwalk_iy9hz9.jpg', registrationOpen: true },
+    { id: 11, title: 'Not Under My Watch', date: 'Every third friday of the month', time: '9:00 PM', location: 'Church Auditorium', description: 'Intercession, breaking negative family patterns.', category: 'Prayer', featured: false, image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269424/b41bfa4a-a86b-48db-8a85-51b2e9b166b6.png', registrationOpen: true }
   ], allEvents = [...majorEvents, ...regularEvents], filteredEvents = allEvents.filter(event =>
     (event.title.toLowerCase().includes(searchTerm.toLowerCase()) || event.description.toLowerCase().includes(searchTerm.toLowerCase())));
   const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }, slogans = [
@@ -45,7 +37,7 @@ export default function Events() {
     <div className="min-h-screen bg-gray-50">
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-yellow-900/60 to-blue-900/80 z-10" />
-        <img src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188371/56c60b29-3f46-40e5-b495-3962e95b1b15.png' alt="Events" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        <img src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269121/e3d86332-ff22-48d8-9016-ff198472c83c.png' alt="Events" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
         <div className="relative z-20 text-center text-white px-6 max-w-5xl">
           <motion.div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
