@@ -328,8 +328,8 @@ export default function Home() {
               Welcome Home
             </span>
 
-            {/* Heading */}
-            <h1 className="text-5xl sm:text-6xl xl:text-7xl font-light leading-[1.05]">
+              {/* Heading - Fixed height to prevent layout shift */}
+            <h1 className="text-5xl sm:text-6xl xl:text-7xl font-light leading-[1.05] min-h-[180px] sm:min-h-[200px] xl:min-h-[220px]">
               <span className="block opacity-80">
                 {displayedMessage.split(" ").slice(0, -2).join(" ")}
               </span>
