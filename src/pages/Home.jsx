@@ -6,8 +6,6 @@ import Footer from '../components/Footer';
 import { Typewriter } from 'react-simple-typewriter';
 import { pastorInfo } from "../components/data";
 import { HashLink } from "react-router-hash-link";
-// Import your popup component
-import JubileeCountdownPopup from '../components/Pop-up'; // Adjust the path based on your actual file structure
 
 const fadeUp = (i) => ({ 
   hidden: { opacity: 0, y: 30 }, 
@@ -82,14 +80,6 @@ export default function Home() {
   const [isTyping, setIsTyping] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  // Initialize showPopup state based on sessionStorage
-  const [showPopup, setShowPopup] = useState(() => {
-    try {
-      return !sessionStorage.getItem('jubileePopupClosed');
-    } catch {
-      return true;
-    }
-  });
   const videoRef = useRef(null);
   const heroRef = useRef(null);
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -142,11 +132,6 @@ export default function Home() {
     } else if (card.action === "navigate") {
       navigate(card.path);
     }
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    sessionStorage.setItem('jubileePopupClosed', 'true');
   };
 
    
@@ -202,11 +187,8 @@ export default function Home() {
 
   return (
     <div className="bg-white font-light text-gray-900 overflow-x-hidden relative">
-      {/* Your Popup Component - use the actual component */}
-      <JubileeCountdownPopup onClose={handleClosePopup} />
-      
       {/* Hero Section */}
-      <section className={`relative h-screen w-full overflow-hidden transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="relative h-screen w-full overflow-hidden">
         <motion.video
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
@@ -326,7 +308,7 @@ export default function Home() {
       </section>
       
       {/* Message Section */}
-      <section className={`relative min-h-screen flex items-center overflow-hidden bg-[#0B1220] text-white transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0B1220] text-white">
         {/* Subtle texture / gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-[#0B1220] to-black opacity-90" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.15),transparent_60%)]" />
@@ -421,7 +403,7 @@ export default function Home() {
       </section>
       
       {/* Stats Section */}
-      <section id="stats-section" className={`py-24 bg-gradient-to-br from-blue-800 to-blue-900 transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section id="stats-section" className="py-24 bg-gradient-to-br from-blue-800 to-blue-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -446,7 +428,7 @@ export default function Home() {
       </section>
 
       {/* Ministries Section */}
-      <section className={`py-24 bg-gray-50 transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div 
             className="text-center mb-16"
@@ -511,7 +493,7 @@ export default function Home() {
       </section>
       
       {/* Regular Activities Section */}
-      <section className={`py-24 bg-white transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <motion.div 
             className="text-center mb-16"
@@ -586,7 +568,7 @@ export default function Home() {
       </section>
       
       {/* Cards Section */}
-      <section className={`bg-gray-50 py-16 overflow-hidden transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="bg-gray-50 py-16 overflow-hidden">
         <div className="w-full">
           <div className="flex w-max animate-scroll space-x-8">
             {seamlessCards.map((card, index) => (
@@ -620,7 +602,7 @@ export default function Home() {
       </section>
       
       {/* Pastor Section */}
-      <section className={`min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16 transition-all duration-300 ${showPopup ? 'filter blur-sm' : ''}`}>
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-24 gap-16">
         <motion.div 
           className="w-full lg:w-1/2" 
           initial={{ x: -100, opacity: 0 }} 
