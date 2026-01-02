@@ -54,9 +54,9 @@ export default function JubileeCountdownPopup({ onClose }) {
           />
 
           {/* Popup */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-20 sm:py-4 pointer-events-none">
             <motion.div
-              className="relative w-full max-w-64 sm:max-w-80 lg:max-w-md pointer-events-auto"
+              className="relative w-full max-w-sm sm:max-w-[20rem] mt-20 md:max-w-lg lg:max-w-xl xl:max-w-2xl pointer-events-auto"
               initial={{ scale: 0.8, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -65,7 +65,7 @@ export default function JubileeCountdownPopup({ onClose }) {
               {/* Enhanced Close Button */}
               <motion.button
                 onClick={handleClose}
-                className="absolute -top-3 -right-3 z-20 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-white hover:scale-110 group"
+                className="absolute -top-[14px] -right-[14px] lg:-top-[16px] lg:-right-[16px] z-20 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-white hover:scale-110 lg:hover:scale-115 group"
                 aria-label="Close popup"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.5, delay: 2, repeat: 1, repeatDelay: 3 }}
