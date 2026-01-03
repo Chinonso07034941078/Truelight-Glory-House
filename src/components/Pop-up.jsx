@@ -194,7 +194,7 @@ export default function JubileeCountdownPopup({ onClose }) {
                       <div className="mt-2 text-center space-y-1">
                         <div className="flex items-center justify-center gap-1 text-yellow-700">
                           <Calendar className="w-3 h-3" />
-                          <span className="text-[9px] font-semibold">Feb 6, 2026 • 7:00 PM</span>
+                          <span className="text-[9px] font-semibold">Feb 6, 2026 • 6:00 PM</span>
                         </div>
                         <p className="text-gray-700 text-[9px] font-medium">
                           Don't miss this celebration!
