@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { Video, Recycle, Search, Users, Heart, Award, Target, Phone, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda } from "lucide-react";
+import { motion } from 'framer-motion';
+import { useState } from "react";
+import { Video, Recycle, Search, Users, Heart, Award, Target, Phone, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda, X } from "lucide-react";
 import Footer from "../components/Footer";
 
 const units = [
@@ -33,40 +34,10 @@ const testimonials = [
   { name: "Mr. Flourish", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." },
   { name: "Ahaneku Chidera", unit: "Music Department", text: "Leading worship has deepened my relationship with God in ways I never imagined." },
   { name: "Aguruo Valentine", unit: "Protocol", text: "The discipline and excellence I've learned serving here has impacted every area of my life." },
-  { name: "Mary Ben", unit: "Children Church", text: "Teaching children about God's love has renewed my own faith daily." },
-  { name: "Ajeboh", unit: "Sound Hub", text: "Creating the perfect sound environment for worship is my way of contributing to the move of God." },
-  { name: "Innocent Peace", unit: "Greeters", text: "The joy I feel welcoming people to God's house is indescribable." },
-  { name: "Joshua Jude", unit: "Evangelism", text: "Every soul won to Christ through our outreach efforts is a testament to God's faithfulness." }
-];
-
-const stats = [
-  { label: "Active Units", value: "22", icon: Target },
-  { label: "Total Members", value: "500+", icon: Users },
-  { label: "Lives Impacted", value: "50K+", icon: Heart },
-  { label: "Years Strong", value: "10", icon: Award }
+  { name: "Mary Ben", unit: "Children Church", text: "Teaching children about God's love has renewed my own faith daily." }
 ];
 
 export default function MinistryUnits() {
-
-
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-
-
   const [search, setSearch] = useState('');
   const [selectedUnit, setSelectedUnit] = useState(null);
   
@@ -74,306 +45,360 @@ export default function MinistryUnits() {
     unit.name.toLowerCase().includes(search.toLowerCase()) ||
     unit.description.toLowerCase().includes(search.toLowerCase())
   );
-  
-  const handleJoinCall = () => {
-    window.location.href = `tel:+2349134943551`;
-  };
-  
-  const handleEmailClick = () => {
-    window.location.href = 'mailto:info.truelight9@gmail.com?subject=Ministry Unit Interest&body=Hello,%0A%0AI would like to learn more about joining a ministry unit at True Light Chapel. Please provide me with more information.%0A%0AThank you!';
-  };
-  
-  const handlePhoneClick = () => {
-    window.location.href = 'tel:++2347067593650';
-  };
-  
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-slate-900 to-blue-900 text-white overflow-hidden">
-      {/* Magical Background */}
-      <div className="fixed inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,215,0,0.3),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,215,0,0.2),transparent_50%)]"></div>
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-yellow-400 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Hero Section - Refined */}
-      <section 
-      className="relative py-24 px-6 text-center overflow-hidden"
-      onMouseMove={handleMouseMove}
-     
-    >
-      {/* Floating particles background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-yellow-400/30 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Animated gradient orbs */}
-      <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-yellow-400/20 to-blue-500/20 rounded-full blur-xl animate-pulse" />
-      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-blue-400/20 to-yellow-300/20 rounded-full blur-xl animate-pulse animation-delay-1000" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 overflow-hidden">
       
-      <div className="max-w-5xl mx-auto relative z-10">
-        {/* Animated badge */}
-        <div className={`inline-flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-full px-5 py-2 mb-8 border border-white/25 transform transition-all duration-1000 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-        }`}>
-          <Crown className="w-4 h-4 text-yellow-400 animate-bounce" style={{ animationDelay: '0.5s' }} />
-          <span className="text-sm font-medium tracking-wider">Divine Assignment</span>
-        </div>
-
-        {/* Main heading with staggered animation */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight">
-          <span className={`inline-block font-extralight transform transition-all duration-1000 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
-          }`} style={{ transitionDelay: '0.2s' }}>
-            Find Your
-          </span>{' '}
-          <span className={`inline-block font-semibold bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent transform transition-all duration-1000 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
-          }`} style={{ transitionDelay: '0.4s' }}>
-            <span className="relative bg-gradient-to-r from-yellow-500 via-slate-100 to-yellow-400 bg-clip-text text-transparent">
-              Purpose
-              {/* <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-transparent blur animate-pulse" /> */}
-            </span>
-          </span>
-          <br />
-          <span className={`text-2xl md:text-4xl lg:text-5xl font-light text-yellow-200 block mt-2 transform transition-all duration-1000 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
-          }`} style={{ transitionDelay: '0.6s' }}>
-            Serve with impact
-          </span>
-        </h1>
-
-        {/* Description with fade-in */}
-        <p className={`text-lg md:text-xl font-light mb-12 text-blue-200 leading-relaxed max-w-3xl mx-auto transform transition-all duration-1000 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
-        }`} style={{ transitionDelay: '0.8s' }}>
-          Join a ministry unit where your gifts meet God's perfect plan. Over{' '}
-          <span className="text-yellow-300 font-medium relative">
-            <span className="relative z-10">500 members</span>
-            <span className="absolute inset-0 bg-yellow-300/20 blur rounded animate-pulse" />
-          </span>{' '}
-          serving across{' '}
-          <span className="text-yellow-300 font-medium relative">
-            <span className="relative z-10">22 dynamic units</span>
-            <span className="absolute inset-0 bg-yellow-300/20 blur rounded animate-pulse animation-delay-500" />
-          </span>.
-        </p>
-
-        {/* Animated CTA button */}
-        <button
-          onClick={() => document.getElementById('units')?.scrollIntoView({ behavior: 'smooth' })}
-          className={`group relative bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
-          }`}
-          style={{ transitionDelay: '1s' }}
-        >
-          {/* Button background glow effect */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400/50 to-blue-500/50 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <span className="relative flex items-center gap-2">
-            Discover Your Unit
-            <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse group-hover:animate-bounce" />
-          </span>
-          
-          {/* Ripple effect on hover */}
-          <div className="absolute inset-0 rounded-full bg-white/20 transform scale-0 group-hover:scale-110 transition-transform duration-500 opacity-0 group-hover:opacity-100" />
-        </button>
+      {/* Dynamic Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+        {/* Animated gradient orbs */}
+        {/* <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/20 to-blue-600/10 rounded-full blur-3xl animate-pulse"></div> */}
+        {/* <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue-500/15 to-transparent rounded-full blur-3xl"></div> */}
+        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-300/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }}></div> */}
+        
+        {/* Geometric Pattern Overlay */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `linear-gradient(rgba(59,130,246,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,.05) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}></div>
+        
+        {/* Floating shapes */}
+        <div className="absolute top-20 left-20 w-32 h-32 border-2 border-blue-600/20 rounded-lg rotate-12 animate-float"></div>
+        <div className="absolute bottom-40 right-32 w-24 h-24 bg-blue-600/5 rounded-full"></div>
+        <div className="absolute top-1/3 right-20 w-2 h-40 bg-gradient-to-b from-blue-600/40 to-transparent"></div>
+        
+        {/* Diagonal accent lines */}
+        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-blue-600/20 via-transparent to-blue-600/20 transform -skew-x-12"></div>
+        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-blue-600/10 via-transparent to-blue-600/10 transform skew-x-12"></div>
       </div>
-
-      {/* Floating elements */}
-      <div className="absolute top-1/4 left-10 animate-float">
-        <div className="w-2 h-2 bg-yellow-400/60 rounded-full" />
-      </div>
-      <div className="absolute top-1/3 right-16 animate-float animation-delay-1000">
-        <div className="w-1 h-1 bg-blue-300/60 rounded-full" />
-      </div>
-      <div className="absolute bottom-1/4 left-1/4 animate-float animation-delay-2000">
-        <div className="w-1.5 h-1.5 bg-yellow-300/50 rounded-full" />
-      </div>
-
+      
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          33% { transform: translateY(-10px) rotate(120deg); }
-          66% { transform: translateY(5px) rotate(240deg); }
+          0%, 100% { transform: translateY(0px) rotate(12deg); }
+          50% { transform: translateY(-20px) rotate(18deg); }
         }
-        
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
-        
-        .animation-delay-500 {
-          animation-delay: 0.5s;
-        }
-        
-        .animation-delay-1000 {
-          animation-delay: 1s;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
       `}</style>
-    </section>
 
-     
+      {/* Hero Section - matching the hero component style */}
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+          
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true }}
+            className="space-y-8 lg:space-y-12 max-w-4xl"
+          >
+            
+            {/* Bold Blue Line Accent */}
+            <div className="flex items-center gap-4">
+              <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
+              <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
+                Ministry Units
+              </span>
+            </div>
 
-      {/* Search - Refined */}
-      <section className="py-16 px-6">
-        <div className="max-w-2xl mx-auto relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-yellow-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search for your calling..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-yellow-300 focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-light"
-          />
+            {/* Massive Heading */}
+            <div>
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-gray-900 leading-none tracking-tighter">
+                Find Your
+              </h1>
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
+                <span className="text-blue-600">
+                  Service
+                </span>
+              </h1>
+            </div>
+
+            {/* Subheading */}
+            <div className="max-w-xl">
+              <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 font-light leading-relaxed">
+                Join a ministry where your gifts meet God's perfect plan.
+              </p>
+            </div>
+
+            {/* Stats - Desktop */}
+            <div className="hidden lg:grid grid-cols-4 gap-8 pt-8">
+              <div>
+                <div className="text-5xl font-black text-gray-900">22</div>
+                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Active Units</div>
+              </div>
+              <div>
+                <div className="text-5xl font-black text-gray-900">500+</div>
+                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Members</div>
+              </div>
+              <div>
+                <div className="text-5xl font-black text-gray-900">50K+</div>
+                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Lives Impacted</div>
+              </div>
+              <div>
+                <div className="text-5xl font-black text-gray-900">10</div>
+                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Years Strong</div>
+              </div>
+            </div>
+
+          </motion.div>
+        </div>
+
+        {/* Bottom Blue Stripe */}
+        <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600"></div>
+      </section>
+
+      {/* Search Section */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-2xl"
+          >
+            <div className="relative">
+              <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search for your calling..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-4 border-b-2 border-gray-200 focus:border-blue-600 focus:outline-none text-lg transition-colors bg-transparent"
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Units Grid - Simplified */}
-      <section id="units" className="py-16 px-6">
+      {/* Units Grid */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredUnits.map((unit, i) => (
-              <div
+          
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+            {filteredUnits.map((unit, index) => (
+              <motion.div
                 key={unit.name}
-                className="group bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:border-yellow-400/50 transition-all duration-300 cursor-pointer flex flex-col"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
                 onClick={() => setSelectedUnit(unit)}
+                className="group cursor-pointer"
               >
-                <div className="p-6 flex-grow flex flex-col">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
-                      <unit.icon className="w-5 h-5 text-yellow-400" />
+                <div className="relative overflow-hidden h-full min-h-[280px] sm:min-h-[320px] bg-white/40 backdrop-blur-xl border border-white/60 hover:bg-white/60 hover:border-blue-400/60 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10">
+                  
+                  {/* Blue accent on hover */}
+                  <div className="absolute top-0 left-0 w-0 h-1 bg-blue-600 group-hover:w-full transition-all duration-500 z-10"></div>
+                  
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-600/0 group-hover:from-blue-500/5 group-hover:to-blue-600/10 transition-all duration-500"></div>
+                  
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col p-4 sm:p-6">
+                    
+                    {/* Icon with enhanced glassmorphism */}
+                    <div className="mb-4">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/20 backdrop-blur-md border border-white/40 group-hover:bg-blue-600 group-hover:border-blue-600 group-hover:scale-110 transition-all duration-500 flex items-center justify-center shadow-lg">
+                        <unit.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 group-hover:text-white transition-colors duration-500" />
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-white">{unit.name}</h3>
-                      <div className="text-yellow-300 text-sm font-light">{unit.members} members</div>
+
+                    {/* Content area */}
+                    <div className="flex-1 flex flex-col">
+                      <h3 className="text-base sm:text-xl font-bold text-gray-900 leading-tight mb-1">
+                        {unit.name}
+                      </h3>
+                      <div className="text-xs sm:text-sm text-blue-600 font-medium mb-3">{unit.members} members</div>
+                      
+                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-auto line-clamp-3">
+                        {unit.description}
+                      </p>
+
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 pt-3 mt-3 border-t border-gray-300/50">
+                        <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                        <span className="line-clamp-1">{unit.time}</span>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-blue-200 text-sm font-light mb-4 flex-grow leading-relaxed">{unit.description}</p>
-                  <div className="flex items-center gap-2 text-sm text-yellow-300 font-light">
-                    <Clock className="w-4 h-4" />
-                    <span>{unit.time}</span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Join Unit Button - Refined */}
-      <section className="py-16 px-6 text-center">
-        <div className="max-w-xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight">
-            <span className="font-extralight">Ready to</span>{' '}
-            <span className="font-medium bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
-              Serve?
-            </span>
-          </h2>
-          <p className="text-lg font-light text-blue-200 mb-8 leading-relaxed">
-            Contact the <span className="text-yellow-300 font-medium">Head of Operations Team</span> to find your place in the church.
-          </p>
-
-          <a
-            href="tel:+2349134943551"
-            className="bg-white/10 backdrop-blur-md text-white font-medium px-8 py-4 rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 inline-flex items-center gap-3"
+      {/* Testimonials Section */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white/40 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12"
           >
-            <Phone className="w-5 h-5" />
-            <span>Join a Unit</span>
-            <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse" />
-          </a>
-        </div>
-      </section>
-
-      {/* Testimonials - Refined */}
-      <section className="py-20 px-6 bg-gradient-to-r from-yellow-400/5 to-yellow-500/5 border-y border-white/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-white mb-4 tracking-tight">
-              <span className="font-extralight">Member</span>{' '}
-              <span className="font-medium bg-gradient-to-r from-yellow-400 via-yellow-200 to-white bg-clip-text text-transparent">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-16 h-1 bg-blue-600"></div>
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
                 Testimonies
               </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 tracking-tight">
+              Member Stories
             </h2>
-            <p className="text-lg font-light text-yellow-200">Stories from our ministry champions</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.slice(0, 6).map((testimonial, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-yellow-400/50 transition-all duration-300">
-                <p className="text-blue-200 mb-4 font-light italic leading-relaxed">"{testimonial.text}"</p>
-                <div>
-                  <h4 className="text-white font-medium">{testimonial.name}</h4>
-                  <p className="text-yellow-300 text-sm font-light">{testimonial.unit}</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white/60 backdrop-blur-md border border-white/40 p-6 hover:bg-white/80 transition-all duration-300"
+              >
+                <div className="border-l-4 border-blue-600 pl-6">
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    "{testimonial.text}"
+                  </p>
+                  <div>
+                    <h4 className="text-gray-900 font-bold">{testimonial.name}</h4>
+                    <p className="text-blue-600 text-sm font-medium">{testimonial.unit}</p>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Unit Detail Modal - Refined */}
+      {/* CTA Section */}
+      <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <div className="flex items-center gap-4 justify-center">
+              <div className="w-16 h-1 bg-blue-600"></div>
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
+                Get Started
+              </span>
+            </div>
+
+            <div>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-none tracking-tighter mb-2">
+                Ready to
+              </h2>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-blue-600 leading-none tracking-tighter">
+                Serve?
+              </h2>
+            </div>
+
+            <p className="text-xl sm:text-2xl text-gray-700 font-light max-w-2xl mx-auto">
+              Contact the Head of Operations Team to find your place in the church.
+            </p>
+
+            <div className="pt-4">
+              <a
+                href="tel:+2349134943551"
+                className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-lg uppercase tracking-wider hover:bg-gray-900 transition-all duration-300 inline-block"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  <Phone className="w-5 h-5" />
+                  Join a Unit
+                </span>
+                <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Unit Detail Modal */}
       {selectedUnit && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 z-50" onClick={() => setSelectedUnit(null)}>
-          <div className="bg-slate-900/90 backdrop-blur-sm rounded-2xl max-w-2xl w-full p-8 border border-white/20 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
-                  <selectedUnit.icon className="w-6 h-6 text-yellow-400" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-medium text-white">{selectedUnit.name}</h3>
-                  <p className="text-yellow-300 font-light">{selectedUnit.members} members</p>
-                </div>
-              </div>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 backdrop-blur-sm" 
+          onClick={() => setSelectedUnit(null)}
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white max-w-2xl w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Blue top accent */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-blue-600"></div>
+            
+            <div className="p-8">
+              
               <button
                 onClick={() => setSelectedUnit(null)}
-                className="text-white/60 hover:text-white transition-colors text-xl font-light"
+                className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors"
               >
-                ✕
+                <X className="w-6 h-6" />
               </button>
-            </div>
-            <p className="text-blue-200 text-lg font-light mb-6 leading-relaxed">{selectedUnit.description}</p>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-yellow-300 font-light">
-                <Clock className="w-5 h-5" />
-                <span>{selectedUnit.time}</span>
+
+              <div className="flex items-start gap-4 mb-6 pr-12">
+                <div className="w-16 h-16 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <selectedUnit.icon className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-black text-gray-900 leading-tight mb-1">
+                    {selectedUnit.name}
+                  </h3>
+                  <p className="text-blue-600 font-bold">{selectedUnit.members} members</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-yellow-300 font-light">
-                <Users className="w-5 h-5" />
-                <span>{selectedUnit.members} members</span>
+
+              <div className="border-l-4 border-blue-600 pl-6 mb-8">
+                <p className="text-xl text-gray-700 leading-relaxed">
+                  {selectedUnit.description}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6 mb-8 p-6 bg-gray-50">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2">Meeting Time</div>
+                  <div className="text-gray-900 font-medium">{selectedUnit.time}</div>
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2">Leader</div>
+                  <div className="text-gray-900 font-medium">{selectedUnit.leader}</div>
+                </div>
+              </div>
+
+              <div className="text-center pt-6 border-t border-gray-200">
+                <p className="text-gray-700 mb-6">
+                  Contact the <a href="tel:+2349134943551" className="text-blue-600 font-bold hover:underline">Head of Operations</a> to join this ministry unit.
+                </p>
+                
+                <a
+                  href="tel:+2349134943551"
+                  className="group relative bg-blue-600 text-white font-bold px-8 py-4 uppercase tracking-wider hover:bg-gray-900 transition-colors inline-block"
+                >
+                  <span className="relative z-10">Get in Touch</span>
+                  <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-1 translate-y-1 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform duration-300"></div>
+                </a>
               </div>
             </div>
-            <p className="text-lg text-blue-200 mb-6 text-center font-light leading-relaxed">
-              Contact the <a href="tel:+2349134943551"><span className="text-yellow-300 font-medium hover:text-yellow-100">Head of Operations</span></a> to join this ministry unit.
-            </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+
       <Footer />
     </div>
   );

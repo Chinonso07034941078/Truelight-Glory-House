@@ -2,17 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const location = useLocation(); // Added to track current route
+  const location = useLocation();
   
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
   useEffect(() => {
-    // Throttled scroll handler for better performance
     let throttleTimeout = null;
     
     const handleScroll = () => {
@@ -31,7 +29,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Navigation items array to ensure consistency between desktop and mobile
   const navItems = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
@@ -39,54 +36,61 @@ export default function Navbar() {
     { to: "/sermons", label: "Sermons" },
     { to: "/events", label: "Events" },
     { to: "/support", label: "Support" },
-    { to: "/contact", label: "Contact" }, // Added to both desktop and mobile
+    { to: "/contact", label: "Contact" },
   ];
 
   return (
     <nav className="fixed top-0 w-full z-50">
-      {/* Enhanced Background Layer with smoother transitions */}
+      
+      {/* Background - Clean Transition */}
       <div
-        className={`absolute top-0 left-0 right-0 h-full transition-all duration-700 ease-out ${
+        className={`absolute top-0 left-0 right-0 h-full transition-all duration-500 ${
           hasScrolled 
-            ? 'bg-gradient-to-r from-blue-950/95 via-blue-900/90 to-blue-800/95 backdrop-blur-xl border-b border-blue-400/20 shadow-2xl' 
-            : 'bg-black/20 backdrop-blur-sm border-b border-blue-400/10'
+            ? 'bg-white border-b-2 border-gray-900 shadow-lg' 
+            : 'bg-black/40 backdrop-blur-md border-b border-white/10'
         }`}
       />
       
       {/* Main Nav Content */}
-      <div className="relative px-6 max-w-7xl mx-auto flex justify-between items-center text-white transition-all duration-700 py-1">
+      <div className="relative px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex justify-between items-center transition-all duration-500 h-20">
         
         {/* Logo */}
         <Link to="/" className="flex items-center z-10" aria-label="Truelight Home">
           <img
-            src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270378/truelight-logo_ta57tl.png' // Fixed variable name
+            src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270378/truelight-logo_ta57tl.png'
             alt="Truelight Logo"
-            className="h-16 scale-150 md:scale-125 lg:scale-[1.7] transition-transform duration-500 origin-left drop-shadow-2xl"
-            style={{
-              filter: 'brightness(1.3) contrast(1.2) saturate(1.1)',
-              WebkitFilter: 'brightness(1.3) contrast(1.2) saturate(1.1)',
-            }}
+            className={`h-12 sm:h-14 transition-all duration-500 ${
+              hasScrolled ? 'brightness-100' : 'brightness-200'
+            }`}
           />
         </Link>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex flex-1 justify-center">
-          <ul className="flex gap-8 lg:gap-12">
+        <div className="hidden lg:flex flex-1 justify-center">
+          <ul className="flex items-center gap-8 xl:gap-10">
             {navItems.map((item) => (
               <li key={item.to}>
                 <Link 
                   to={item.to} 
-                  className={`relative font-light tracking-wide transition-all duration-300 group ${
-                    hasScrolled ? 'text-sm' : 'text-sm'
-                  } hover:text-blue-200 ${
-                    location.pathname === item.to ? 'text-blue-200 font-medium' : 'text-white/90'
+                  className={`relative font-semibold text-sm uppercase tracking-wider transition-all duration-300 ${
+                    hasScrolled 
+                      ? location.pathname === item.to 
+                        ? 'text-blue-600' 
+                        : 'text-gray-900 hover:text-blue-600'
+                      : location.pathname === item.to
+                        ? 'text-blue-400'
+                        : 'text-white hover:text-blue-400'
                   }`}
                   aria-current={location.pathname === item.to ? 'page' : undefined}
                 >
                   {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent transition-all duration-300 ${
-                    location.pathname === item.to ? 'w-full opacity-100' : 'w-0 opacity-0'
-                  } group-hover:w-full group-hover:opacity-100`} />
+                  
+                  {/* Active Indicator */}
+                  {location.pathname === item.to && (
+                    <span className={`absolute -bottom-2 left-0 right-0 h-0.5 ${
+                      hasScrolled ? 'bg-blue-600' : 'bg-blue-400'
+                    }`} />
+                  )}
                 </Link>
               </li>
             ))}
@@ -94,10 +98,14 @@ export default function Navbar() {
         </div>
         
         {/* CTA Button for Desktop */}
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Link
             to="/support"
-            className="bg-white/10 backdrop-blur-md text-white font-medium tracking-wide rounded-full border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105 px-6 py-2 text-sm"
+            className={`font-bold text-sm uppercase tracking-wider px-6 py-3 transition-all duration-300 ${
+              hasScrolled
+                ? 'bg-blue-600 text-white hover:bg-gray-900'
+                : 'bg-white text-gray-900 hover:bg-blue-600 hover:text-white'
+            }`}
             aria-label="Support Truelight"
           >
             Give Now
@@ -106,27 +114,29 @@ export default function Navbar() {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-white hover:text-blue-200 transition-colors duration-300 z-10" 
+          className={`lg:hidden transition-colors duration-300 z-10 ${
+            hasScrolled ? 'text-gray-900 hover:text-blue-600' : 'text-white hover:text-blue-400'
+          }`}
           onClick={toggleMenu} 
           aria-label="Toggle Menu"
           aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={28} strokeWidth={2.5} /> : <Menu size={28} strokeWidth={2.5} />}
         </button>
       </div>
       
       {/* Mobile Menu Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/80 z-40 lg:hidden"
           onClick={closeMenu}
           aria-hidden="true"
         />
       )}
       
-      {/* Enhanced Mobile Menu */}
+      {/* Mobile Menu - Brutalist Style */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-gradient-to-b from-blue-950/95 via-blue-900/90 to-blue-800/95 backdrop-blur-xl shadow-2xl transform transition-all duration-500 ease-out z-50 md:hidden border-l border-blue-400/20 ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl transform transition-all duration-500 ease-out z-50 lg:hidden border-l-4 border-blue-600 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -135,27 +145,29 @@ export default function Navbar() {
         aria-label="Navigation Menu"
       >
         {/* Mobile Menu Header */}
-        <div className="p-6 flex justify-between items-center border-b border-blue-400/10">
-          <span className="text-white font-light text-xl tracking-wider">Menu</span>
+        <div className="p-6 sm:p-8 flex justify-between items-center border-b-2 border-gray-900">
+          <span className="text-gray-900 font-black text-2xl tracking-tight uppercase">Menu</span>
           <button 
             onClick={closeMenu} 
-            className="text-white hover:text-blue-200 transition-colors duration-300"
+            className="text-gray-900 hover:text-blue-600 transition-colors duration-300"
             aria-label="Close Menu"
           >
-            <X size={24} />
+            <X size={28} strokeWidth={2.5} />
           </button>
         </div>
         
         {/* Mobile Menu Items */}
-        <div className="px-6 py-8">
-          <ul className="flex flex-col gap-3 text-white">
+        <div className="px-6 sm:px-8 py-8">
+          <ul className="flex flex-col gap-2">
             {navItems.map((item) => (
               <li key={item.to}>
                 <Link 
                   to={item.to} 
                   onClick={closeMenu} 
-                  className={`block py-3 px-4 rounded-xl font-light tracking-wide transition-all duration-300 hover:bg-white/10 hover:text-blue-200 border-b border-transparent hover:border-blue-400/20 ${
-                    location.pathname === item.to ? 'text-blue-200 bg-white/5 font-medium' : 'text-white/90'
+                  className={`block py-4 px-4 font-bold text-lg uppercase tracking-wide transition-all duration-300 border-l-4 ${
+                    location.pathname === item.to 
+                      ? 'text-blue-600 border-blue-600 bg-blue-50' 
+                      : 'text-gray-900 border-transparent hover:border-gray-900 hover:bg-gray-50'
                   }`}
                   aria-current={location.pathname === item.to ? 'page' : undefined}
                 >
@@ -166,11 +178,11 @@ export default function Navbar() {
           </ul>
           
           {/* Mobile CTA Button */}
-          <div className="mt-8 pt-6 border-t border-blue-400/10">
+          <div className="mt-8 pt-8 border-t-2 border-gray-900">
             <Link
               to="/support"
               onClick={closeMenu}
-              className="block w-full bg-white/10 backdrop-blur-md text-white text-center font-medium tracking-wide py-4 rounded-2xl border border-white/30 hover:bg-white hover:text-blue-900 transition-all duration-500 transform hover:scale-105"
+              className="block w-full bg-blue-600 text-white text-center font-black text-base uppercase tracking-wider py-5 hover:bg-gray-900 transition-all duration-300"
               aria-label="Support Truelight"
             >
               Give Now
