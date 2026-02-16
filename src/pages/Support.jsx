@@ -55,10 +55,7 @@ export default function GivingSection() {
       <div className="fixed inset-0 pointer-events-none">
         {/* Animated gradient orbs */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/30 to-blue-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
-        {/* <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue-500/25 to-purple-500/15 rounded-full blur-3xl animate-float-slow"></div> */}
-        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-300/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse-slower"></div> */}
-        {/* <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-gradient-to-bl from-indigo-400/15 to-blue-500/10 rounded-full blur-3xl animate-float-reverse"></div> */}
-        
+       
         {/* Geometric Pattern Overlay */}
         <div className="absolute inset-0 opacity-40" style={{
           backgroundImage: `linear-gradient(rgba(59,130,246,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,.08) 1px, transparent 1px)`,
@@ -66,24 +63,12 @@ export default function GivingSection() {
         }}></div>
         
         {/* Floating shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 border-2 border-blue-600/30 rounded-lg rotate-12 animate-float-rotate"></div>
-        <div className="absolute bottom-40 right-32 w-24 h-24 bg-blue-600/10 rounded-full animate-pulse-slow"></div>
+     
+       
         <div className="absolute top-1/3 right-20 w-2 h-40 bg-gradient-to-b from-blue-600/50 to-transparent animate-slide-up"></div>
         <div className="absolute bottom-1/4 left-1/3 w-20 h-20 border border-blue-500/30 rounded-full animate-ping-slow"></div>
         
-        {/* Moving particles */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400 rounded-full animate-float-particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${8 + Math.random() * 4}s`
-            }}
-          />
-        ))}
+        
         
         {/* Diagonal accent lines */}
         <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-blue-600/30 via-transparent to-blue-600/30 transform -skew-x-12 animate-slide-down"></div>
@@ -190,81 +175,97 @@ export default function GivingSection() {
         }
       `}</style>
 
-      {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true }}
-            className="space-y-8 lg:space-y-12 max-w-4xl"
+     {/* Hero Section */}
+<section className="relative min-h-screen flex items-center overflow-hidden">
+  
+ {/* Background Image */}
+<div className="absolute inset-0 z-0">
+  <img 
+    src="https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771204959/dd795031-f38e-49f5-b6f8-dc8dbbf2af8a.png"
+    alt="Background"
+    loading="eager"
+    fetchpriority="high"
+    className="w-full h-full object-cover"
+  />
+
+  {/* Dark Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/40 to-black/50"></div>
+</div>
+
+  {/* Content Container - Added relative z-10 to sit above background */}
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+    
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true }}
+      className="space-y-8 lg:space-y-12 max-w-4xl"
+    >
+      
+      {/* Bold Blue Line Accent */}
+      <div className="flex items-center gap-4">
+        <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
+        <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
+          Giving
+        </span>
+      </div>
+
+      {/* Massive Heading - Changed text color to white */}
+      <div>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-white leading-none tracking-tighter">
+          Your
+        </h1>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
+          <span className="text-blue-600">
+            Generosity
+          </span>
+        </h1>
+      </div>
+
+      {/* Subheading - Changed text color to gray-200 */}
+      <div className="max-w-xl">
+        <p className="text-xl sm:text-2xl lg:text-3xl text-gray-200 font-light leading-relaxed">
+          Join us as we partner with God for the spread of the gospel.
+        </p>
+      </div>
+
+      {/* Rotating Slogan - Changed text color to gray-300 */}
+      <div className="h-12 flex items-center">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={currentSlogan}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+            className="text-lg text-gray-300 font-light italic"
           >
-            
-            {/* Bold Blue Line Accent */}
-            <div className="flex items-center gap-4">
-              <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
-              <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
-                Giving
-              </span>
-            </div>
+            {slogans[currentSlogan]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
 
-            {/* Massive Heading */}
-            <div>
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-gray-900 leading-none tracking-tighter">
-                Your
-              </h1>
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
-                <span className="text-blue-600">
-                  Generosity
-                </span>
-              </h1>
-            </div>
+      {/* CTA Button */}
+      <div className="pt-4">
+        <button
+          onClick={() => document.getElementById('bank-details')?.scrollIntoView({ behavior: 'smooth' })}
+          className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-lg uppercase tracking-wider hover:bg-white hover:text-blue-600 transition-all duration-300 inline-block"
+        >
+          <span className="relative z-10 flex items-center gap-2">
+            <Heart className="w-5 h-5" />
+            Give Now
+          </span>
+          <div className="absolute inset-0 border-2 border-white transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+        </button>
+      </div>
 
-            {/* Subheading */}
-            <div className="max-w-xl">
-              <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 font-light leading-relaxed">
-                Join us as we partner with God for the spread of the gospel.
-              </p>
-            </div>
+    </motion.div>
+  </div>
 
-            {/* Rotating Slogan */}
-            <div className="h-12 flex items-center">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={currentSlogan}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-lg text-gray-600 font-light italic"
-                >
-                  {slogans[currentSlogan]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            {/* CTA Button */}
-            <div className="pt-4">
-              <button
-                onClick={() => document.getElementById('bank-details')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-lg uppercase tracking-wider hover:bg-gray-900 transition-all duration-300 inline-block"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  Give Now
-                </span>
-                <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
-              </button>
-            </div>
-
-          </motion.div>
-        </div>
-
-        {/* Bottom Blue Stripe */}
-        <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600"></div>
-      </section>
+  {/* Bottom Blue Stripe */}
+  <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600 z-20"></div>
+</section>
 
       {/* Bank Details Section */}
       <section id="bank-details" className="relative py-20 px-4 sm:px-6 lg:px-8">

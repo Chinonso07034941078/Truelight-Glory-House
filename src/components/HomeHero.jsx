@@ -71,7 +71,7 @@ export default function HomeHero() {
       {/* Bold Geometric Accents */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 opacity-10"></div>
       <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600"></div>
-      <div className="absolute top-0 left-0 w-20 h-1 bg-blue-600"></div>
+      {/* <div className="absolute top-0 left-0 w-20 h-1 bg-blue-600"></div> */}
 
       {/* Content */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 w-full">

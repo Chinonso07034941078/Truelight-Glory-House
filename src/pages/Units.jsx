@@ -51,11 +51,7 @@ export default function MinistryUnits() {
       
       {/* Dynamic Background Elements */}
       <div className="fixed inset-0 pointer-events-none">
-        {/* Animated gradient orbs */}
-        {/* <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/20 to-blue-600/10 rounded-full blur-3xl animate-pulse"></div> */}
-        {/* <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue-500/15 to-transparent rounded-full blur-3xl"></div> */}
-        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-300/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }}></div> */}
-        
+       
         {/* Geometric Pattern Overlay */}
         <div className="absolute inset-0 opacity-30" style={{
           backgroundImage: `linear-gradient(rgba(59,130,246,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,.05) 1px, transparent 1px)`,
@@ -63,13 +59,13 @@ export default function MinistryUnits() {
         }}></div>
         
         {/* Floating shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 border-2 border-blue-600/20 rounded-lg rotate-12 animate-float"></div>
+        
         <div className="absolute bottom-40 right-32 w-24 h-24 bg-blue-600/5 rounded-full"></div>
         <div className="absolute top-1/3 right-20 w-2 h-40 bg-gradient-to-b from-blue-600/40 to-transparent"></div>
         
         {/* Diagonal accent lines */}
         <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-blue-600/20 via-transparent to-blue-600/20 transform -skew-x-12"></div>
-        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-blue-600/10 via-transparent to-blue-600/10 transform skew-x-12"></div>
+        
       </div>
       
       <style jsx>{`
@@ -82,71 +78,88 @@ export default function MinistryUnits() {
         }
       `}</style>
 
-      {/* Hero Section - matching the hero component style */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true }}
-            className="space-y-8 lg:space-y-12 max-w-4xl"
-          >
-            
-            {/* Bold Blue Line Accent */}
-            <div className="flex items-center gap-4">
-              <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
-              <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
-                Ministry Units
-              </span>
-            </div>
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+  
+ {/* Background Image Container */}
+<div className="absolute inset-0 z-0 bg-black">
+  <img 
+    src="https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771202142/629486041_1310175651143462_620369017042103686_n_ci87yq.jpg"
+    alt="Ministry Background"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    className="w-full h-full object-cover transition-opacity duration-700 opacity-0"
+    onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+  />
 
-            {/* Massive Heading */}
-            <div>
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-gray-900 leading-none tracking-tighter">
-                Find Your
-              </h1>
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
-                <span className="text-blue-600">
-                  Service
-                </span>
-              </h1>
-            </div>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/65 to-black/70 lg:via-black/70 lg:to-transparent"></div>
+</div>
 
-            {/* Subheading */}
-            <div className="max-w-xl">
-              <p className="text-xl sm:text-2xl lg:text-3xl text-gray-700 font-light leading-relaxed">
-                Join a ministry where your gifts meet God's perfect plan.
-              </p>
-            </div>
 
-            {/* Stats - Desktop */}
-            <div className="hidden lg:grid grid-cols-4 gap-8 pt-8">
-              <div>
-                <div className="text-5xl font-black text-gray-900">22</div>
-                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Active Units</div>
-              </div>
-              <div>
-                <div className="text-5xl font-black text-gray-900">500+</div>
-                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Members</div>
-              </div>
-              <div>
-                <div className="text-5xl font-black text-gray-900">50K+</div>
-                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Lives Impacted</div>
-              </div>
-              <div>
-                <div className="text-5xl font-black text-gray-900">10</div>
-                <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Years Strong</div>
-              </div>
-            </div>
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+    
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true }}
+      className="space-y-8 lg:space-y-12 max-w-4xl"
+    >
+      
+      {/* Bold Blue Line Accent */}
+      <div className="flex items-center gap-4">
+        <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
+        <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
+          Ministry Units
+        </span>
+      </div>
 
-          </motion.div>
+      {/* Massive Heading */}
+      <div>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-white leading-none tracking-tighter">
+          Find Your
+        </h1>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
+          <span className="text-blue-600">
+            Service
+          </span>
+        </h1>
+      </div>
+
+      {/* Subheading */}
+      <div className="max-w-xl">
+        <p className="text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed">
+          Join a ministry where your gifts meet God's perfect plan.
+        </p>
+      </div>
+
+      {/* Stats - Desktop */}
+      <div className="hidden lg:grid grid-cols-4 gap-8 pt-8">
+        <div>
+          <div className="text-5xl font-black text-blue-700">22</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Active Units</div>
         </div>
+        <div>
+          <div className="text-5xl font-black text-blue-700">500+</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Members</div>
+        </div>
+        <div>
+          <div className="text-5xl font-black text-blue-700">50K+</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Lives Impacted</div>
+        </div>
+        <div>
+          <div className="text-5xl font-black text-blue-700">10</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Years Strong</div>
+        </div>
+      </div>
 
-        {/* Bottom Blue Stripe */}
-        <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600"></div>
-      </section>
+    </motion.div>
+  </div>
+
+  {/* Bottom Blue Stripe */}
+  <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600 z-20"></div>
+</section>
 
       {/* Search Section */}
       <section className="relative py-12 px-4 sm:px-6 lg:px-8">

@@ -24,100 +24,101 @@ export default function About() {
   return (
     <div className="text-gray-900 font-sans overflow-x-hidden bg-white">
       
-      {/* Hero Section - BOLD EDITORIAL STYLE */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
-        {/* Background Pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.02) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
-          }}></div>
-          
-          {/* Bold Blue Geometric Accents */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600 opacity-5"></div>
-          <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600"></div>
-          <div className="absolute top-0 left-0 w-24 h-1 bg-blue-600"></div>
+    {/* Hero Section - BOLD EDITORIAL STYLE */}
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
+  
+  {/* Background Image & Overlays */}
+  <div className="absolute inset-0 z-0">
+    {/* Main Image */}
+   <img
+  src="https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771210031/4cc80570-20f5-4f56-af5c-0f9913d4412e.png"
+  srcSet="
+    https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_640/v1771210031/4cc80570-20f5-4f56-af5c-0f9913d4412e.png 640w,
+    https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1024/v1771210031/4cc80570-20f5-4f56-af5c-0f9913d4412e.png 1024w,
+    https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771210031/4cc80570-20f5-4f56-af5c-0f9913d4412e.png 1600w
+  "
+  sizes="100vw"
+  alt="Background"
+  loading="eager"
+  fetchpriority="high"
+  decoding="async"
+  className="w-full h-full object-cover"
+/>
+
+    {/* 
+      Gradient Overlay: 
+      Fades from solid white on the left (where text is) 
+      to slightly transparent on the right (to show the image).
+      Adjust opacity via 'via-white/90' or 'to-white/70' as needed.
+    */}
+    <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/45 to-black/60"></div>
+  </div>
+
+  {/* Bold Blue Geometric Accents - Now relative to the overlay */}
+  <div className="absolute inset-0 z-[1] pointer-events-none">
+    <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600 opacity-5"></div>
+    <div className="absolute top-0 left-0 w-24 h-1 bg-blue-600"></div>
+  </div>
+
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div className="grid lg:grid-cols-2 gap-16 items-center">
+      
+      {/* LEFT - Text Content */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="space-y-10"
+      >
+        {/* Label */}
+        <div className="flex items-center gap-4">
+          <div className="w-20 h-1 bg-blue-600"></div>
+          <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
+            About Us
+          </span>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
-            {/* LEFT - Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-10"
-            >
-              {/* Label */}
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-1 bg-blue-600"></div>
-                <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
-                  About Us
-                </span>
-              </div>
-
-              {/* Main Title */}
-              <div>
-                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-gray-900 leading-none tracking-tighter">
-                  Divine
-                </h1>
-                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black leading-none tracking-tighter mt-2">
-                  <span className="text-blue-600">Purpose</span>
-                </h1>
-              </div>
-
-              {/* Subtitle */}
-              <div className="max-w-xl border-l-4 border-blue-600 pl-6">
-                <p className="text-2xl sm:text-3xl text-gray-700 font-light leading-tight">
-                  This is where we disciple the nations
-                </p>
-                <p className="text-2xl sm:text-3xl text-gray-900 font-bold leading-tight">
-                  And discipline the devil
-                </p>
-              </div>
-
-              {/* CTA */}
-              <div className="pt-4">
-                <button
-                  onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-base uppercase tracking-wider hover:bg-gray-900 transition-all duration-300"
-                >
-                  <span className="relative z-10">Discover More</span>
-                  <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
-                </button>
-              </div>
-            </motion.div>
-
-            {/* RIGHT - Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
-            >
-              <div className="relative">
-                {/* Blue Border Frame */}
-                <div className="absolute -top-8 -right-8 w-full h-full border-8 border-blue-600 z-0"></div>
-                
-                {/* Image */}
-                <div className="relative z-10 overflow-hidden bg-gray-100">
-                  <img
-                    src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269348/a8745567-6e47-40b8-aab5-1b754bc5f259.png'
-                    alt="Church building and community"
-                    className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
+        {/* Main Title */}
+        <div>
+          <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-white leading-none tracking-tighter">
+            Divine
+          </h1>
+          <h1 className="text-6xl sm:text-7xl md:text-8xl font-black leading-none tracking-tighter mt-2">
+            <span className="text-blue-600">Purpose</span>
+          </h1>
         </div>
 
-        {/* Bottom Stripe */}
-        <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600"></div>
-      </section>
+        {/* Subtitle */}
+        <div className="max-w-xl border-l-4 border-blue-600 pl-6">
+          <p className="text-2xl sm:text-3xl text-white font-light leading-tight">
+            This is where we disciple the nations
+          </p>
+          <p className="text-2xl sm:text-3xl text-white font-bold leading-tight">
+            And discipline the devil
+          </p>
+        </div>
+
+        {/* CTA */}
+        <div className="pt-4">
+          <button
+            onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
+            className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-base uppercase tracking-wider hover:bg-gray-900 transition-all duration-300"
+          >
+            <span className="relative z-10">Discover More</span>
+            <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+          </button>
+        </div>
+      </motion.div>
+
+      {/* RIGHT - Empty column allows background image to show through */}
+
+    </div>
+  </div>
+
+  {/* Bottom Stripe */}
+  <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600 z-20"></div>
+</section>
+
 
       {/* Mission, Vision, Values - BOLD GRID */}
       <section id="about-section" className="py-32 px-6 bg-white relative overflow-hidden">
