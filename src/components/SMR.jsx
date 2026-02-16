@@ -32,7 +32,7 @@ const stats = [
 const ministries = [
   { 
     title: "Lighters Choir", 
-    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767188181/84482564-9f8f-493c-9f2a-8b6ab87edbbf.png', 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771218620/5fde9441-7fd6-4d81-be1e-9f6f7a48a3c0.png', 
     description: "Leading the congregation into the presence of God through worship and praise."
   },
   { 
@@ -42,7 +42,7 @@ const ministries = [
   },
   { 
     title: "TL Creatives", 
-    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270212/creatives2_upimvl.jpg', 
+    image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771218817/a1d81aed-4889-4fc9-8e8f-6076e62ad4a5.png', 
     description: "Using artistic gifts to glorify God and enhance the experience in church."
   },
   { 
