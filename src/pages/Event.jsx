@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Calendar, MapPin, Clock, Star, Search, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
+import HeroSectionFast from '../components/EventHero';
 
 const EventHero = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767272187/41f205fb-7c91-4ecd-8b7c-b05dec358cad.png';
 const ConventionImage = 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270037/WCClogo_b5llkb.png';
@@ -183,85 +184,10 @@ export default function Events() {
         }
       `}</style>
 
-    {/* Hero Section */}
-<section className="relative min-h-screen flex items-center overflow-hidden">
-  
-  {/* Background Image Container */}
- <div className="absolute inset-0 z-0 bg-black">
-  <img 
-    src="https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771205271/a6771218-13dd-458e-8e2f-9b79ae194583.png"
-    alt="Events Background"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
-    className="w-full h-full object-cover transition-opacity duration-700 opacity-0"
-    onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
-  />
-
-  {/* Gradient Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/45 to-black/20 lg:to-transparent"></div>
-</div>
-
-
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
     
-    <motion.div
-      initial={{ opacity: 0, x: -50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      viewport={{ once: true }}
-      className="space-y-8 lg:space-y-12 max-w-4xl"
-    >
-      
-      {/* Bold Blue Line Accent */}
-      <div className="flex items-center gap-4">
-        <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
-        <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
-          Events
-        </span>
-      </div>
+<HeroSectionFast />
 
-      {/* Massive Heading */}
-      <div>
-        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-white leading-none tracking-tighter">
-          Divine
-        </h1>
-        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
-          <span className="text-blue-600">
-            Encounters
-          </span>
-        </h1>
-      </div>
 
-      {/* Subheading */}
-      <div className="max-w-xl">
-        <p className="text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed">
-          Join us for transformative gatherings that strengthen your faith.
-        </p>
-      </div>
-
-      {/* Rotating Slogan */}
-      <div className="h-12 flex items-center">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={currentSlogan}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-            className="text-lg text-white font-light italic"
-          >
-            {slogans[currentSlogan]}
-          </motion.p>
-        </AnimatePresence>
-      </div>
-
-    </motion.div>
-  </div>
-
-  {/* Bottom Blue Stripe */}
-  <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600 z-20"></div>
-</section>
       {/* Search Section */}
       <section className="relative py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Facebook,
   Instagram,
   Youtube,
   Building,
-  Copy,
-  CheckCircle,
   MapPin,
   Mail,
   ArrowRight,
@@ -28,7 +26,6 @@ export default function Footer() {
     return new Date().getFullYear();
   };
 
-  // Defined navigation links based on your request
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
@@ -42,9 +39,8 @@ export default function Footer() {
   return (
     <footer className="relative bg-black text-white overflow-hidden">
       
-      {/* Giving Section - Compact */}
+      {/* Giving Section */}
       <section className="relative py-16 px-4">
-        {/* Animated background elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-black to-black" />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
@@ -52,11 +48,9 @@ export default function Footer() {
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="relative bg-gradient-to-br from-white via-blue-50 to-white text-black rounded-2xl p-8 md:p-12 shadow-[0_20px_80px_rgba(59,130,246,0.3)] overflow-hidden">
             
-            {/* Decorative corner accents */}
             <div className="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-blue-600" />
             <div className="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-blue-600" />
             
-            {/* Floating accent */}
             <div className="absolute top-4 right-4 flex items-center gap-2 bg-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-medium">
               <Sparkles className="w-3 h-3" />
               Make a Difference
@@ -87,122 +81,113 @@ export default function Footer() {
           </div>
         </div>
         
-       {/* Popup - Very Compact */}
-{showPopup && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black/90 backdrop-blur-xl flex items-center justify-center z-50 p-4"
-    onClick={() => setShowPopup(false)}
-  >
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
-      className="relative bg-white text-black max-w-3xl w-full rounded-xl shadow-[0_30px_100px_rgba(59,130,246,0.5)] overflow-hidden"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Header Section - Compact */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 p-5">
-        <button 
-          className="absolute top-3 right-3 w-8 h-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-xl transition-all duration-300" 
-          onClick={() => setShowPopup(false)}
-        >
-          ✕
-        </button>
-        
-        <h2 className="text-xl font-bold text-white mb-1">
-          Account Details
-        </h2>
-        <p className="text-blue-100 text-sm">Select an account to make your contribution</p>
-      </div>
-      
-      {/* Accounts Grid - Compact Side by Side */}
-      <div className="p-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {[
-            {
-              label: 'Naira',
-              number: '0094316383',
-              currency: '₦',
-              bank: 'Access Bank',
-              name: 'Truelight Glory House Ministry',
-              logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
-            },
-            {
-              label: 'Naira',
-              number: '1911578888',
-              currency: '₦',
-              bank: 'Access Bank',
-              name: 'Truelight Glory House Ministry',
-              logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
-            },
-            {
-              label: 'Dollar',
-              number: '3003743459',
-              currency: '$',
-              bank: 'UBA',
-              name: 'TRUELIGHT GLORY HOUSE BUILDING PROJECT',
-              logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png',
-            }
-          ].map(({ label, number, currency, bank, name, logo }, i) => (
+        {/* Popup Modal */}
+        <AnimatePresence>
+          {showPopup && (
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 + (i * 0.05) }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+              onClick={() => setShowPopup(false)}
             >
-              {/* Compact Card */}
-              <div className="relative bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-lg p-3 transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
-                
-                {/* Currency Badge - Small */}
-                <div className="absolute top-2 right-2 w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
-                  <span className="text-lg font-bold text-white">{currency}</span>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.4, type: "spring", stiffness: 300, damping: 30 }}
+                className="relative bg-white text-black max-w-3xl w-full rounded-xl shadow-[0_30px_100px_rgba(59,130,246,0.5)] overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 p-5">
+                  <button 
+                    className="absolute top-3 right-3 w-8 h-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-xl transition-all duration-300" 
+                    onClick={() => setShowPopup(false)}
+                  >
+                    ✕
+                  </button>
+                  
+                  <h2 className="text-xl font-bold text-white mb-1">
+                    Account Details
+                  </h2>
+                  <p className="text-blue-100 text-sm">Select an account to make your contribution</p>
                 </div>
                 
-                {/* Bank Logo - Small */}
-                <div className="mb-2">
-                  <img src={logo} alt={bank} className="h-6 object-contain" />
+                <div className="p-5">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {[
+                      {
+                        label: 'Naira',
+                        number: '0094316383',
+                        currency: '₦',
+                        bank: 'Access Bank',
+                        name: 'Truelight Glory House Ministry',
+                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
+                      },
+                      {
+                        label: 'Naira',
+                        number: '1911578888',
+                        currency: '₦',
+                        bank: 'Access Bank',
+                        name: 'Truelight Glory House Ministry',
+                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
+                      },
+                      {
+                        label: 'Dollar',
+                        number: '3003743459',
+                        currency: '$',
+                        bank: 'UBA',
+                        name: 'TRUELIGHT GLORY HOUSE BUILDING PROJECT',
+                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png',
+                      }
+                    ].map(({ label, number, currency, bank, name, logo }, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 + (i * 0.1) }}
+                      >
+                        <div className="relative bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-lg p-3 transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
+                          
+                          <div className="absolute top-2 right-2 w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
+                            <span className="text-lg font-bold text-white">{currency}</span>
+                          </div>
+                          
+                          <div className="mb-2">
+                            <img src={logo} alt={bank} className="h-6 object-contain" />
+                          </div>
+                          
+                          <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wide mb-2">{label}</p>
+                          <p className="text-base font-bold text-gray-900 mb-2">{number}</p>
+                          <p className="text-[10px] text-gray-600 leading-tight mb-3 line-clamp-2">{name}</p>
+                          
+                          <button 
+                            onClick={() => handleCopyAccount(number)} 
+                            className={`w-full py-2 rounded-md font-semibold text-xs transition-all duration-300 ${
+                              copiedAccount === number 
+                                ? 'bg-green-500 text-white' 
+                                : 'bg-black hover:bg-gray-800 text-white'
+                            }`}
+                          >
+                            {copiedAccount === number ? 'Copied!' : 'Copy Number'}
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
-                
-                {/* Account Type */}
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wide mb-2">{label}</p>
-                
-                {/* Account Number */}
-                <p className="text-base font-bold text-gray-900 mb-2">{number}</p>
-                
-                {/* Account Name - Smaller */}
-                <p className="text-[10px] text-gray-600 leading-tight mb-3 line-clamp-2">{name}</p>
-                
-                {/* Copy Button - Compact */}
-                <button 
-                  onClick={() => handleCopyAccount(number)} 
-                  className={`w-full py-2 rounded-md font-semibold text-xs transition-all duration-300 ${
-                    copiedAccount === number 
-                      ? 'bg-green-500 text-white' 
-                      : 'bg-black hover:bg-gray-800 text-white'
-                  }`}
-                >
-                  {copiedAccount === number ? 'Copied!' : 'Copy Number'}
-                </button>
-              </div>
+              </motion.div>
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  </motion.div>
-)}
+          )}
+        </AnimatePresence>
       </section>
       
-      {/* Main Footer - Sleek Design */}
+      {/* Main Footer */}
       <div className="relative border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <div className="grid md:grid-cols-12 gap-12 mb-16">
             
-            {/* Brand Column - Larger */}
             <div className="md:col-span-5">
               <div className="mb-6">
                 <h3 className="text-3xl font-bold mb-2">
@@ -219,7 +204,6 @@ export default function Footer() {
                 Discipling the nation and disciplining the devil through the transformative power of God's Word.
               </p>
               
-              {/* Social Links - Premium */}
               <div className="flex gap-4">
                 {[
                   { icon: Facebook, href: "https://www.facebook.com/Truelightghofficial", label: "Facebook" },
@@ -241,7 +225,6 @@ export default function Footer() {
               </div>
             </div>
             
-            {/* Quick Links - Updated with React Router Links */}
             <div className="md:col-span-3">
               <h4 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
                 <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-blue-600" />
@@ -262,7 +245,6 @@ export default function Footer() {
               </ul>
             </div>
             
-            {/* Contact Info */}
             <div className="md:col-span-4">
               <h4 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
                 <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-blue-600" />
@@ -297,7 +279,6 @@ export default function Footer() {
             </div>
           </div>
           
-          {/* Bottom Bar - Clean */}
           <div className="pt-10 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
