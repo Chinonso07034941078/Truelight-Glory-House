@@ -279,7 +279,7 @@ export default function CommunityPage() {
                       src={event.image}
                       alt={event.title}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700  group-hover:grayscale-0"
                     />
                   </motion.div>
 
@@ -320,4 +320,4 @@ export default function CommunityPage() {
 
     </div>
   );
-}
+}  
