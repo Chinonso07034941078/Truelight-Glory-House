@@ -261,7 +261,7 @@ export default function About() {
                   <img
                     src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269814/6dabb4de-b6a6-464c-bf4e-e63f6104c34d.png'
                     alt={pastorInfo.imageAlt || "Pastor of Truelight Glory House"}
-                    className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-auto object-cover transition-all duration-700"
                     loading="lazy"
                   />
                 </div>

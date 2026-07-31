@@ -389,8 +389,8 @@ export default function MinistryUnits() {
                   <div className="text-gray-900 font-medium">{selectedUnit.time}</div>
                 </div>
                 <div>
-                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2">Leader</div>
-                  <div className="text-gray-900 font-medium">{selectedUnit.leader}</div>
+                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2"></div>
+                  <div className="text-gray-900 font-medium"></div>
                 </div>
               </div>
 

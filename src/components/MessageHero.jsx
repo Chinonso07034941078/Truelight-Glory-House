@@ -118,18 +118,16 @@ export default function HeroSection() {
               
               {/* Blue Border Frame */}
               <div className="absolute -top-6 -right-6 w-full h-full border-8 border-blue-600 z-0"></div>
-              
-              {/* Image */}
-              <div className="relative z-10 overflow-hidden bg-gray-100">
-                <img
-                  src="https://res.cloudinary.com/dnvgl9k4i/image/upload/w_800,q_auto,f_auto/v1767186200/MAPA_bwxn13.webp"
-                  alt="Church Gathering"
-                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
+       {/* Image */}
+<div className="relative z-10 overflow-hidden">
+  <img
+    src="https://res.cloudinary.com/dnvgl9k4i/image/upload/w_800,q_auto,f_auto/v1767186200/MAPA_bwxn13.webp"
+    alt="Church Gathering"
+    className="w-full h-auto object-cover transition-all duration-700"
+    loading="lazy"
+    decoding="async"
+  />
+</div>
               {/* Stats Overlay - Mobile/Tablet */}
               <div className="lg:hidden absolute bottom-0 left-0 right-0 bg-white border-t-4 border-blue-600 p-6">
                 <div className="grid grid-cols-2 gap-4 text-center">

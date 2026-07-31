@@ -13,7 +13,7 @@ const truncateText = (text, maxLength) => {
 
 // Data for the Cards Section
 const cards = [
-  { titleTop: "Join Our Community", title: "Get Involved", button: "Learn More", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771202266/628468874_1310174114476949_7190892053704142796_n_lmsh2i.jpg', action: "navigate", path: "/about" },
+  { titleTop: "Join Our Community", title: "Get Involved", button: "Learn More", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771202142/629486041_1310175651143462_620369017042103686_n_ci87yq.jpg', action: "navigate", path: "/about" },
   { titleTop: "Give Generously", title: "Donate Today", button: "Give Now", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771204959/dd795031-f38e-49f5-b6f8-dc8dbbf2af8a.png', action: "navigate", path: "/support" },
   { titleTop: "Connect With Us", title: "Contact", button: "Connect", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771205271/a6771218-13dd-458e-8e2f-9b79ae194583.png', action: "navigate", path: "/contact" },
   { titleTop: "Listen To Our Sermons", title: "Sermons", button: "Listen", image: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1771203266/630062818_1311600097667684_7216414172780416453_n_jej2ux.jpg', action: "navigate", path: "/sermons" }
@@ -76,7 +76,7 @@ export default function CardsAndPastorPage() {
                   src={card.image} 
                   alt={card.title}
                   loading="lazy" 
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-700" 
                 />
                 
                 {/* Gradient Overlay */}
@@ -127,12 +127,12 @@ export default function CardsAndPastorPage() {
                 <div className="absolute -top-8 -left-8 w-full h-full border-8 border-blue-600 z-0"></div>
                 
                 {/* Image */}
-                <div className="relative z-10 overflow-hidden bg-gray-200">
+                <div className="relative z-10 overflow-hidden ">
                   <img 
                     src='https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269814/6dabb4de-b6a6-464c-bf4e-e63f6104c34d.png'
                     alt={pastorInfo.title} 
                     loading="lazy"
-                    className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700" 
+                    className="w-full h-auto object-cover  transition-all duration-700" 
                   />
                 </div>
 
