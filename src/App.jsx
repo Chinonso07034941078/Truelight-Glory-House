@@ -8,6 +8,7 @@ import Event from "./pages/Event";
 import Units from "./pages/Units";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
+import WCC from "./pages/WCC";
 import ScrollToTop from "./components/ScrollToTop";
 // import JubileeCountdownPopup from './components/Pop-up';
 
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/units" element={<Units />} />
           <Route path="/sermons" element={<Sermons />} />
           <Route path="/events" element={<Event />} />
+          <Route path="/wcc" element={<WCC />} />
           <Route path="/support" element={<Support />} />
         </Routes>
       </BrowserRouter>

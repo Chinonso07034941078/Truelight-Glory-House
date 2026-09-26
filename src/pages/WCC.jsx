@@ -362,9 +362,9 @@ export default function WCC() {
         <img
           src="/wcc.jpg"
           alt="Truelight Glory House WCC"
-          className="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px] brightness-[0.68] saturate-[0.76]"
+          className="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px] brightness-[0.58] saturate-[0.8]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(76,130,220,0.72)_0%,rgba(91,145,229,0.62)_48%,rgba(112,163,236,0.52)_78%,rgba(154,63,18,0.24)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(23,70,162,0.88)_0%,rgba(36,89,189,0.82)_48%,rgba(63,112,214,0.68)_78%,rgba(154,63,18,0.30)_100%)]" />
         <div className="absolute -right-24 top-20 h-72 w-72 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
         <div className="absolute -bottom-36 left-1/3 h-80 w-80 rounded-full border border-white/10 bg-white/5 blur-3xl" />
 

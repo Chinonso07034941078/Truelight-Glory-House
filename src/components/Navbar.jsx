@@ -30,14 +30,15 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About" },
-    { to: "/units", label: "Units" },
-    { to: "/sermons", label: "Sermons" },
-    { to: "/events", label: "Events" },
-    { to: "/support", label: "Support" },
-    { to: "/contact", label: "Contact" },
-  ];
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/units", label: "Units" },
+  { to: "/sermons", label: "Sermons" },
+  { to: "/events", label: "Events" },
+  { to: "/support", label: "Support" },
+  { to: "/wcc", label: "WCC" },
+  { to: "/contact", label: "Contact" },
+];
 
   return (
     <nav className="fixed top-0 w-full z-50">
