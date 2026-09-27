@@ -649,7 +649,7 @@ export default function WCC() {
                 <img
                   src={NEXT_STEP_IMAGE_URL}
                   alt="WCC 2026 invitation artwork"
-                  className="h-56 w-full object-cover object-center opacity-95 transition duration-500 hover:scale-105 sm:h-64 lg:h-72"
+                  className="h-full w-full object-cover object-center opacity-95 transition duration-500 hover:scale-105 sm:h-64 lg:h-72"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-orange-950/55 via-transparent to-white/5" />
                 <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-4">
