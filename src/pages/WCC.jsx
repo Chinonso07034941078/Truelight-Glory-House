@@ -7,7 +7,6 @@ import {
   ChevronDown,
   Loader2,
   Mail,
-  MapPin,
   Phone,
   User,
   Church,
@@ -40,7 +39,6 @@ const INITIAL_FORM_DATA = {
   unit: "",
   church: "",
   locationScope: "",
-  locationDetail: "",
   needsAccommodation: "",
   isPastor: "",
   pastorChurch: "",
@@ -293,7 +291,6 @@ export default function WCC() {
         if (value === "yes") {
           updated.church = "";
           updated.locationScope = "";
-          updated.locationDetail = "";
           updated.needsAccommodation = "";
           updated.isPastor = "";
           updated.pastorChurch = "";
@@ -303,12 +300,6 @@ export default function WCC() {
         }
       }
       if (key === "isWorker" && value === "no") updated.unit = "";
-      if (key === "locationScope" && value === "no") {
-        updated.locationDetail = "";
-        updated.needsAccommodation = "";
-        updated.isPastor = "";
-        updated.pastorChurch = "";
-      }
       if (key === "isPastor" && value === "no") updated.pastorChurch = "";
       return updated;
     });
@@ -321,14 +312,12 @@ export default function WCC() {
         delete next.unit;
         delete next.church;
         delete next.locationScope;
-        delete next.locationDetail;
         delete next.needsAccommodation;
         delete next.isPastor;
         delete next.pastorChurch;
       }
       if (key === "isWorker") delete next.unit;
       if (key === "locationScope") {
-        delete next.locationDetail;
         delete next.needsAccommodation;
         delete next.isPastor;
         delete next.pastorChurch;
@@ -368,25 +357,16 @@ export default function WCC() {
         newErrors.church = "Please enter the church you attend.";
       if (!formData.locationScope)
         newErrors.locationScope =
-          "Please let us know if you are coming from Owerri.";
-      else if (formData.locationScope === "yes") {
-        if (!formData.locationDetail.trim()) {
-          newErrors.locationDetail =
-            "Please tell us which state or country you are coming from.";
-        }
-        if (!formData.needsAccommodation) {
-          newErrors.needsAccommodation =
-            "Please let us know if you need accommodation.";
-        }
-        if (!formData.isPastor) {
-          newErrors.isPastor = "Please let us know if you are a pastor.";
-        } else if (
-          formData.isPastor === "yes" &&
-          !formData.pastorChurch.trim()
-        ) {
-          newErrors.pastorChurch =
-            "Please tell us which church you pastor or attend.";
-        }
+          "Please let us know if you are coming from outside Owerri.";
+      if (!formData.needsAccommodation) {
+        newErrors.needsAccommodation =
+          "Please let us know if you need accommodation.";
+      }
+      if (!formData.isPastor) {
+        newErrors.isPastor = "Please let us know if you are a pastor.";
+      } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
+        newErrors.pastorChurch =
+          "Please tell us which church you pastor or attend.";
       }
     }
     setErrors(newErrors);
@@ -889,6 +869,39 @@ export default function WCC() {
                             onChange={handleChange}
                           />
                           <SelectField
+                            id="isPastor"
+                            label="Are you a pastor?"
+                            required
+                            value={formData.isPastor}
+                            error={errors.isPastor}
+                            placeholder="Select Yes or No"
+                            options={YES_NO_OPTIONS}
+                            onChange={handleChange}
+                            isYesNo
+                          />
+                          <AnimatePresence initial={false}>
+                            {formData.isPastor === "yes" && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.25 }}
+                                className="overflow-hidden"
+                              >
+                                <TextField
+                                  id="pastorChurch"
+                                  label="Which church?"
+                                  required
+                                  icon={Church}
+                                  value={formData.pastorChurch}
+                                  error={errors.pastorChurch}
+                                  placeholder="Enter the church name"
+                                  onChange={handleChange}
+                                />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                          <SelectField
                             id="locationScope"
                             label="Are you coming from outside Owerri?"
                             required
@@ -899,74 +912,17 @@ export default function WCC() {
                             onChange={handleChange}
                             isYesNo
                           />
-                          <AnimatePresence mode="wait">
-                            {formData.locationScope === "yes" && (
-                              <motion.div
-                                key="location-detail"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="space-y-6 overflow-hidden"
-                              >
-                                <TextField
-                                  id="locationDetail"
-                                  label="Which state or country are you coming from?"
-                                  required
-                                  icon={MapPin}
-                                  value={formData.locationDetail}
-                                  error={errors.locationDetail}
-                                  placeholder="e.g. Lagos, or United Kingdom"
-                                  onChange={handleChange}
-                                />
-
-                                <SelectField
-                                  id="needsAccommodation"
-                                  label="Do you need accommodation?"
-                                  required
-                                  value={formData.needsAccommodation}
-                                  error={errors.needsAccommodation}
-                                  placeholder="Select Yes or No"
-                                  options={YES_NO_OPTIONS}
-                                  onChange={handleChange}
-                                  isYesNo
-                                />
-                                <SelectField
-                                  id="isPastor"
-                                  label="Are you a pastor?"
-                                  required
-                                  value={formData.isPastor}
-                                  error={errors.isPastor}
-                                  placeholder="Select Yes or No"
-                                  options={YES_NO_OPTIONS}
-                                  onChange={handleChange}
-                                  isYesNo
-                                />
-                                <AnimatePresence initial={false}>
-                                  {formData.isPastor === "yes" && (
-                                    <motion.div
-                                      initial={{ opacity: 0, height: 0 }}
-                                      animate={{ opacity: 1, height: "auto" }}
-                                      exit={{ opacity: 0, height: 0 }}
-                                      transition={{ duration: 0.25 }}
-                                      className="overflow-hidden"
-                                    >
-                                      <TextField
-                                        id="pastorChurch"
-                                        label="Which church?"
-                                        required
-                                        icon={Church}
-                                        value={formData.pastorChurch}
-                                        error={errors.pastorChurch}
-                                        placeholder="Enter the church name"
-                                        onChange={handleChange}
-                                      />
-                                    </motion.div>
-                                  )}
-                                </AnimatePresence>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                          <SelectField
+                            id="needsAccommodation"
+                            label="Do you need accommodation?"
+                            required
+                            value={formData.needsAccommodation}
+                            error={errors.needsAccommodation}
+                            placeholder="Select Yes or No"
+                            options={YES_NO_OPTIONS}
+                            onChange={handleChange}
+                            isYesNo
+                          />
                         </motion.div>
                       )}
                     </AnimatePresence>
