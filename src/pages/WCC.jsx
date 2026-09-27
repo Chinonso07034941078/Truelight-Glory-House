@@ -831,7 +831,7 @@ export default function WCC() {
                     By submitting this form, you agree to provide your
                     information for registration and communication purposes.
                     You&apos;ll receive a check-in code by email — keep it for
-                    the day of the event.
+                    the day of the events.
                   </p>
                 </div>
               </form>
