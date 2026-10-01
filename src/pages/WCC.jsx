@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 // Paste the deployed Google Apps Script Web App URL here.
-const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbykUR_LdUmqKPYP8ELnJKkglceCZTz8Myj9hwT9nHgpVwVs7-esaHGYlT_gfEeSujin/exec";
+const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwbWyC76YVzj4_uktbiR2683dmpLSiBXmC-deICx26nmX5lMJiRTYuA_Hk4rf_9HTdX/exec";
 
 // Keep this order aligned with the header row in Google Sheets.
 // Every answer is mapped explicitly, including the generated IDs.
@@ -123,7 +123,7 @@ function generateRegistrationId() {
 }
 
 function fieldClasses(hasError, withIcon) {
-  return `w-full rounded-2xl border bg-white py-3.5 text-orange-950 outline-none transition-all duration-200 placeholder:text-orange-900/40 focus:bg-white focus:ring-4 ${
+  return `w-full rounded-xl border bg-white py-3.5 text-orange-950 outline-none transition-all duration-200 placeholder:text-orange-900/40 focus:bg-white focus:ring-4 ${
     withIcon ? "pl-12 pr-4" : "px-4"
   } ${
     hasError
@@ -288,10 +288,12 @@ const YES_NO_OPTIONS = [
 
 const UNIT_OPTIONS = UNITS.map((unit) => ({ value: unit, label: unit }));
 
-const HERO_IMAGE_URL =
-  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790518651/3f039210-0998-45a1-9505-6381f92f2489_f8v77p.jpg";
 const NEXT_STEP_IMAGE_URL =
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790520059/90749eb0-03a6-4982-868e-a07b3534a06d.png";
+const WCC_LOGO_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790827899/The_Takeover_Generation_Logo_2_zcvm8n.png";
+const WCC_DRESS_IMAGE_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790828208/aacc7e85-f668-4ae8-8786-84c00c511696_fdlovh.jpg";
 
 const COUNTDOWN_TARGET = new Date("2026-11-11T00:00:00").getTime();
 
@@ -338,12 +340,12 @@ function Countdown() {
       ].map(([value, label]) => (
         <div
           key={label}
-          className="rounded-2xl border border-white/25 bg-[#7c2d12]/60 px-2 py-3 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-4 sm:py-4"
+          className="rounded-lg border border-white/25 bg-[#7c2d12]/60 px-2 py-2 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-3 sm:py-3"
         >
-          <div className="text-2xl font-black tabular-nums text-white sm:text-4xl">
+          <div className="text-xl font-black tabular-nums text-white sm:text-3xl">
             {String(value).padStart(2, "0")}
           </div>
-          <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-orange-200 sm:text-[10px]">
+          <div className="mt-1 text-[8px] font-bold uppercase tracking-[0.14em] text-orange-200 sm:text-[9px]">
             {label}
           </div>
         </div>
@@ -503,26 +505,72 @@ export default function WCC() {
 
   return (
     <main
-      className="min-h-screen bg-white font-sans text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
+      className="min-h-screen bg-white text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
       style={{
         fontFamily:
-          "'Aderio Trial Family', 'Aderio', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+          "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+        fontSize: "15px",
       }}
     >
       {/* ========================= HERO ========================= */}
-      <section className="relative flex min-h-[94vh] items-center overflow-hidden bg-[#7c2d12] text-white lg:min-h-[760px]">
-        <img
-          src={HERO_IMAGE_URL}
-          alt="The Takeover Generation 2026 convention artwork"
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center brightness-[0.62] saturate-[1.15]"
+      <section
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white"
+        style={{
+          fontFamily:
+            "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+        }}
+      >
+        {/* Image-free recreation of the supplied poster background. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[#3b160b]"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse at 50% 98%, rgba(245,122,20,0.42) 0%, rgba(151,58,12,0.22) 25%, transparent 52%), radial-gradient(ellipse at 50% 35%, rgba(160,62,12,0.58) 0%, transparent 62%), linear-gradient(145deg, #7a2b0b 0%, #54200c 48%, #2b1209 100%)",
+          }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(67,20,7,0.92)_0%,rgba(124,45,18,0.72)_48%,rgba(194,65,12,0.38)_100%)]" />
-        <div className="absolute -right-24 top-20 h-72 w-72 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
-        <div className="absolute -bottom-36 left-1/3 h-80 w-80 rounded-full border border-white/10 bg-white/5 blur-3xl" />
+        <svg
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full opacity-35"
+          viewBox="0 0 1440 1000"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <g stroke="#e49a4b" strokeWidth="1.4" opacity="0.38">
+            <path d="M-60 170C100 80 170 10 360-38c150-38 220 67 370 39 176-33 200-108 391-54 146 41 190 92 377 19" />
+            <path d="M-80 224C86 125 165 45 350 2c147-34 226 66 366 39 175-34 210-112 393-58 142 42 203 102 391 20" />
+            <path d="M-92 284C88 170 158 91 339 49c151-35 231 67 374 40 169-32 212-112 393-58 154 45 207 101 404 13" />
+            <path d="M-130 602c206-74 286-139 473-93 173 42 202 143 372 122 155-19 224-129 404-113 141 12 192 75 367 36" />
+            <path d="M-100 672c208-76 297-145 481-98 165 43 204 142 368 122 164-19 228-132 411-115 143 13 196 76 367 34" />
+            <path d="M-96 744c208-79 302-150 487-103 159 41 199 139 364 121 169-19 237-135 416-117 145 14 194 76 366 32" />
+            <path d="M-60 820c173-72 295-113 443-77 162 39 221 152 393 135 158-16 225-127 378-119 158 9 220 90 354 46" />
+            <path d="M820-50c-15 132-127 165-115 286 12 124 166 103 178 215 13 123-128 172-111 287 19 128 191 137 180 270-8 92-102 131-129 223" />
+            <path d="M900-55c-14 131-128 169-112 288 16 119 163 103 178 218 16 124-124 168-108 286 17 127 186 142 176 268-7 94-105 134-126 228" />
+            <path d="M986-40c-13 124-118 165-103 278 15 116 153 103 168 211 16 117-117 161-101 274 17 121 173 138 166 256-5 97-99 141-121 232" />
+          </g>
+        </svg>
+        <div aria-hidden="true" className="pointer-events-none absolute left-[7%] top-24 hidden h-px w-24 bg-white/55 lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute right-[9%] top-28 hidden h-36 w-px bg-white/35 lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute right-[7%] top-[17rem] hidden h-px w-28 rotate-[28deg] bg-white/45 lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-24 left-[12%] hidden h-px w-32 bg-white/35 lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute left-5 top-[27%] h-px w-12 bg-white/45 sm:hidden" />
+        <div aria-hidden="true" className="pointer-events-none absolute right-5 top-[39%] h-16 w-px bg-white/35 sm:hidden" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-[19%] left-[15%] h-px w-20 rotate-[-24deg] bg-white/40 sm:hidden" />
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#170b06] via-[#4a1c0a]/60 to-transparent" />
+        <div aria-hidden="true" className="absolute -right-16 top-16 h-52 w-52 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
+        <div aria-hidden="true" className="absolute -bottom-24 left-1/3 h-60 w-60 rounded-full border border-white/10 bg-white/5 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-24 sm:h-32">
+          <div className="absolute bottom-0 left-[-4%] h-20 w-14 rounded-[48%_48%_12%_12%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.28)] sm:h-28 sm:w-20" />
+          <div className="absolute bottom-0 left-[18%] h-16 w-10 rounded-[45%_45%_10%_10%] bg-[#1b080a] sm:h-24 sm:w-14" />
+          <div className="absolute bottom-0 left-[42%] h-24 w-16 rounded-[48%_48%_10%_10%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.25)] sm:h-32 sm:w-20" />
+          <div className="absolute bottom-0 right-[18%] h-16 w-10 rounded-[45%_45%_10%_10%] bg-[#1b080a] sm:h-24 sm:w-14" />
+          <div className="absolute bottom-0 right-[-3%] h-20 w-14 rounded-[48%_48%_12%_12%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.28)] sm:h-28 sm:w-20" />
+          <div className="absolute bottom-16 left-[2%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-20 sm:h-6" />
+          <div className="absolute bottom-12 left-[45%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-28 sm:h-6" />
+          <div className="absolute bottom-16 right-[2%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-20 sm:h-6" />
+        </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-none items-center gap-14 px-6 py-28 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-20 lg:py-32">
+        <div className="relative z-10 mx-auto flex w-full max-w-[980px] flex-col items-center gap-5 px-5 py-10 text-center sm:px-8 sm:py-12 lg:gap-6 lg:px-12 lg:py-14">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -530,38 +578,38 @@ export default function WCC() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.12 } },
             }}
-            className="max-w-3xl"
+            className="flex w-full max-w-3xl flex-col items-center lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-14 lg:gap-y-3"
           >
-            <motion.div
-              variants={fadeUp}
-              className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-100 backdrop-blur-md"
-            >
-              <span className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_16px_rgba(251,146,60,0.9)]" />
-              Truelight Glory House
-            </motion.div>
-
             <motion.h1
               variants={fadeUp}
-              className="max-w-xl text-6xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-8xl lg:text-[8.5rem]"
+              className="relative -left-3 max-w-xl text-center text-4xl font-black leading-[0.92] tracking-[-0.07em] text-white sm:left-0 sm:text-6xl lg:col-start-1 lg:row-start-1 lg:justify-self-start lg:text-left lg:text-[5.25rem] xl:text-[5.75rem]"
             >
-              WCC <span className="text-orange-400">2026</span>
+              WCC <span className="text-[#d97706]">2026</span>
             </motion.h1>
 
-            <motion.p
+            <motion.div
               variants={fadeUp}
-              className="mt-7 max-w-xl text-2xl font-medium leading-tight text-orange-50 sm:text-3xl"
+              className="relative left-3 mx-auto mt-4 max-w-md sm:left-0 lg:col-start-2 lg:row-start-1 lg:ml-8 lg:mt-2 lg:justify-self-start"
             >
-              The Takeover Generation
-            </motion.p>
-            <motion.div variants={fadeUp} className="mt-8 max-w-2xl">
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-orange-200">
+              <img
+                src={WCC_LOGO_URL}
+                alt="The Takeover Generation"
+                loading="eager"
+                decoding="async"
+                className="mx-auto w-full max-w-[16rem] rounded-xl object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)] sm:max-w-[20rem] lg:max-w-[24rem] lg:object-left"
+              />
+            </motion.div>
+            <motion.div variants={fadeUp} className="relative -left-2 mt-5 w-full max-w-xl sm:left-0 lg:col-start-2 lg:row-start-2 lg:ml-16 lg:justify-self-start">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-orange-200">
                 Countdown to 11 November 2026
               </p>
-              <Countdown />
+              <div className="mx-auto max-w-xl text-left">
+                <Countdown />
+              </div>
             </motion.div>
             <motion.p
               variants={fadeUp}
-              className="mt-5 max-w-lg font-sans text-base leading-8 text-orange-50/80 sm:text-lg"
+              className="relative left-2 mx-auto mt-3 max-w-md text-center text-sm leading-6 text-orange-50/80 sm:left-0 sm:text-base lg:col-start-1 lg:row-start-2 lg:ml-6 lg:justify-self-start lg:text-left"
             >
               Join us this season. Complete the registration below and tell us a
               little about yourself.
@@ -569,11 +617,11 @@ export default function WCC() {
 
             <motion.div
               variants={fadeUp}
-              className="mt-10 flex flex-col gap-4 sm:flex-row"
+              className="relative -left-1 mt-6 flex flex-col justify-center gap-3 sm:left-0 sm:flex-row lg:col-start-1 lg:row-start-3 lg:ml-6 lg:justify-self-start"
             >
               <button
                 onClick={scrollToRegistration}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#c2410c] px-7 py-4 font-semibold text-white shadow-xl shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412]"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e]"
               >
                 Register now
                 <ArrowUpRight
@@ -583,7 +631,7 @@ export default function WCC() {
               </button>
               <button
                 onClick={scrollToRegistration}
-                className="inline-flex items-center justify-center rounded-2xl border border-white/30 bg-white/5 px-7 py-4 font-semibold text-white backdrop-blur-sm transition-all hover:border-orange-300/70 hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-orange-300/70 hover:bg-white/10"
               >
                 Learn more
               </button>
@@ -594,14 +642,14 @@ export default function WCC() {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
-            className="hidden lg:block"
+            className="hidden"
           >
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-white/[0.11] p-6 shadow-2xl shadow-black/20 ">
-              <div className="absolute left-0 top-0 h-full w-1 bg-[#c2410c]" />
-              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-orange-200">
+            <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/[0.11] p-5 text-left shadow-xl shadow-black/20 backdrop-blur-sm">
+              <div className="absolute left-0 top-0 h-full w-[2px] bg-[#b45309]" />
+              <p className="text-[10px] uppercase tracking-[0.24em] text-orange-200">
                 The WCC experience
               </p>
-              <div className="mt-8 space-y-6">
+              <div className="mt-6 space-y-5">
                 {[
                   ["01", "Connect", "Find people who feel like home."],
                   ["02", "Grow", "Build faith, courage, and purpose."],
@@ -609,21 +657,21 @@ export default function WCC() {
                 ].map(([number, title, copy]) => (
                   <div
                     key={number}
-                    className="flex gap-4 border-b border-white/10 pb-5 last:border-0 last:pb-0"
+                    className="flex gap-3 border-b border-white/10 pb-4 last:border-0 last:pb-0"
                   >
-                    <span className="font-mono text-xs text-orange-300">
+                    <span className="text-xs text-orange-300">
                       {number}
                     </span>
                     <div>
-                      <h3 className="text-xl text-white">{title}</h3>
-                      <p className="mt-1 text-sm leading-6 text-orange-50/70">
+                      <h3 className="text-lg text-white">{title}</h3>
+                      <p className="mt-1 text-xs leading-5 text-orange-50/70">
                         {copy}
                       </p>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 h-px w-20 bg-[#c2410c]" />
+              <div className="mt-5 h-px w-16 bg-[#b45309]" />
             </div>
           </motion.aside>
         </div>
@@ -642,7 +690,7 @@ export default function WCC() {
 
       {/* ========================= INTRO ========================= */}
       <section className="relative overflow-hidden bg-white py-20 sm:py-28">
-        <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c2410c]/5 blur-3xl" />
+        <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b45309]/5 blur-3xl" />
         <div className="relative mx-auto max-w-none px-6 text-center lg:px-20 lg:text-left">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -650,15 +698,15 @@ export default function WCC() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-orange-700">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-700">
               Registration
             </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#9a3412] sm:text-5xl">
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#92400e] sm:text-5xl">
               Let&apos;s get to know you
             </h2>
             <div className="mt-7 flex items-center gap-4 lg:max-w-3xl">
-              <span className="h-[3px] w-20 bg-[#c2410c]" />
-              <p className="max-w-2xl font-sans leading-8 text-orange-900/75">
+              <span className="h-[2px] w-20 bg-[#b45309]" />
+              <p className="max-w-2xl leading-8 text-orange-900/75">
                 Fill out the form below with your details. It helps us prepare
                 for your visit and connect you with the right team.
               </p>
@@ -675,13 +723,13 @@ export default function WCC() {
         <div className="absolute right-0 top-20 h-72 w-72 translate-x-1/3 rounded-full bg-orange-900/5 blur-3xl" />
         <div className="relative grid w-full lg:grid-cols-[36%_64%]">
           <aside className="relative flex min-h-[540px] flex-col justify-between overflow-hidden bg-[#7c2d12] px-6 py-14 text-white sm:px-10 lg:min-h-[780px] lg:px-16 lg:py-20">
-            <div className="absolute right-0 top-0 h-full w-2 bg-[#c2410c]" />
+            <div className="absolute right-0 top-0 h-full w-[2px] bg-[#b45309]" />
             <div className="absolute left-8 top-28 hidden h-44 w-px bg-white/25 lg:block" />
-            <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#c2410c] lg:block" />
+            <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#b45309] lg:block" />
             <div className="relative pl-0 lg:pl-10">
               <div className="mb-8 flex items-center gap-4">
-                <span className="h-[3px] w-14 bg-[#c2410c]" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
+                <span className="h-[2px] w-14 bg-[#b45309]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
                   02 / WCC
                 </span>
               </div>
@@ -690,12 +738,12 @@ export default function WCC() {
                 <br />
                 <span className="text-orange-300">next step.</span>
               </h2>
-              <p className="mt-8 max-w-sm font-sans text-base leading-8 text-orange-50/80 sm:text-lg">
+              <p className="mt-8 max-w-sm text-base leading-8 text-orange-50/80 sm:text-lg">
                 A simple registration is the beginning of a meaningful
                 connection. Tell us where you are coming from and what you are
                 hoping to discover.
               </p>
-              <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-orange-200/25 bg-orange-950/20 shadow-2xl shadow-orange-950/30">
+              <div className="relative mt-10 overflow-hidden rounded-xl border border-orange-200/25 bg-orange-950/20 shadow-xl shadow-orange-950/30">
                 <img
                   src={NEXT_STEP_IMAGE_URL}
                   alt="WCC 2026 invitation artwork"
@@ -718,8 +766,8 @@ export default function WCC() {
                 ["02", "Grow"],
                 ["03", "Serve"],
               ].map(([number, label]) => (
-                <div key={number} className="border-t-2 border-white/20 pt-3">
-                  <span className="font-mono text-xs text-orange-300">
+                <div key={number} className="border-t border-white/20 pt-3">
+                  <span className="text-xs text-orange-300">
                     {number}
                   </span>
                   <p className="mt-2 text-sm font-semibold text-white">
@@ -738,20 +786,20 @@ export default function WCC() {
             className="w-full overflow-hidden bg-white shadow-none"
           >
             <div className="relative overflow-hidden border-b border-orange-100 bg-white px-6 py-10 text-[#7c2d12] sm:px-10 lg:px-16 lg:py-14">
-              <div className="absolute bottom-0 left-0 h-2 w-28 bg-[#c2410c]" />
+              <div className="absolute bottom-0 left-0 h-[2px] w-28 bg-[#b45309]" />
               <div className="relative">
                 <div className="mb-5 flex items-center gap-4">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#9a3f12]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#92400e]">
                     Your details
                   </span>
-                  <span className="h-px w-16 bg-[#c2410c]" />
+                  <span className="h-px w-16 bg-[#b45309]" />
                 </div>
                 <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#7c2d12] sm:text-5xl lg:text-6xl">
                   Register your details
                 </h2>
-                <p className="mt-5 max-w-lg font-sans text-sm leading-6 text-orange-900/65 sm:text-base">
+                <p className="mt-5 max-w-lg text-sm leading-6 text-orange-900/65 sm:text-base">
                   Fields marked with an asterisk (
-                  <span className="text-[#9a3f12]">*</span>) are required.
+                  <span className="text-[#92400e]">*</span>) are required.
                 </p>
               </div>
             </div>
@@ -762,7 +810,7 @@ export default function WCC() {
                   Your check-in number
                 </p>
                 <div
-                  className="mt-4 text-7xl font-black tracking-[0.12em] text-[#9a3412] sm:text-8xl"
+                  className="mt-4 text-7xl font-black tracking-[0.12em] text-[#92400e] sm:text-8xl"
                   aria-label={`Your check-in number is ${registrationId}`}
                 >
                   {registrationId}
@@ -770,15 +818,15 @@ export default function WCC() {
                 <div className="mx-auto mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
                   <CheckCircle2 size={27} className="text-orange-700" />
                 </div>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#9a3412]">
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#92400e]">
                   Registration successful
                 </h3>
-                <p className="mt-2 font-sans text-sm text-orange-900/65">
+                <p className="mt-2 text-sm text-orange-900/65">
                   Save this number and bring it with you for check-in.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-8 rounded-2xl bg-[#c2410c] px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412]"
+                  className="mt-8 rounded-xl bg-[#b45309] px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#92400e]"
                 >
                   Register someone else
                 </button>
@@ -792,11 +840,11 @@ export default function WCC() {
                 {/* Personal Information */}
                 <div className="mb-10">
                   <div className="mb-6 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-100 text-orange-800">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100 text-orange-800">
                       <User size={18} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[#9a3412]">
+                      <h3 className="font-semibold text-[#92400e]">
                         Personal information
                       </h3>
                       <p className="text-xs text-orange-900/65">
@@ -859,8 +907,8 @@ export default function WCC() {
                   </div>
                   <div className="sm:col-span-2 border-t border-orange-100 pt-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <span className="h-[3px] w-10 bg-[#c2410c]" />
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#7c2d12]">
+                      <span className="h-[2px] w-10 bg-[#b45309]" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7c2d12]">
                         Church connection
                       </span>
                     </div>
@@ -1017,7 +1065,7 @@ export default function WCC() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#c2410c] px-6 py-4 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412] disabled:cursor-not-allowed disabled:opacity-70"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#b45309] px-6 py-4 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <>
@@ -1041,10 +1089,54 @@ export default function WCC() {
         </div>
       </section>
 
+      {/* ========================= WCC DRESS ========================= */}
+      <section className="relative overflow-hidden bg-orange-50 px-6 py-20 sm:px-10 lg:px-20 lg:py-28">
+        <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
+        <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-orange-900/10 blur-3xl" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-orange-700">
+              Come dressed for the moment
+            </p>
+            <h2 className="mt-4 text-5xl font-black leading-[0.92] tracking-[-0.06em] text-[#7c2d12] sm:text-7xl">
+              WCC
+              <br />
+              <span className="text-[#b45309]">Dress</span>
+            </h2>
+            <div className="mt-7 h-1 w-20 bg-[#b45309]" />
+            <p className="mt-6 max-w-md text-base leading-8 text-orange-950/70 sm:text-lg">
+              Check the official WCC dress guide and prepare to show up with
+              confidence for the Takeover Generation.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.08 }}
+            className="relative overflow-hidden rounded-xl border border-orange-200 bg-white p-2 shadow-[0_24px_70px_rgba(124,45,18,0.18)]"
+          >
+            <img
+              src={WCC_DRESS_IMAGE_URL}
+              alt="WCC 2026 dress guide"
+              loading="lazy"
+              decoding="async"
+              className="h-auto max-h-[44rem] w-full rounded-xl object-contain"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       <section className="relative overflow-hidden bg-[#7c2d12] px-6 py-20 text-white sm:px-10 lg:px-20">
         <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
         <div className="relative mx-auto max-w-5xl text-center">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-orange-200">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-orange-200">
             For the next generation
           </p>
           <h2 className="mt-4 text-5xl font-black tracking-[-0.06em] text-white sm:text-7xl">
@@ -1060,7 +1152,7 @@ export default function WCC() {
               setChildFormOpen((open) => !open);
               setChildSubmitted(false);
             }}
-            className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-orange-400 px-8 py-4 font-black text-orange-950 shadow-xl shadow-orange-950/30 transition hover:-translate-y-1 hover:bg-orange-300"
+            className="mt-8 inline-flex items-center gap-3 rounded-xl bg-orange-400 px-8 py-4 font-black text-orange-950 shadow-xl shadow-orange-950/30 transition hover:-translate-y-1 hover:bg-orange-300"
             aria-expanded={childFormOpen}
             aria-controls="child-registration-form"
           >
@@ -1076,7 +1168,7 @@ export default function WCC() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="mx-auto mt-10 max-w-3xl rounded-[2rem] border border-orange-200/30 bg-white p-6 text-left shadow-2xl shadow-orange-950/30 sm:p-10"
+                className="mx-auto mt-10 max-w-3xl rounded-xl border border-orange-200/30 bg-white p-6 text-left shadow-xl shadow-orange-950/30 sm:p-10"
               >
                 {childSubmitted ? (
                   <div className="py-8 text-center">
@@ -1141,7 +1233,7 @@ export default function WCC() {
                     />
                     <button
                       type="submit"
-                      className="sm:col-span-2 rounded-2xl bg-[#c2410c] px-6 py-4 font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#9a3412]"
+                      className="sm:col-span-2 rounded-xl bg-[#b45309] px-6 py-4 font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#92400e]"
                     >
                       Submit child registration
                     </button>
