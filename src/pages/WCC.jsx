@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 // Paste the deployed Google Apps Script Web App URL here.
-const GOOGLE_SHEETS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbykUR_LdUmqKPYP8ELnJKkglceCZTz8Myj9hwT9nHgpVwVs7-esaHGYlT_gfEeSujin/exec";
 
 // Keep this order aligned with the header row in Google Sheets.
 // Every answer is mapped explicitly, including the generated IDs.
