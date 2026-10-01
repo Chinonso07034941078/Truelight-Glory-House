@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 
 // Paste the deployed Google Apps Script Web App URL here.
-const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwbWyC76YVzj4_uktbiR2683dmpLSiBXmC-deICx26nmX5lMJiRTYuA_Hk4rf_9HTdX/exec";
+const GOOGLE_SHEETS_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbwLr43-zPDMqX0ophirx4UrdGnFuqBL0B9aDLXQPydWkEDzHWKFvc2p9pPHQMZkAz7_/exec";
 
 // Keep this order aligned with the header row in Google Sheets.
 // Every answer is mapped explicitly, including the generated IDs.
@@ -249,7 +250,7 @@ function SelectField({
           aria-describedby={error ? errorId : undefined}
           className={`${fieldClasses(!!error, false)} appearance-none pr-11 ${
             isYesNo
-              ? "border-orange-200 bg-gradient-to-br from-white via-white to-orange-50/70 font-semibold shadow-[0_8px_24px_rgba(154,63,18,0.08)] focus:border-orange-700 focus:ring-orange-100"
+              ? "border-orange-200 wcc-smooth-orange-fade font-semibold shadow-[0_8px_24px_rgba(154,63,18,0.08)] focus:border-orange-700 focus:ring-orange-100"
               : ""
           }`}
         >
@@ -294,6 +295,19 @@ const WCC_LOGO_URL =
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790827899/The_Takeover_Generation_Logo_2_zcvm8n.png";
 const WCC_DRESS_IMAGE_URL =
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790828208/aacc7e85-f668-4ae8-8786-84c00c511696_fdlovh.jpg";
+const HANDSHAKE_IMAGE_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790872098/92d74279-d379-4a61-8f4a-c56b2a7950ff_iw0rqo.png";
+const GUEST_SPEAKER_IMAGES = [
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877657/PKU_PASTOR_KACHI_1_cjniyi.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/PIU2_ndy79o.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877656/PYD_ny5rk3.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877653/PVO_ypbfe8.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877654/PDO_ujiv6v.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MDO_cyqopq.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MEB_kvbeps.png",
+];
+
+const PARTNER_ACCOUNT_NUMBER = "1025555159";
 
 const COUNTDOWN_TARGET = new Date("2026-11-11T00:00:00").getTime();
 
@@ -331,7 +345,7 @@ function Countdown() {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 gap-2 sm:max-w-xl sm:gap-3">
+    <div className="wcc-countdown flex w-full items-end divide-x divide-orange-200/25 border-y border-orange-200/25 py-3 sm:max-w-xl sm:py-4">
       {[
         [countdown.days, "Days"],
         [countdown.hours, "Hours"],
@@ -340,17 +354,521 @@ function Countdown() {
       ].map(([value, label]) => (
         <div
           key={label}
-          className="rounded-lg border border-white/25 bg-[#7c2d12]/60 px-2 py-2 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-3 sm:py-3"
+          className="min-w-0 flex-1 px-2 text-center first:pl-0 last:pr-0 sm:px-4"
         >
-          <div className="text-xl font-black tabular-nums text-white sm:text-3xl">
+          <div className="text-2xl font-black tabular-nums tracking-[-0.08em] text-white sm:text-4xl">
             {String(value).padStart(2, "0")}
           </div>
-          <div className="mt-1 text-[8px] font-bold uppercase tracking-[0.14em] text-orange-200 sm:text-[9px]">
+          <div className="mt-1 text-[8px] font-bold uppercase tracking-[0.18em] text-orange-200 sm:text-[9px]">
             {label}
           </div>
         </div>
       ))}
     </div>
+  );
+}
+
+// ========================= PARTNER WITH US =========================
+// White section with dark-red decoration lines. The handshake image is a link;
+// by default it scrolls to the registration form on this page.
+function PartnerSection({ onHandshakeClick, href = "#registration" }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(PARTNER_ACCOUNT_NUMBER);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard blocked, ignore */
+    }
+  };
+
+  return (
+    <section className="wcc-partner" aria-labelledby="wcc-partner-title">
+      <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+
+      .wcc-partner {
+        --wine: #7c2d12;
+        --red: #c2410c;
+        --red-soft: rgba(194, 65, 12, 0.18);
+        --gold: #f59e0b;
+        --ink: #35140b;
+
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #fffaf5 0%, #ffffff 52%, #ffedd5 100%);
+
+        padding: clamp(58px, 8vw, 104px) 20px 0;
+
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        isolation: isolate;
+      }
+
+      /* ---------- decoration lines ---------- */
+
+      .wcc-partner__contours {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .wcc-partner__contours path,
+      .wcc-partner__contours ellipse {
+        fill: none;
+        stroke: var(--red);
+        stroke-width: 1.2;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .wcc-partner__frame {
+        position: absolute;
+        inset: clamp(10px, 2vw, 24px);
+        border: 1px solid var(--red-soft);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .wcc-partner__corner {
+        position: absolute;
+        width: clamp(30px, 5vw, 60px);
+        height: clamp(30px, 5vw, 60px);
+        border-color: var(--wine);
+        border-style: solid;
+        border-width: 0;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .wcc-partner__corner--tl {
+        top: clamp(10px, 2vw, 24px);
+        left: clamp(10px, 2vw, 24px);
+        border-top-width: 3px;
+        border-left-width: 3px;
+      }
+
+      .wcc-partner__corner--tr {
+        top: clamp(10px, 2vw, 24px);
+        right: clamp(10px, 2vw, 24px);
+        border-top-width: 3px;
+        border-right-width: 3px;
+      }
+
+      .wcc-partner__corner--bl {
+        bottom: clamp(10px, 2vw, 24px);
+        left: clamp(10px, 2vw, 24px);
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+      }
+
+      .wcc-partner__corner--br {
+        bottom: clamp(10px, 2vw, 24px);
+        right: clamp(10px, 2vw, 24px);
+        border-bottom-width: 3px;
+        border-right-width: 3px;
+      }
+
+      /* ---------- text ---------- */
+
+      .wcc-partner__eyebrow {
+        margin: 0;
+        font-weight: 600;
+
+        font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+        font-size: clamp(14px, 2vw, 22px);
+
+        letter-spacing: 0.32em;
+        text-indent: 0.42em;
+        text-transform: uppercase;
+        color: var(--wine);
+      }
+
+      .wcc-partner__rule {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        margin: 14px auto 0;
+
+        max-width: 400px;
+      }
+
+      .wcc-partner__rule i {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--red), var(--gold));
+      }
+
+      .wcc-partner__rule i:last-child {
+        background: linear-gradient(270deg, transparent, var(--red), var(--gold));
+      }
+
+      .wcc-partner__rule b {
+        width: 10px;
+        height: 10px;
+        background: var(--gold);
+        transform: rotate(45deg);
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
+      }
+
+      /* ---------- account number ---------- */
+
+      .wcc-partner__number {
+        appearance: none;
+        background: none;
+        border: 0;
+        padding: 0;
+
+        margin: 18px auto 0;
+
+        display: block;
+        cursor: pointer;
+
+        font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+
+        font-weight: 400;
+
+        font-size: clamp(38px, 8vw, 92px);
+
+        line-height: 1.02;
+        letter-spacing: 0.005em;
+        color: var(--wine);
+
+        text-shadow: 0 10px 24px rgba(124, 45, 18, 0.12);
+
+        transition:
+          transform 0.2s ease;
+      }
+
+      .wcc-partner__number:hover {
+        transform: scale(1.015);
+      }
+
+      .wcc-partner__number:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 6px;
+      }
+
+      /* ---------- account name ---------- */
+
+      .wcc-partner__name {
+        margin: 12px 0 0;
+
+        font-weight: 700;
+
+        font-size: clamp(13px, 2vw, 21px);
+
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        color: var(--wine);
+      }
+
+      /* ---------- bank ---------- */
+
+      .wcc-partner__bank {
+        display: inline-block;
+
+        margin-top: 18px;
+        padding: 9px 20px;
+
+        background: linear-gradient(135deg, #35140b 0%, #7c2d12 100%);
+        border: 1.5px solid var(--gold);
+        border-radius: 14px;
+
+        color: #fff;
+        font-weight: 500;
+
+        /* REDUCED */
+        font-size: clamp(12px, 2vw, 20px);
+
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+      }
+
+      .wcc-partner__bank strong {
+        font-weight: 800;
+      }
+
+      /* ---------- copy message ---------- */
+
+      .wcc-partner__copy {
+        display: block;
+
+        margin: 10px auto 0;
+
+        min-height: 18px;
+
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--red);
+      }
+
+      /* ---------- handshake link ---------- */
+
+      .wcc-partner__handshake {
+        position: relative;
+        display: block;
+
+        width: min(540px, 82%);
+
+        margin: 28px auto 0;
+
+        transform: none;
+        line-height: 0;
+        outline: none;
+      }
+
+      .wcc-partner__handshake img {
+        width: 100%;
+        height: auto;
+        display: block;
+
+        filter:
+          drop-shadow(
+            0 14px 16px rgba(106, 1, 1, 0.25)
+          );
+
+        transition:
+          transform 0.35s
+            cubic-bezier(0.2, 0.7, 0.2, 1),
+          filter 0.35s ease;
+      }
+
+      .wcc-partner__handshake:hover img,
+      .wcc-partner__handshake:focus-visible img {
+        transform:
+          translateY(-6px)
+          scale(1.02);
+
+        filter:
+          drop-shadow(
+            0 22px 20px rgba(106, 1, 1, 0.34)
+          );
+      }
+
+      .wcc-partner__handshake:focus-visible::after {
+        content: '';
+        position: absolute;
+        inset: 4% 8%;
+        border: 3px solid var(--gold);
+        border-radius: 18px;
+      }
+
+      /* ---------- CTA ---------- */
+
+      .wcc-partner__cta {
+        position: absolute;
+
+        left: 50%;
+        bottom: 8%;
+
+        transform:
+          translate(-50%, 12px);
+
+        opacity: 0;
+
+        padding: 9px 20px;
+
+        background: var(--wine);
+        color: #fff;
+
+        border: 1.5px solid var(--gold);
+        border-radius: 999px;
+
+        font-size: clamp(11px, 1.6vw, 15px);
+        font-weight: 700;
+
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+
+        line-height: 1.2;
+        white-space: nowrap;
+
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .wcc-partner__handshake:hover
+      .wcc-partner__cta,
+
+      .wcc-partner__handshake:focus-visible
+      .wcc-partner__cta {
+        opacity: 1;
+        transform:
+          translate(-50%, 0);
+      }
+
+      /* ---------- mobile ---------- */
+
+      @media (hover: none) {
+        .wcc-partner__cta {
+          opacity: 1;
+          transform:
+            translate(-50%, 0);
+        }
+      }
+
+      /* ---------- reduced motion ---------- */
+
+      @media (prefers-reduced-motion: reduce) {
+        .wcc-partner *,
+        .wcc-partner *::after {
+          transition: none !important;
+        }
+      }
+
+      /* ---------- extra mobile sizing ---------- */
+
+      @media (max-width: 600px) {
+        .wcc-partner {
+          padding-top: 28px;
+        }
+
+        .wcc-partner__number {
+          font-size: clamp(40px, 14vw, 82px);
+        }
+
+        .wcc-partner__name {
+          font-size: clamp(13px, 3.8vw, 20px);
+        }
+
+        .wcc-partner__bank {
+          margin-top: 10px;
+          padding: 6px 14px;
+          font-size: 12px;
+        }
+
+        .wcc-partner__copy {
+          font-size: 10px;
+          margin-top: 5px;
+        }
+
+        .wcc-partner__handshake {
+          width: 92%;
+        }
+      }
+    `}</style>
+
+      {/* Creative decoration lines */}
+      <svg
+        className="wcc-partner__contours"
+        viewBox="0 0 1200 900"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <g opacity="0.16">
+          <path d="M-20 120 C 180 40, 320 200, 520 120 S 860 20, 1220 150" />
+          <path d="M-20 150 C 190 70, 330 230, 520 150 S 860 50, 1220 180" />
+          <path d="M-20 180 C 200 100, 340 260, 520 180 S 860 80, 1220 210" />
+          <path d="M-20 210 C 210 130, 350 290, 520 210 S 860 110, 1220 240" />
+          <path d="M-20 240 C 220 160, 360 320, 520 240 S 860 140, 1220 270" />
+        </g>
+
+        <g opacity="0.12">
+          <path d="M-20 560 C 220 480, 360 650, 600 580 S 980 470, 1220 600" />
+          <path d="M-20 595 C 230 515, 370 685, 600 615 S 980 505, 1220 635" />
+          <path d="M-20 630 C 240 550, 380 720, 600 650 S 980 540, 1220 670" />
+        </g>
+
+        <g opacity="0.1">
+          <ellipse cx="1040" cy="300" rx="120" ry="70" />
+
+          <ellipse cx="1040" cy="300" rx="90" ry="50" />
+
+          <ellipse cx="1040" cy="300" rx="60" ry="30" />
+
+          <ellipse cx="150" cy="420" rx="110" ry="60" />
+
+          <ellipse cx="150" cy="420" rx="80" ry="40" />
+
+          <ellipse cx="150" cy="420" rx="50" ry="22" />
+        </g>
+      </svg>
+
+      <span className="wcc-partner__frame" aria-hidden="true" />
+
+      <span
+        className="wcc-partner__corner wcc-partner__corner--tl"
+        aria-hidden="true"
+      />
+
+      <span
+        className="wcc-partner__corner wcc-partner__corner--tr"
+        aria-hidden="true"
+      />
+
+      <span
+        className="wcc-partner__corner wcc-partner__corner--bl"
+        aria-hidden="true"
+      />
+
+      <span
+        className="wcc-partner__corner wcc-partner__corner--br"
+        aria-hidden="true"
+      />
+
+      {/* Content */}
+
+      <h2 id="wcc-partner-title" className="wcc-partner__eyebrow">
+        Partner with us
+      </h2>
+
+      <div className="wcc-partner__rule" aria-hidden="true">
+        <i />
+        <b />
+        <i />
+      </div>
+
+      <button
+        type="button"
+        className="wcc-partner__number"
+        onClick={copyNumber}
+        aria-label={`Account number ${PARTNER_ACCOUNT_NUMBER.split("").join(
+          " ",
+        )}. Press to copy.`}
+      >
+        {PARTNER_ACCOUNT_NUMBER}
+      </button>
+
+      <p className="wcc-partner__name">Truelight Glory House WCC Acc.</p>
+
+      <div className="wcc-partner__bank">
+        Bank Name: <strong>UBA</strong>
+      </div>
+
+      <span className="wcc-partner__copy" role="status" aria-live="polite">
+        {copied ? "ACCOUNT NUMBER COPIED" : "TAP THE NUMBER TO COPY"}
+      </span>
+
+      <a
+        className="wcc-partner__handshake"
+        href={href}
+        onClick={(e) => {
+          if (onHandshakeClick) {
+            e.preventDefault();
+            onHandshakeClick();
+          }
+        }}
+        aria-label="Sow into WCC"
+      >
+        <img
+          src={HANDSHAKE_IMAGE_URL}
+          alt="A gold hand and a silver hand in a handshake"
+          loading="lazy"
+          decoding="async"
+        />
+
+        <span className="wcc-partner__cta">Sow into WCC</span>
+      </a>
+    </section>
   );
 }
 
@@ -370,7 +888,6 @@ export default function WCC() {
   const [childFormOpen, setChildFormOpen] = useState(false);
   const [childFormData, setChildFormData] = useState(CHILD_INITIAL_DATA);
   const [childSubmitted, setChildSubmitted] = useState(false);
-
 
   const handleChildChange = (e) => {
     const { name, value } = e.target;
@@ -392,9 +909,6 @@ export default function WCC() {
         if (value === "yes") {
           updated.church = "";
           updated.locationScope = "";
-          updated.needsAccommodation = "";
-          updated.isPastor = "";
-          updated.pastorChurch = "";
         } else if (value === "no") {
           updated.isWorker = "";
           updated.unit = "";
@@ -413,15 +927,10 @@ export default function WCC() {
         delete next.unit;
         delete next.church;
         delete next.locationScope;
-        delete next.needsAccommodation;
-        delete next.isPastor;
-        delete next.pastorChurch;
       }
       if (key === "isWorker") delete next.unit;
       if (key === "locationScope") {
-        delete next.needsAccommodation;
-        delete next.isPastor;
-        delete next.pastorChurch;
+        delete next.locationScope;
       }
       return next;
     });
@@ -459,16 +968,19 @@ export default function WCC() {
       if (!formData.locationScope)
         newErrors.locationScope =
           "Please let us know if you are coming from outside Owerri.";
-      if (!formData.needsAccommodation) {
-        newErrors.needsAccommodation =
-          "Please let us know if you need accommodation.";
-      }
-      if (!formData.isPastor) {
-        newErrors.isPastor = "Please let us know if you are a pastor.";
-      } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
-        newErrors.pastorChurch =
-          "Please tell us which church you pastor or attend.";
-      }
+    }
+
+    // These questions apply to everyone and are intentionally independent
+    // of the True Lighter / visitor branch above.
+    if (!formData.needsAccommodation) {
+      newErrors.needsAccommodation =
+        "Please let us know if you need accommodation.";
+    }
+    if (!formData.isPastor) {
+      newErrors.isPastor = "Please let us know if you are a pastor.";
+    } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
+      newErrors.pastorChurch =
+        "Please tell us which church you pastor or attend.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -505,16 +1017,322 @@ export default function WCC() {
 
   return (
     <main
-      className="min-h-screen bg-white text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
+      className="wcc-page min-h-screen bg-white text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
       style={{
         fontFamily:
           "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
         fontSize: "15px",
       }}
     >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+
+        .wcc-page {
+          --wcc-ink: #35140b;
+          --wcc-wine: #7c2d12;
+          --wcc-orange: #c2410c;
+          --wcc-amber: #f59e0b;
+          --wcc-cream: #fffaf5;
+          --wcc-line: rgba(194, 65, 12, 0.22);
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-page h1,
+        .wcc-page h2,
+        .wcc-page h3,
+        .wcc-page h4,
+        .wcc-page button,
+        .wcc-page label,
+        .wcc-page .font-black,
+        .wcc-page .font-semibold {
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-page p,
+        .wcc-page input,
+        .wcc-page textarea,
+        .wcc-page select,
+        .wcc-page option,
+        .wcc-page small,
+        .wcc-page span.text-xs,
+        .wcc-page span.text-sm,
+        .wcc-page div.text-xs,
+        .wcc-page div.text-sm {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-page input,
+        .wcc-page textarea,
+        .wcc-page select {
+          border-radius: 16px !important;
+          border-color: rgba(194, 65, 12, 0.18) !important;
+          background: linear-gradient(135deg, #ffffff 0%, #fffaf5 58%, #ffedd5 100%) !important;
+          box-shadow: 0 10px 28px rgba(124, 45, 18, 0.06);
+        }
+
+        .wcc-page input:focus,
+        .wcc-page textarea:focus,
+        .wcc-page select:focus {
+          border-color: rgba(194, 65, 12, 0.72) !important;
+          box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15), 0 12px 30px rgba(124, 45, 18, 0.08);
+        }
+
+        .wcc-page button,
+        .wcc-page a:not(.wcc-partner__handshake) {
+          border-radius: 14px;
+        }
+
+        .wcc-page img {
+          border-radius: 18px;
+        }
+
+        .wcc-flag-line {
+          position: relative;
+          display: inline-block;
+          height: 3px;
+          flex: 0 0 auto;
+          overflow: visible;
+          background: linear-gradient(90deg, #7c2d12 0%, #c2410c 62%, #f59e0b 100%);
+          box-shadow: 0 2px 10px rgba(194, 65, 12, 0.16);
+        }
+
+        .wcc-flag-line::after {
+          position: absolute;
+          right: -1px;
+          top: 0;
+          width: 8px;
+          height: 3px;
+          background: #f59e0b;
+          content: '';
+          clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .wcc-smooth-dark-fade {
+          background: linear-gradient(180deg, rgba(23, 11, 6, 0) 0%, rgba(74, 28, 10, 0.56) 54%, #170b06 100%) !important;
+        }
+
+        .wcc-smooth-orange-fade {
+          background: linear-gradient(135deg, #fffaf5 0%, #fff7ed 48%, #ffedd5 100%) !important;
+        }
+
+        .wcc-countdown {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-hero-content {
+          isolation: isolate;
+        }
+
+        .wcc-hero-lockup {
+          position: relative;
+          z-index: 7;
+        }
+
+        .wcc-hero-theme {
+          z-index: 3;
+          transform: translateY(0.35rem);
+        }
+
+        .wcc-hero-theme img {
+          border: 1px solid rgba(255, 240, 225, 0.3);
+          background: rgba(20, 7, 3, 0.18);
+          box-shadow: 0 20px 55px rgba(14, 5, 2, 0.42), 0 0 0 8px rgba(245, 158, 11, 0.04);
+        }
+
+        .wcc-hero-title {
+          position: relative;
+          z-index: 1;
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+          filter: drop-shadow(0 18px 28px rgba(20, 7, 3, 0.24));
+        }
+
+        .wcc-hero-title::after {
+          position: absolute;
+          left: 8%;
+          right: -18%;
+          top: 56%;
+          height: 2px;
+          background: linear-gradient(90deg, #f59e0b, rgba(245, 158, 11, 0));
+          content: '';
+          opacity: 0.82;
+          transform: rotate(-3deg);
+        }
+
+        .wcc-hero-year {
+          color: transparent;
+          -webkit-text-stroke: 1px rgba(255, 240, 225, 0.72);
+          text-shadow: 0 0 36px rgba(232, 111, 19, 0.22);
+        }
+
+        .wcc-hero-ghost {
+          position: absolute;
+          right: -8vw;
+          top: 45%;
+          z-index: 0;
+          color: transparent;
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+          font-size: clamp(5rem, 15vw, 15rem);
+          font-weight: 900;
+          letter-spacing: -0.12em;
+          line-height: 0.72;
+          opacity: 0.13;
+          pointer-events: none;
+          text-transform: uppercase;
+          transform: rotate(-8deg);
+          -webkit-text-stroke: 1px rgba(255, 240, 225, 0.85);
+          white-space: nowrap;
+        }
+
+        .wcc-hero-mark {
+          position: absolute;
+          left: 3%;
+          top: 23%;
+          z-index: 2;
+          color: rgba(255, 240, 225, 0.64);
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.32em;
+          line-height: 1.5;
+          text-transform: uppercase;
+          writing-mode: vertical-rl;
+        }
+
+        @media (max-width: 640px) {
+          .wcc-hero-ghost {
+            right: -18vw;
+            top: 40%;
+            font-size: 27vw;
+          }
+
+          .wcc-hero-mark {
+            left: 4%;
+            top: 16%;
+            font-size: 7px;
+          }
+
+          .wcc-hero-content .wcc-countdown {
+            padding-top: 0.55rem;
+            padding-bottom: 0.55rem;
+          }
+
+          .wcc-hero-content .wcc-countdown div.text-2xl {
+            font-size: 1.35rem;
+          }
+
+          .wcc-hero-register button {
+            padding: 0.7rem 1.15rem;
+            font-size: 0.78rem;
+          }
+
+          .wcc-hero-scroll {
+            display: none;
+          }
+        }
+
+        .wcc-guest-speakers {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          border: 1px solid rgba(255, 240, 225, 0.28);
+          background: linear-gradient(135deg, rgba(26, 9, 5, 0.78), rgba(116, 37, 13, 0.48));
+          box-shadow: 0 18px 48px rgba(26, 9, 5, 0.28);
+        }
+
+        .wcc-guest-speakers::before,
+        .wcc-guest-speakers::after {
+          position: absolute;
+          z-index: 2;
+          width: 42px;
+          height: 42px;
+          border-color: rgba(245, 158, 11, 0.9);
+          border-style: solid;
+          content: '';
+          pointer-events: none;
+        }
+
+        .wcc-guest-speakers::before {
+          left: 12px;
+          top: 12px;
+          border-width: 2px 0 0 2px;
+        }
+
+        .wcc-guest-speakers::after {
+          right: 12px;
+          bottom: 12px;
+          border-width: 0 2px 2px 0;
+        }
+
+        .wcc-guest-speakers img {
+          display: block;
+          width: 100%;
+          max-height: 220px;
+          object-fit: contain;
+          object-position: center;
+          opacity: 0.96;
+        }
+
+        .wcc-guest-speakers-hero {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          z-index: 4;
+          display: grid;
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+          align-items: end;
+          width: 100%;
+          padding: 0 clamp(8px, 2vw, 24px);
+          pointer-events: none;
+          filter: drop-shadow(0 -18px 30px rgba(17, 6, 2, 0.14));
+        }
+
+        .wcc-guest-speakers-hero img {
+          display: block;
+          filter: saturate(0.96) contrast(1.03);
+        }
+
+        .wcc-dress-editorial {
+          background:
+            radial-gradient(circle at 88% 12%, rgba(245, 158, 11, 0.12), transparent 26%),
+            linear-gradient(135deg, #fffaf5 0%, #ffffff 58%, #fff0e1 100%);
+        }
+
+        .wcc-dress-editorial::after {
+          position: absolute;
+          left: 6%;
+          top: 16%;
+          width: min(18vw, 220px);
+          height: 1px;
+          background: linear-gradient(90deg, #c94e0a, transparent);
+          content: '';
+          opacity: 0.65;
+        }
+
+        .wcc-child-editorial {
+          background:
+            radial-gradient(circle at 18% 22%, rgba(245, 158, 11, 0.24), transparent 24%),
+            radial-gradient(circle at 86% 76%, rgba(232, 111, 19, 0.22), transparent 30%),
+            linear-gradient(135deg, #5c1f0b 0%, #74250d 52%, #35140b 100%);
+        }
+
+        .wcc-hero-register {
+          z-index: 12;
+        }
+
+        .wcc-hero-register button {
+          border: 1px solid rgba(255, 240, 225, 0.32);
+          background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
+          box-shadow: 0 14px 30px rgba(31, 8, 2, 0.34), inset 0 1px 0 rgba(255, 240, 225, 0.2);
+          letter-spacing: 0.02em;
+        }
+
+        .wcc-partner__number:active {
+          transform: scale(0.985);
+        }
+      `}</style>
       {/* ========================= HERO ========================= */}
       <section
-        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white"
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white [--wcc-speaker-strip:clamp(160px,28svh,300px)] max-[640px]:[--wcc-speaker-strip:clamp(200px,35svh,320px)] sm:[--wcc-speaker-strip:clamp(220px,32svh,360px)]"
         style={{
           fontFamily:
             "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
@@ -526,7 +1344,7 @@ export default function WCC() {
           className="absolute inset-0 bg-[#3b160b]"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse at 50% 98%, rgba(245,122,20,0.42) 0%, rgba(151,58,12,0.22) 25%, transparent 52%), radial-gradient(ellipse at 50% 35%, rgba(160,62,12,0.58) 0%, transparent 62%), linear-gradient(145deg, #7a2b0b 0%, #54200c 48%, #2b1209 100%)",
+              "radial-gradient(ellipse at 52% 96%, rgba(232,111,19,0.48) 0%, rgba(116,37,13,0.24) 28%, transparent 56%), radial-gradient(ellipse at 72% 22%, rgba(201,78,10,0.36) 0%, transparent 48%), linear-gradient(145deg, #5c1f0b 0%, #74250d 46%, #1a0905 100%)",
           }}
         />
         <svg
@@ -549,28 +1367,63 @@ export default function WCC() {
             <path d="M986-40c-13 124-118 165-103 278 15 116 153 103 168 211 16 117-117 161-101 274 17 121 173 138 166 256-5 97-99 141-121 232" />
           </g>
         </svg>
-        <div aria-hidden="true" className="pointer-events-none absolute left-[7%] top-24 hidden h-px w-24 bg-white/55 lg:block" />
-        <div aria-hidden="true" className="pointer-events-none absolute right-[9%] top-28 hidden h-36 w-px bg-white/35 lg:block" />
-        <div aria-hidden="true" className="pointer-events-none absolute right-[7%] top-[17rem] hidden h-px w-28 rotate-[28deg] bg-white/45 lg:block" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-24 left-[12%] hidden h-px w-32 bg-white/35 lg:block" />
-        <div aria-hidden="true" className="pointer-events-none absolute left-5 top-[27%] h-px w-12 bg-white/45 sm:hidden" />
-        <div aria-hidden="true" className="pointer-events-none absolute right-5 top-[39%] h-16 w-px bg-white/35 sm:hidden" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-[19%] left-[15%] h-px w-20 rotate-[-24deg] bg-white/40 sm:hidden" />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#170b06] via-[#4a1c0a]/60 to-transparent" />
-        <div aria-hidden="true" className="absolute -right-16 top-16 h-52 w-52 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
-        <div aria-hidden="true" className="absolute -bottom-24 left-1/3 h-60 w-60 rounded-full border border-white/10 bg-white/5 blur-3xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-24 sm:h-32">
-          <div className="absolute bottom-0 left-[-4%] h-20 w-14 rounded-[48%_48%_12%_12%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.28)] sm:h-28 sm:w-20" />
-          <div className="absolute bottom-0 left-[18%] h-16 w-10 rounded-[45%_45%_10%_10%] bg-[#1b080a] sm:h-24 sm:w-14" />
-          <div className="absolute bottom-0 left-[42%] h-24 w-16 rounded-[48%_48%_10%_10%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.25)] sm:h-32 sm:w-20" />
-          <div className="absolute bottom-0 right-[18%] h-16 w-10 rounded-[45%_45%_10%_10%] bg-[#1b080a] sm:h-24 sm:w-14" />
-          <div className="absolute bottom-0 right-[-3%] h-20 w-14 rounded-[48%_48%_12%_12%] bg-[#16070a] shadow-[0_0_24px_rgba(255,119,25,0.28)] sm:h-28 sm:w-20" />
-          <div className="absolute bottom-16 left-[2%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-20 sm:h-6" />
-          <div className="absolute bottom-12 left-[45%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-28 sm:h-6" />
-          <div className="absolute bottom-16 right-[2%] h-5 w-2 rounded-full bg-orange-300 shadow-[0_0_14px_6px_rgba(255,117,15,0.72)] sm:bottom-20 sm:h-6" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[7%] top-24 hidden h-px w-24 bg-white/55 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[9%] top-28 hidden h-36 w-px bg-white/35 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[7%] top-[17rem] hidden h-px w-28 rotate-[28deg] bg-white/45 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-24 left-[12%] hidden h-px w-32 bg-white/35 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-5 top-[27%] h-px w-12 bg-white/45 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-5 top-[39%] h-16 w-px bg-white/35 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[19%] left-[15%] h-px w-20 rotate-[-24deg] bg-white/40 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-2/5 wcc-smooth-dark-fade"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -right-16 top-16 h-52 w-52 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-24 left-1/3 h-60 w-60 rounded-full border border-white/10 bg-white/5 blur-3xl"
+        />
+        <div
+          className="wcc-guest-speakers-hero absolute inset-x-0 bottom-0 z-[4] grid h-[var(--wcc-speaker-strip)] grid-cols-7 items-end gap-0 px-1 max-[640px]:px-0 sm:px-4"
+          aria-hidden="true"
+        >
+          {GUEST_SPEAKER_IMAGES.map((imageUrl) => (
+            <img
+              key={imageUrl}
+              src={imageUrl}
+              alt=""
+              loading="eager"
+              decoding="async"
+              className="h-full w-full min-w-0 object-contain object-bottom max-[640px]:w-[180%] max-[640px]:max-w-none max-[640px]:justify-self-center"
+            />
+          ))}
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[980px] flex-col items-center gap-5 px-5 py-10 text-center sm:px-8 sm:py-12 lg:gap-6 lg:px-12 lg:py-14">
+        <div className="wcc-hero-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-4 pb-[var(--wcc-speaker-strip)] pt-24 sm:px-8 sm:pt-28 lg:px-12 lg:pb-[var(--wcc-speaker-strip)] lg:pt-20">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -578,38 +1431,43 @@ export default function WCC() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.12 } },
             }}
-            className="flex w-full max-w-3xl flex-col items-center lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-14 lg:gap-y-3"
+            className="grid w-full grid-cols-1 items-center gap-x-4 gap-y-5 text-center max-[640px]:grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 lg:text-left"
           >
             <motion.h1
               variants={fadeUp}
-              className="relative -left-3 max-w-xl text-center text-4xl font-black leading-[0.92] tracking-[-0.07em] text-white sm:left-0 sm:text-6xl lg:col-start-1 lg:row-start-1 lg:justify-self-start lg:text-left lg:text-[5.25rem] xl:text-[5.75rem]"
+              className="wcc-hero-title col-start-1 row-start-1 max-w-xl text-left font-black leading-[0.78] tracking-[-0.09em] text-white lg:justify-self-start"
             >
-              WCC <span className="text-[#d97706]">2026</span>
+              <span className="block text-[clamp(3.25rem,14vw,5.8rem)] lg:text-[7.2rem] xl:text-[8.2rem]">
+                WCC
+              </span>
+              <span className="wcc-hero-year block text-[clamp(4rem,17vw,7rem)] lg:text-[8.8rem] xl:text-[10rem]">
+                2026
+              </span>
             </motion.h1>
 
             <motion.div
               variants={fadeUp}
-              className="relative left-3 mx-auto mt-4 max-w-md sm:left-0 lg:col-start-2 lg:row-start-1 lg:ml-8 lg:mt-2 lg:justify-self-start"
+              className="wcc-hero-theme col-start-1 row-start-2 w-48 justify-self-center max-[640px]:col-start-2 max-[640px]:row-start-1 max-[640px]:w-[clamp(6.75rem,33vw,13rem)] max-[640px]:justify-self-end lg:col-start-2 lg:row-start-1 lg:w-full lg:max-w-[19rem] lg:justify-self-center"
             >
               <img
                 src={WCC_LOGO_URL}
                 alt="The Takeover Generation"
                 loading="eager"
                 decoding="async"
-                className="mx-auto w-full max-w-[16rem] rounded-xl object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)] sm:max-w-[20rem] lg:max-w-[24rem] lg:object-left"
+                className="mx-auto w-full rounded-xl object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)]"
               />
             </motion.div>
-            <motion.div variants={fadeUp} className="relative -left-2 mt-5 w-full max-w-xl sm:left-0 lg:col-start-2 lg:row-start-2 lg:ml-16 lg:justify-self-start">
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-orange-200">
-                Countdown to 11 November 2026
-              </p>
-              <div className="mx-auto max-w-xl text-left">
-                <Countdown />
-              </div>
+
+            <motion.div
+              variants={fadeUp}
+              className="wcc-hero-countdown col-span-1 row-start-3 w-full max-w-xl justify-self-center max-[640px]:col-span-2 max-[640px]:row-start-2 lg:col-start-2 lg:row-start-2 lg:justify-self-center"
+            >
+              <Countdown />
             </motion.div>
+
             <motion.p
               variants={fadeUp}
-              className="relative left-2 mx-auto mt-3 max-w-md text-center text-sm leading-6 text-orange-50/80 sm:left-0 sm:text-base lg:col-start-1 lg:row-start-2 lg:ml-6 lg:justify-self-start lg:text-left"
+              className="wcc-hero-copy col-span-1 row-start-4 mx-auto max-w-md text-center text-xs leading-5 text-orange-50/80 max-[640px]:col-span-2 max-[640px]:row-start-3 lg:col-start-1 lg:row-start-2 lg:mx-0 lg:text-left lg:text-base lg:leading-6"
             >
               Join us this season. Complete the registration below and tell us a
               little about yourself.
@@ -617,23 +1475,17 @@ export default function WCC() {
 
             <motion.div
               variants={fadeUp}
-              className="relative -left-1 mt-6 flex flex-col justify-center gap-3 sm:left-0 sm:flex-row lg:col-start-1 lg:row-start-3 lg:ml-6 lg:justify-self-start"
+              className="wcc-hero-register col-span-1 row-start-5 flex justify-center max-[640px]:col-span-2 max-[640px]:row-start-4 lg:col-start-1 lg:row-start-3 lg:justify-start"
             >
               <button
                 onClick={scrollToRegistration}
-                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e]"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b160b]"
               >
                 Register now
                 <ArrowUpRight
                   size={18}
                   className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
-              </button>
-              <button
-                onClick={scrollToRegistration}
-                className="inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-orange-300/70 hover:bg-white/10"
-              >
-                Learn more
               </button>
             </motion.div>
           </motion.div>
@@ -659,9 +1511,7 @@ export default function WCC() {
                     key={number}
                     className="flex gap-3 border-b border-white/10 pb-4 last:border-0 last:pb-0"
                   >
-                    <span className="text-xs text-orange-300">
-                      {number}
-                    </span>
+                    <span className="text-xs text-orange-300">{number}</span>
                     <div>
                       <h3 className="text-lg text-white">{title}</h3>
                       <p className="mt-1 text-xs leading-5 text-orange-50/70">
@@ -671,12 +1521,12 @@ export default function WCC() {
                   </div>
                 ))}
               </div>
-              <div className="mt-5 h-px w-16 bg-[#b45309]" />
+              <div className="mt-5 wcc-flag-line w-16" />
             </div>
           </motion.aside>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
+        <div className="wcc-hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
           <motion.div
             animate={{ y: [0, 5, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
@@ -698,14 +1548,16 @@ export default function WCC() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-700">
-              Registration
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-700">
+              02 / Registration
             </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#92400e] sm:text-5xl">
-              Let&apos;s get to know you
+            <h2 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.9] tracking-[-0.07em] text-[#92400e] sm:text-6xl lg:text-8xl">
+              Let&apos;s get
+              <br />
+              <span className="text-[#c94e0a]">to know you.</span>
             </h2>
             <div className="mt-7 flex items-center gap-4 lg:max-w-3xl">
-              <span className="h-[2px] w-20 bg-[#b45309]" />
+              <span className="wcc-flag-line w-20" />
               <p className="max-w-2xl leading-8 text-orange-900/75">
                 Fill out the form below with your details. It helps us prepare
                 for your visit and connect you with the right team.
@@ -728,7 +1580,7 @@ export default function WCC() {
             <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#b45309] lg:block" />
             <div className="relative pl-0 lg:pl-10">
               <div className="mb-8 flex items-center gap-4">
-                <span className="h-[2px] w-14 bg-[#b45309]" />
+                <span className="wcc-flag-line w-14" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
                   02 / WCC
                 </span>
@@ -767,9 +1619,7 @@ export default function WCC() {
                 ["03", "Serve"],
               ].map(([number, label]) => (
                 <div key={number} className="border-t border-white/20 pt-3">
-                  <span className="text-xs text-orange-300">
-                    {number}
-                  </span>
+                  <span className="text-xs text-orange-300">{number}</span>
                   <p className="mt-2 text-sm font-semibold text-white">
                     {label}
                   </p>
@@ -786,13 +1636,13 @@ export default function WCC() {
             className="w-full overflow-hidden bg-white shadow-none"
           >
             <div className="relative overflow-hidden border-b border-orange-100 bg-white px-6 py-10 text-[#7c2d12] sm:px-10 lg:px-16 lg:py-14">
-              <div className="absolute bottom-0 left-0 h-[2px] w-28 bg-[#b45309]" />
+              <div className="absolute bottom-0 left-0 wcc-flag-line w-28" />
               <div className="relative">
                 <div className="mb-5 flex items-center gap-4">
                   <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#92400e]">
                     Your details
                   </span>
-                  <span className="h-px w-16 bg-[#b45309]" />
+                  <span className="wcc-flag-line w-16" />
                 </div>
                 <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#7c2d12] sm:text-5xl lg:text-6xl">
                   Register your details
@@ -907,7 +1757,7 @@ export default function WCC() {
                   </div>
                   <div className="sm:col-span-2 border-t border-orange-100 pt-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <span className="h-[2px] w-10 bg-[#b45309]" />
+                      <span className="wcc-flag-line w-10" />
                       <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7c2d12]">
                         Church connection
                       </span>
@@ -989,39 +1839,6 @@ export default function WCC() {
                             onChange={handleChange}
                           />
                           <SelectField
-                            id="isPastor"
-                            label="Are you a pastor?"
-                            required
-                            value={formData.isPastor}
-                            error={errors.isPastor}
-                            placeholder="Select Yes or No"
-                            options={YES_NO_OPTIONS}
-                            onChange={handleChange}
-                            isYesNo
-                          />
-                          <AnimatePresence initial={false}>
-                            {formData.isPastor === "yes" && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <TextField
-                                  id="pastorChurch"
-                                  label="Which church?"
-                                  required
-                                  icon={Church}
-                                  value={formData.pastorChurch}
-                                  error={errors.pastorChurch}
-                                  placeholder="Enter the church name"
-                                  onChange={handleChange}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                          <SelectField
                             id="locationScope"
                             label="Are you coming from outside Owerri?"
                             required
@@ -1032,22 +1849,59 @@ export default function WCC() {
                             onChange={handleChange}
                             isYesNo
                           />
-                          <SelectField
-                            id="needsAccommodation"
-                            label="Do you need accommodation?"
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Standalone questions: shown for every registrant. */}
+                  <div className="mt-8 grid gap-7 border-t border-orange-100 pt-8 sm:grid-cols-2">
+                    <SelectField
+                      id="isPastor"
+                      label="Are you a pastor?"
+                      required
+                      value={formData.isPastor}
+                      error={errors.isPastor}
+                      placeholder="Select Yes or No"
+                      options={YES_NO_OPTIONS}
+                      onChange={handleChange}
+                      isYesNo
+                    />
+                    <SelectField
+                      id="needsAccommodation"
+                      label="Do you need accommodation?"
+                      required
+                      value={formData.needsAccommodation}
+                      error={errors.needsAccommodation}
+                      placeholder="Select Yes or No"
+                      options={YES_NO_OPTIONS}
+                      onChange={handleChange}
+                      isYesNo
+                    />
+                    <AnimatePresence initial={false}>
+                      {formData.isPastor === "yes" && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden sm:col-span-2"
+                        >
+                          <TextField
+                            id="pastorChurch"
+                            label="Which church?"
                             required
-                            value={formData.needsAccommodation}
-                            error={errors.needsAccommodation}
-                            placeholder="Select Yes or No"
-                            options={YES_NO_OPTIONS}
+                            icon={Church}
+                            value={formData.pastorChurch}
+                            error={errors.pastorChurch}
+                            placeholder="Enter the church name"
                             onChange={handleChange}
-                            isYesNo
                           />
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                  <div className="sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
+                  <div className="mt-12 sm:mt-14 sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
                     <TextAreaField
                       id="expectations"
                       label="What are your expectations from WCC?"
@@ -1090,7 +1944,7 @@ export default function WCC() {
       </section>
 
       {/* ========================= WCC DRESS ========================= */}
-      <section className="relative overflow-hidden bg-orange-50 px-6 py-20 sm:px-10 lg:px-20 lg:py-28">
+      <section className="wcc-dress-editorial relative overflow-hidden bg-orange-50 px-6 py-20 sm:px-10 lg:px-20 lg:py-28">
         <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
         <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-orange-900/10 blur-3xl" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
@@ -1108,11 +1962,20 @@ export default function WCC() {
               <br />
               <span className="text-[#b45309]">Dress</span>
             </h2>
-            <div className="mt-7 h-1 w-20 bg-[#b45309]" />
+            <div className="mt-7 wcc-flag-line w-20" />
             <p className="mt-6 max-w-md text-base leading-8 text-orange-950/70 sm:text-lg">
-              Check the official WCC dress guide and prepare to show up with
-              confidence for the Takeover Generation.
+              You can now preorder! Check the official WCC dress guide and show
+              up with confidence for the Takeover Generation.
             </p>
+
+            <a
+              href="https://wa.me/2349030786640?text=Hello%20please%20i%20want%20to%20get%20the%20WCC%20T-shirt."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-lg bg-orange-700 px-6 py-3 font-semibold text-white transition hover:bg-orange-800"
+            >
+              Order Now
+            </a>
           </motion.div>
 
           <motion.div
@@ -1133,7 +1996,8 @@ export default function WCC() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#7c2d12] px-6 py-20 text-white sm:px-10 lg:px-20">
+      {/* ========================= CHILD REGISTRATION ========================= */}
+      <section className="wcc-child-editorial relative overflow-hidden bg-[#7c2d12] px-6 py-20 text-white sm:px-10 lg:px-20">
         <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
         <div className="relative mx-auto max-w-5xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-orange-200">
@@ -1244,6 +2108,9 @@ export default function WCC() {
           </AnimatePresence>
         </div>
       </section>
+
+      {/* ========================= PARTNER WITH US ========================= */}
+      <PartnerSection onHandshakeClick={scrollToRegistration} />
 
       <Footer />
     </main>
