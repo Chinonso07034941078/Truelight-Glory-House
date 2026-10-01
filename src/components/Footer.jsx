@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Facebook,
@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 
 export default function Footer() {
+  const { pathname } = useLocation();
+  const isWccPage = pathname === "/wcc" || pathname.startsWith("/wcc/");
   const [showPopup, setShowPopup] = useState(false);
   const [copiedAccount, setCopiedAccount] = useState(null);
 
@@ -34,7 +36,34 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-black text-white overflow-hidden">
+    <footer
+      className={`relative overflow-hidden text-white ${
+        isWccPage ? "footer-wcc bg-[#431407]" : "bg-black"
+      }`}
+    >
+      {isWccPage && (
+        <>
+          <style>{`
+            .footer-wcc [class~="bg-blue-600"] { background-color: #c2410c !important; }
+            .footer-wcc [class~="bg-blue-700"] { background-color: #9a3412 !important; }
+            .footer-wcc [class~="bg-blue-600/80"] { background-color: rgb(194 65 12 / 0.8) !important; }
+            .footer-wcc [class~="bg-blue-600/5"] { background-color: rgb(194 65 12 / 0.05) !important; }
+            .footer-wcc [class~="bg-blue-400/5"] { background-color: rgb(251 146 60 / 0.05) !important; }
+            .footer-wcc [class~="text-blue-600"] { color: #fb923c !important; }
+            .footer-wcc [class~="text-blue-500"] { color: #fdba74 !important; }
+            .footer-wcc [class~="border-blue-600"] { border-color: #c2410c !important; }
+            .footer-wcc [class~="border-blue-600/60"] { border-color: rgb(194 65 12 / 0.6) !important; }
+            .footer-wcc [class~="hover:bg-blue-600"]:hover { background-color: #c2410c !important; }
+            .footer-wcc [class~="hover:bg-blue-700"]:hover { background-color: #9a3412 !important; }
+            .footer-wcc [class~="hover:border-blue-600"]:hover { border-color: #c2410c !important; }
+            .footer-wcc [class~="hover:border-blue-600/30"]:hover { border-color: rgb(194 65 12 / 0.3) !important; }
+            .footer-wcc [class~="bg-blue-600"]:after { background-color: #fb923c; }
+          `}</style>
+          <div className="pointer-events-none absolute -right-32 -top-40 h-[30rem] w-[30rem] rounded-full bg-orange-500/10 blur-[110px]" />
+          <div className="pointer-events-none absolute -bottom-48 -left-40 h-[34rem] w-[34rem] rounded-full bg-orange-300/10 blur-[130px]" />
+          <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(rgba(253,186,116,0.35)_1px,transparent_1px),linear-gradient(90deg,rgba(253,186,116,0.35)_1px,transparent_1px)] [background-size:52px_52px]" />
+        </>
+      )}
 
       {/* Giving Section */}
       <section className="relative py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
@@ -44,7 +73,13 @@ export default function Footer() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Glass Card */}
-          <div className="relative bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-2xl p-8 sm:p-12 lg:p-16 overflow-hidden">
+          <div
+            className={`relative rounded-2xl border p-8 backdrop-blur-md sm:p-12 lg:p-16 overflow-hidden ${
+              isWccPage
+                ? "border-orange-200/20 bg-orange-950/25 shadow-[0_24px_90px_rgba(67,20,7,0.45)]"
+                : "border-white/[0.08] bg-white/[0.03]"
+            }`}
+          >
             {/* Corner accents */}
             <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-blue-600/60" />
             <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-blue-600/60" />
@@ -94,7 +129,11 @@ export default function Footer() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ duration: 0.4, type: "spring", stiffness: 300, damping: 30 }}
-                className="relative bg-white/[0.04] backdrop-blur-md border border-white/10 max-w-3xl w-full rounded-2xl shadow-[0_30px_100px_rgba(0,0,0,0.8)] overflow-hidden"
+                className={`relative max-w-3xl w-full overflow-hidden rounded-2xl border backdrop-blur-md ${
+                  isWccPage
+                    ? "border-orange-200/20 bg-orange-950/70 shadow-[0_30px_100px_rgba(67,20,7,0.8)]"
+                    : "border-white/10 bg-white/[0.04] shadow-[0_30px_100px_rgba(0,0,0,0.8)]"
+                }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Modal Header */}
@@ -188,9 +227,9 @@ export default function Footer() {
       </section>
 
       {/* Divider */}
-      <div className="w-full h-[2px] bg-white/5">
+      <div className={`w-full h-[2px] ${isWccPage ? "bg-orange-950/60" : "bg-white/5"}`}>
         <motion.div
-          className="h-full bg-blue-600"
+          className={`h-full ${isWccPage ? "bg-orange-500 shadow-[0_0_18px_rgba(251,146,60,0.85)]" : "bg-blue-600"}`}
           initial={{ width: "0%" }}
           whileInView={{ width: "100%" }}
           transition={{ duration: 1.5, ease: "linear" }}
@@ -310,9 +349,9 @@ export default function Footer() {
       </div>
 
       {/* Final Progress Line */}
-      <div className="w-full h-[2px] bg-white/5">
+      <div className={`w-full h-[2px] ${isWccPage ? "bg-orange-950/60" : "bg-white/5"}`}>
         <motion.div
-          className="h-full bg-blue-600"
+          className={`h-full ${isWccPage ? "bg-orange-400 shadow-[0_0_20px_rgba(251,146,60,0.8)]" : "bg-blue-600"}`}
           initial={{ width: "0%" }}
           animate={{ width: "100%" }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}

@@ -12,8 +12,69 @@ import {
   Church,
 } from "lucide-react";
 
-// TODO (Google Sheets + email): paste the Google Apps Script Web App URL here.
+// Paste the deployed Google Apps Script Web App URL here.
 const GOOGLE_SHEETS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+// Keep this order aligned with the header row in Google Sheets.
+// Every answer is mapped explicitly, including the generated IDs.
+const REGISTRATION_COLUMNS = [
+  "registrationId",
+  "checkInCode",
+  "submittedAt",
+  "name",
+  "email",
+  "phone",
+  "attendedWccBefore",
+  "expectations",
+  "isTrueLighter",
+  "isWorker",
+  "unit",
+  "church",
+  "locationScope",
+  "needsAccommodation",
+  "isPastor",
+  "pastorChurch",
+];
+
+function buildRegistrationPayload(formData, registrationId) {
+  const answers = {
+    registrationId,
+    checkInCode: registrationId,
+    submittedAt: new Date().toISOString(),
+    name: formData.name.trim(),
+    email: formData.email.trim(),
+    phone: formData.phone.trim(),
+    attendedWccBefore: formData.attendedWccBefore,
+    expectations: formData.expectations.trim(),
+    isTrueLighter: formData.isTrueLighter,
+    isWorker: formData.isWorker,
+    unit: formData.unit,
+    church: formData.church.trim(),
+    locationScope: formData.locationScope,
+    needsAccommodation: formData.needsAccommodation,
+    isPastor: formData.isPastor,
+    pastorChurch: formData.pastorChurch.trim(),
+  };
+
+  return {
+    ...answers,
+    formType: "wcc-registration",
+    // Useful when Apps Script appends arrays by column order.
+    row: REGISTRATION_COLUMNS.map((column) => answers[column] ?? ""),
+  };
+}
+
+async function submitRegistration(payload) {
+  if (GOOGLE_SHEETS_ENDPOINT.startsWith("PASTE_")) return;
+
+  await fetch(GOOGLE_SHEETS_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  });
+}
 
 const UNITS = [
   "Choir",
@@ -245,6 +306,52 @@ function getCountdown() {
   };
 }
 
+// Keep the one-second countdown updates out of the main page tree. This prevents
+// the registration and child portal sections from re-rendering every second.
+function Countdown() {
+  const [countdown, setCountdown] = useState(getCountdown);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCountdown((previous) => {
+        const next = getCountdown();
+        // Avoid a state update when the target has already been reached.
+        return next.days === previous.days &&
+          next.hours === previous.hours &&
+          next.minutes === previous.minutes &&
+          next.seconds === previous.seconds
+          ? previous
+          : next;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="grid grid-cols-4 gap-2 sm:max-w-xl sm:gap-3">
+      {[
+        [countdown.days, "Days"],
+        [countdown.hours, "Hours"],
+        [countdown.minutes, "Minutes"],
+        [countdown.seconds, "Seconds"],
+      ].map(([value, label]) => (
+        <div
+          key={label}
+          className="rounded-2xl border border-white/25 bg-[#7c2d12]/60 px-2 py-3 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-4 sm:py-4"
+        >
+          <div className="text-2xl font-black tabular-nums text-white sm:text-4xl">
+            {String(value).padStart(2, "0")}
+          </div>
+          <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-orange-200 sm:text-[10px]">
+            {label}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const CHILD_INITIAL_DATA = {
   childName: "",
   childAge: "",
@@ -258,18 +365,10 @@ export default function WCC() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
-  const [countdown, setCountdown] = useState(getCountdown);
   const [childFormOpen, setChildFormOpen] = useState(false);
   const [childFormData, setChildFormData] = useState(CHILD_INITIAL_DATA);
   const [childSubmitted, setChildSubmitted] = useState(false);
 
-  useEffect(() => {
-    const interval = window.setInterval(
-      () => setCountdown(getCountdown()),
-      1000,
-    );
-    return () => window.clearInterval(interval);
-  }, []);
 
   const handleChildChange = (e) => {
     const { name, value } = e.target;
@@ -378,24 +477,12 @@ export default function WCC() {
     if (!validateForm()) return;
     setIsSubmitting(true);
     const id = generateRegistrationId();
+    const payload = buildRegistrationPayload(formData, id);
 
     try {
-      if (!GOOGLE_SHEETS_ENDPOINT.startsWith("PASTE_")) {
-        await fetch(GOOGLE_SHEETS_ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            ...formData,
-            registrationId: id,
-            checkInCode: id,
-            submittedAt: new Date().toISOString(),
-          }),
-        });
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-      }
-      setRegistrationId(id);
+      await submitRegistration(payload);
+      // Show the exact ID that was sent to Sheets for check-in.
+      setRegistrationId(payload.registrationId);
       setSubmitted(true);
       setFormData(INITIAL_FORM_DATA);
       document
@@ -427,6 +514,8 @@ export default function WCC() {
         <img
           src={HERO_IMAGE_URL}
           alt="The Takeover Generation 2026 convention artwork"
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover object-center brightness-[0.62] saturate-[1.15]"
         />
         <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(67,20,7,0.92)_0%,rgba(124,45,18,0.72)_48%,rgba(194,65,12,0.38)_100%)]" />
@@ -468,26 +557,7 @@ export default function WCC() {
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-orange-200">
                 Countdown to 11 November 2026
               </p>
-              <div className="grid grid-cols-4 gap-2 sm:max-w-xl sm:gap-3">
-                {[
-                  [countdown.days, "Days"],
-                  [countdown.hours, "Hours"],
-                  [countdown.minutes, "Minutes"],
-                  [countdown.seconds, "Seconds"],
-                ].map(([value, label]) => (
-                  <div
-                    key={label}
-                    className="rounded-2xl border border-white/25 bg-[#7c2d12]/60 px-2 py-3 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-4 sm:py-4"
-                  >
-                    <div className="text-2xl font-black tabular-nums text-white sm:text-4xl">
-                      {String(value).padStart(2, "0")}
-                    </div>
-                    <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-orange-200 sm:text-[10px]">
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Countdown />
             </motion.div>
             <motion.p
               variants={fadeUp}
@@ -629,6 +699,8 @@ export default function WCC() {
                 <img
                   src={NEXT_STEP_IMAGE_URL}
                   alt="WCC 2026 invitation artwork"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover object-center opacity-95 transition duration-500 hover:scale-105 sm:h-64 lg:h-72"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-orange-950/55 via-transparent to-white/5" />
@@ -1000,11 +1072,11 @@ export default function WCC() {
             {childFormOpen && (
               <motion.div
                 id="child-registration-form"
-                initial={{ opacity: 0, height: 0, y: -12 }}
-                animate={{ opacity: 1, height: "auto", y: 0 }}
-                exit={{ opacity: 0, height: 0, y: -12 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-[2rem] border border-orange-200/30 bg-white p-6 text-left shadow-2xl shadow-orange-950/30 sm:p-10"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="mx-auto mt-10 max-w-3xl rounded-[2rem] border border-orange-200/30 bg-white p-6 text-left shadow-2xl shadow-orange-950/30 sm:p-10"
               >
                 {childSubmitted ? (
                   <div className="py-8 text-center">
