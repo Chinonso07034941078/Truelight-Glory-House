@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function HomeHero() {
-  const [showLinks, setShowLinks] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   
   // Clean, high-performance callback ref for the video
@@ -109,33 +108,14 @@ export default function HomeHero() {
 
             {/* Actions */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
-              <button 
-                onClick={() => setShowLinks(!showLinks)}
-                className="px-8 py-4 bg-blue-600 text-white font-black text-xs uppercase tracking-widest transition-transform active:scale-95 duration-200"
+              <button
+                onClick={() => {
+                  window.location.href = '/wcc#registration';
+                }}
+                className="px-8 py-4 bg-blue-600 text-white font-black text-xs uppercase tracking-widest transition-transform active:scale-95 duration-200 hover:bg-gray-900"
               >
-                Watch Live
+                Register for WCC
               </button>
-
-              <AnimatePresence>
-                {showLinks && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95, y: 5 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 5 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex gap-2"
-                  >
-                    {['fb', 'yt', 'ig'].map((id) => (
-                      <div 
-                        key={id}
-                        className="w-10 h-10 flex items-center justify-center bg-white/10 text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer"
-                      >
-                        <div className="w-4 h-4 bg-current opacity-40"></div>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </motion.div>
 

@@ -313,22 +313,34 @@ export default function Events() {
                     </div>
 
                     {/* CTA Button */}
-                    <button
-                      onClick={() => handleEventRegistration(event)}
-                      disabled={!event.registrationOpen}
-                      className={`group/btn relative w-full font-bold py-3 text-sm uppercase tracking-wider transition-all duration-300 ${
-                        event.registrationOpen
-                          ? 'bg-blue-600 text-white hover:bg-gray-900'
-                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      <span className="relative z-10">
-                        {event.registrationOpen ? 'Register Now' : 'Coming Soon'}
-                      </span>
-                      {event.registrationOpen && (
-                        <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-1 translate-y-1 group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform duration-300"></div>
-                      )}
-                    </button>
+                    {event.id === 1 ? (
+                      <button
+                        onClick={() => {
+                          window.location.href = '/wcc';
+                        }}
+                        className="group/btn relative w-full bg-blue-600 py-3 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-gray-900"
+                      >
+                        <span className="relative z-10">Visit WCC Page</span>
+                        <div className="absolute inset-0 translate-x-1 translate-y-1 border-2 border-blue-600 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5"></div>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleEventRegistration(event)}
+                        disabled={!event.registrationOpen}
+                        className={`group/btn relative w-full font-bold py-3 text-sm uppercase tracking-wider transition-all duration-300 ${
+                          event.registrationOpen
+                            ? 'bg-blue-600 text-white hover:bg-gray-900'
+                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        <span className="relative z-10">
+                          {event.registrationOpen ? 'Register Now' : 'Coming Soon'}
+                        </span>
+                        {event.registrationOpen && (
+                          <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-1 translate-y-1 group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform duration-300"></div>
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>
