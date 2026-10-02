@@ -852,11 +852,7 @@ function PartnerSection({ onHandshakeClick, href = "#registration" }) {
         Partner with us
       </h2>
 
-      <div className="wcc-partner__rule" aria-hidden="true">
-        <i />
-        <b />
-        <i />
-      </div>
+      
 
       <button
         type="button"
