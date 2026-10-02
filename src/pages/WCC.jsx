@@ -240,7 +240,7 @@ function TextAreaField({
         rows={5}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
-        className={`${fieldClasses(!!error, false)} min-h-32 resize-y leading-7`}
+        className={`${fieldClasses(!!error, false)} min-h-32 resize-none leading-7`}
       />
       {error && (
         <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
