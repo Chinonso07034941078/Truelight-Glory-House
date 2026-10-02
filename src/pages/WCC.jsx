@@ -1176,6 +1176,13 @@ export default function WCC() {
           isolation: isolate;
         }
 
+        /* Lower the complete hero content group on desktop only. */
+        @media (min-width: 1024px) {
+          .wcc-hero-content {
+            top: 3rem;
+          }
+        }
+
         .wcc-hero-lockup {
           position: relative;
           z-index: 7;
