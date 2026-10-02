@@ -65,6 +65,37 @@ function buildRegistrationPayload(formData, registrationId) {
   };
 }
 
+function buildChildRegistrationPayload(childFormData, registrationId) {
+  const childName = childFormData.childName.trim();
+  const guardianName = childFormData.guardianName.trim();
+  const guardianPhone = childFormData.guardianPhone.trim();
+  const answers = {
+    registrationId,
+    checkInCode: registrationId,
+    submittedAt: new Date().toISOString(),
+    name: childName,
+    email: "",
+    phone: guardianPhone,
+    attendedWccBefore: "",
+    expectations: `Child age: ${childFormData.childAge.trim()}; Parent/guardian: ${guardianName}`,
+    isTrueLighter: "",
+    isWorker: "",
+    unit: "",
+    church: "",
+    locationScope: "",
+    needsAccommodation: "",
+    isPastor: "",
+    pastorChurch: "",
+  };
+
+  return {
+    ...answers,
+    formType: "wcc-registration",
+    registrationKind: "child",
+    row: REGISTRATION_COLUMNS.map((column) => answers[column] ?? ""),
+  };
+}
+
 async function submitRegistration(payload) {
   if (GOOGLE_SHEETS_ENDPOINT.startsWith("PASTE_")) return;
 
@@ -345,7 +376,7 @@ function Countdown() {
   }, []);
 
   return (
-    <div className="wcc-countdown flex w-full items-end divide-x divide-orange-200/25 border-y border-orange-200/25 py-3 sm:max-w-xl sm:py-4">
+    <div className="wcc-countdown mb-3 flex w-full items-end divide-x divide-orange-200/25 border-y border-orange-200/25 py-3 sm:max-w-xl sm:py-4">
       {[
         [countdown.days, "Days"],
         [countdown.hours, "Hours"],
@@ -894,9 +925,23 @@ export default function WCC() {
     setChildFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChildSubmit = (e) => {
+  const handleChildSubmit = async (e) => {
     e.preventDefault();
-    setChildSubmitted(true);
+    if (Object.values(childFormData).some((value) => !value.trim())) return;
+
+    const registrationId = generateRegistrationId();
+    const payload = buildChildRegistrationPayload(
+      childFormData,
+      registrationId,
+    );
+
+    try {
+      await submitRegistration(payload);
+      setChildSubmitted(true);
+      setChildFormData(CHILD_INITIAL_DATA);
+    } catch (err) {
+      console.error("Child submission failed", err);
+    }
   };
 
   const handleChange = (e) => {
@@ -999,9 +1044,6 @@ export default function WCC() {
       setRegistrationId(payload.registrationId);
       setSubmitted(true);
       setFormData(INITIAL_FORM_DATA);
-      document
-        .getElementById("registration")
-        ?.scrollIntoView({ behavior: "smooth" });
     } catch (err) {
       console.error("Submission failed", err);
     } finally {
@@ -1014,6 +1056,17 @@ export default function WCC() {
       .getElementById("registration")
       ?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // After the success screen renders, center the check-in number on screen.
+  useEffect(() => {
+    if (!submitted) return;
+    const timer = setTimeout(() => {
+      document
+        .getElementById("checkin-result")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [submitted]);
 
   return (
     <main
@@ -1367,6 +1420,7 @@ export default function WCC() {
             <path d="M986-40c-13 124-118 165-103 278 15 116 153 103 168 211 16 117-117 161-101 274 17 121 173 138 166 256-5 97-99 141-121 232" />
           </g>
         </svg>
+
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-[7%] top-24 hidden h-px w-24 bg-white/55 lg:block"
@@ -1407,6 +1461,8 @@ export default function WCC() {
           aria-hidden="true"
           className="absolute -bottom-24 left-1/3 h-60 w-60 rounded-full border border-white/10 bg-white/5 blur-3xl"
         />
+
+        {/* Guest speakers strip (unchanged) */}
         <div
           className="wcc-guest-speakers-hero absolute inset-x-0 bottom-0 z-[4] grid h-[var(--wcc-speaker-strip)] grid-cols-7 items-end gap-0 px-1 max-[640px]:px-0 sm:px-4"
           aria-hidden="true"
@@ -1418,12 +1474,26 @@ export default function WCC() {
               alt=""
               loading="eager"
               decoding="async"
-              className="h-full w-full min-w-0 object-contain object-bottom max-[640px]:w-[180%] max-[640px]:max-w-none max-[640px]:justify-self-center"
+              className="
+          h-[115%] w-[115%]
+          min-w-0
+          max-w-none
+          object-center
+          object-bottom
+          scale-110
+          origin-bottom
+          max-[640px]:h-[55%]
+          max-[640px]:w-[180%]
+          max-[640px]:scale-110
+          max-[640px]:max-w-none
+          max-[640px]:justify-self-center
+        "
             />
           ))}
         </div>
 
-        <div className="wcc-hero-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-4 pb-[var(--wcc-speaker-strip)] pt-24 sm:px-8 sm:pt-28 lg:px-12 lg:pb-[var(--wcc-speaker-strip)] lg:pt-20">
+        {/* Content: bottom-anchored just above the images on mobile, centered from tablet up */}
+        <div className="wcc-hero-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl items-end px-4 pb-[calc(var(--wcc-speaker-strip)*0.62_+_1rem)] pt-16 sm:items-center sm:px-8 sm:pb-[var(--wcc-speaker-strip)] sm:pt-28 lg:px-12 lg:pb-[var(--wcc-speaker-strip)] lg:pt-20">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -1431,137 +1501,125 @@ export default function WCC() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.12 } },
             }}
-            className="grid w-full grid-cols-1 items-center gap-x-4 gap-y-5 text-center max-[640px]:grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 lg:text-left"
+            className="flex w-full flex-col items-center gap-3 text-center sm:gap-5 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 lg:text-left"
           >
+            {/* Title: one centered line on mobile, stacked on larger screens */}
             <motion.h1
               variants={fadeUp}
-              className="wcc-hero-title col-start-1 row-start-1 max-w-xl text-left font-black leading-[0.78] tracking-[-0.09em] text-white lg:justify-self-start"
+              className="wcc-hero-title max-w-xl text-center font-black leading-[0.78] tracking-[-0.09em] text-white max-[640px]:flex max-[640px]:items-baseline max-[640px]:justify-center max-[640px]:gap-[0.2em] max-[640px]:leading-[0.9] lg:col-start-1 lg:row-start-1 lg:justify-self-start lg:text-left"
             >
-              <span className="block text-[clamp(3.25rem,14vw,5.8rem)] lg:text-[7.2rem] xl:text-[8.2rem]">
+              <span className="block text-[clamp(3.25rem,14vw,5.8rem)] max-[640px]:text-[clamp(3rem,18vw,4.75rem)] lg:text-[7.2rem] xl:text-[8.2rem]">
                 WCC
               </span>
-              <span className="wcc-hero-year block text-[clamp(4rem,17vw,7rem)] lg:text-[8.8rem] xl:text-[10rem]">
+              <span className="wcc-hero-year block text-[clamp(4rem,17vw,7rem)] max-[640px]:text-[clamp(3rem,18vw,4.75rem)] lg:text-[8.8rem] xl:text-[10rem]">
                 2026
               </span>
             </motion.h1>
 
+            {/* Logo: first on mobile (order-first), second on tablet, right column on desktop.
+          SIZE CONTROL: change the w-[clamp(min,preferred,max)] values below. */}
             <motion.div
               variants={fadeUp}
-              className="wcc-hero-theme col-start-1 row-start-2 w-48 justify-self-center max-[640px]:col-start-2 max-[640px]:row-start-1 max-[640px]:w-[clamp(6.75rem,33vw,13rem)] max-[640px]:justify-self-end lg:col-start-2 lg:row-start-1 lg:w-full lg:max-w-[19rem] lg:justify-self-center"
+              className="wcc-hero-theme w-64 max-[640px]:order-first max-[640px]:w-[clamp(9.5rem,52vw,13rem)] lg:col-start-2 lg:row-start-1 lg:w-full lg:max-w-[22rem] lg:justify-self-center [&_img]:!border-0"
             >
               <img
                 src={WCC_LOGO_URL}
                 alt="The Takeover Generation"
                 loading="eager"
                 decoding="async"
-                className="mx-auto w-full rounded-xl object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)]"
+                className="mx-auto w-full object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)]"
               />
             </motion.div>
 
+            {/* Countdown: soft dark panel on mobile for readability */}
             <motion.div
               variants={fadeUp}
-              className="wcc-hero-countdown col-span-1 row-start-3 w-full max-w-xl justify-self-center max-[640px]:col-span-2 max-[640px]:row-start-2 lg:col-start-2 lg:row-start-2 lg:justify-self-center"
+              className="wcc-hero-countdown w-full max-w-xl max-[640px]:max-w-[21rem] max-[640px]:rounded-2xl max-[640px]:bg-black/20 max-[640px]:px-3 max-[640px]:backdrop-blur-sm lg:col-start-2 lg:row-start-2 lg:justify-self-center"
             >
               <Countdown />
             </motion.div>
 
             <motion.p
               variants={fadeUp}
-              className="wcc-hero-copy col-span-1 row-start-4 mx-auto max-w-md text-center text-xs leading-5 text-orange-50/80 max-[640px]:col-span-2 max-[640px]:row-start-3 lg:col-start-1 lg:row-start-2 lg:mx-0 lg:text-left lg:text-base lg:leading-6"
+              className="wcc-hero-copy mx-auto max-w-md text-center text-xs leading-5 text-orange-50/80 max-[640px]:max-w-[18rem] max-[640px]:text-[0.8rem] max-[640px]:leading-[1.5] sm:text-sm lg:col-start-1 lg:row-start-2 lg:mx-0 lg:text-left lg:text-base lg:leading-6"
             >
               Join us this season. Complete the registration below and tell us a
               little about yourself.
             </motion.p>
 
+            {/* Button: full width on mobile */}
             <motion.div
               variants={fadeUp}
-              className="wcc-hero-register col-span-1 row-start-5 flex justify-center max-[640px]:col-span-2 max-[640px]:row-start-4 lg:col-start-1 lg:row-start-3 lg:justify-start"
+              className="wcc-hero-register flex w-full justify-center max-[640px]:max-w-[21rem] lg:col-start-1 lg:row-start-3 lg:w-auto lg:justify-start"
             >
               <button
                 onClick={scrollToRegistration}
-                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b160b]"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b160b] max-[640px]:w-full max-[640px]:py-3.5"
               >
                 Register now
                 <ArrowUpRight
                   size={18}
-                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
               </button>
             </motion.div>
           </motion.div>
-
-          <motion.aside
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
-            className="hidden"
-          >
-            <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/[0.11] p-5 text-left shadow-xl shadow-black/20 backdrop-blur-sm">
-              <div className="absolute left-0 top-0 h-full w-[2px] bg-[#b45309]" />
-              <p className="text-[10px] uppercase tracking-[0.24em] text-orange-200">
-                The WCC experience
-              </p>
-              <div className="mt-6 space-y-5">
-                {[
-                  ["01", "Connect", "Find people who feel like home."],
-                  ["02", "Grow", "Build faith, courage, and purpose."],
-                  ["03", "Serve", "Bring your gifts into the room."],
-                ].map(([number, title, copy]) => (
-                  <div
-                    key={number}
-                    className="flex gap-3 border-b border-white/10 pb-4 last:border-0 last:pb-0"
-                  >
-                    <span className="text-xs text-orange-300">{number}</span>
-                    <div>
-                      <h3 className="text-lg text-white">{title}</h3>
-                      <p className="mt-1 text-xs leading-5 text-orange-50/70">
-                        {copy}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-5 wcc-flag-line w-16" />
-            </div>
-          </motion.aside>
-        </div>
-
-        <div className="wcc-hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-xs tracking-wide">Scroll to register</span>
-            <ChevronDown size={18} />
-          </motion.div>
         </div>
       </section>
 
-      {/* ========================= INTRO ========================= */}
-      <section className="relative overflow-hidden bg-white py-20 sm:py-28">
-        <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b45309]/5 blur-3xl" />
-        <div className="relative mx-auto max-w-none px-6 text-center lg:px-20 lg:text-left">
+      {/* ========================= INTRO + VIDEO ========================= */}
+      <section
+        aria-labelledby="wcc-video-title"
+        className="relative overflow-hidden bg-white py-20 sm:py-28"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b45309]/5 blur-3xl"
+        />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="text-center lg:text-left"
           >
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-700">
               02 / Registration
             </p>
-            <h2 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.9] tracking-[-0.07em] text-[#92400e] sm:text-6xl lg:text-8xl">
+            <h2
+              id="wcc-video-title"
+              className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.9] tracking-[-0.07em] text-[#92400e] sm:text-6xl lg:text-8xl"
+            >
               Let&apos;s get
               <br />
               <span className="text-[#c94e0a]">to know you.</span>
             </h2>
-            <div className="mt-7 flex items-center gap-4 lg:max-w-3xl">
+            <div className="mx-auto mt-7 flex items-center gap-4 lg:mx-0 lg:max-w-3xl">
               <span className="wcc-flag-line w-20" />
-              <p className="max-w-2xl leading-8 text-orange-900/75">
+              <p className="max-w-2xl text-left leading-8 text-orange-900/75">
                 Fill out the form below with your details. It helps us prepare
                 for your visit and connect you with the right team.
               </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="overflow-hidden rounded-2xl border border-orange-900/15 bg-black shadow-2xl shadow-orange-950/20"
+          >
+            <div className="aspect-video w-full">
+              <iframe
+                className="h-full w-full"
+                src="https://www.youtube-nocookie.com/embed/yd6UcMqLx4w?autoplay=1&mute=1&playsinline=1&rel=0"
+                title="WCC 2026 video"
+                loading="eager"
+                allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </motion.div>
         </div>
@@ -1655,7 +1713,11 @@ export default function WCC() {
             </div>
 
             {submitted ? (
-              <div role="status" className="px-6 py-16 text-center sm:px-10">
+              <div
+                id="checkin-result"
+                role="status"
+                className="px-6 py-16 text-center sm:px-10"
+              >
                 <p className="text-sm font-bold uppercase tracking-[0.24em] text-orange-700">
                   Your check-in number
                 </p>
