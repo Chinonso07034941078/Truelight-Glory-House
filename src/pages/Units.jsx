@@ -1,846 +1,418 @@
+import { motion } from 'framer-motion';
 import { useState } from "react";
+import { Video, Recycle, Search, Users, Heart, Award, Target, Phone, Clock, MonitorSpeaker, Music, Shield, Book, UserCheck, Globe, Crown, Truck, Info, Database, Megaphone, Smile, HandHeart, Paintbrush, Handshake, CupSoda, X } from "lucide-react";
 import Footer from "../components/Footer";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  CheckCircle2,
-  ChevronDown,
-  Loader2,
-  Mail,
-  MapPin,
-  Phone,
-  User,
-  Church,
-} from "lucide-react";
 
-// TODO (Google Sheets + email): paste the Google Apps Script Web App URL here.
-const GOOGLE_SHEETS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-
-const UNITS = [
-  "Choir",
-  "Media",
-  "Ushering",
-  "Technical",
-  "Children",
-  "Drama",
-  "Protocol",
-  "Welfare",
-  "Prayer",
-  "Other",
+const units = [
+  { name: "Media", icon: Video, description: "Amplifying God's message through digital excellence", leader: "Min. Moyo", members: "30+", time: "Tuesday 9PM", contact: "media@truelight.org", phone: "+2348012345678" },
+  { name: "Music Department", icon: Music, description: "Leading souls into God's presence through worship", leader: "Esther Ifeanyi", members: "35+", time: "Saturdays 5PM, Mondays 9PM", contact: "choir@truelight.org", phone: "+2348023456789" },
+  { name: "Protocol", icon: Award, description: "Excellence in events and hospitality", leader: "Chibuzor Okeke", members: "18+", time: "Varies", contact: "protocol@truelight.org", phone: "+2348034567890" },
+  { name: "Logistics", icon: Truck, description: "Ensuring seamless movement of resources and equipment", leader: "Grace Ojo", members: "7+", time: "online", contact: "logistics@truelight.org", phone: "+2348045678901" },
+  { name: "Information Desk", icon: Info, description: "Providing information and assistance to members and guests", leader: "Favour Okechukwu", members: "12+", time: "Sundays Services", contact: "info@truelight.org", phone: "+2348056789012" },
+  { name: "Data Analysis", icon: Database, description: "Analyzing and managing church data for strategic decisions", leader: "Ngozi Nwachukwu", members: "8+", time: "Online", contact: "data@truelight.org", phone: "+2348067890123" },
+  { name: "Company of the Great", icon: Crown, description: "Mentorship and leadership development for kingdom impact", leader: "Oluwatobi Ojo", members: "10+", time: "Saturday 5PM", contact: "company@truelight.org", phone: "+2348078901234" },
+  { name: "Evangelism", icon: Globe, description: "Taking the gospel beyond church walls", leader: "Daniel Okafor", members: "22+", time: "Saturdays 5PM", contact: "evangelism@truelight.org", phone: "+2348089012345" },
+  { name: "Follow-Up", icon: UserCheck, description: "Connecting and following up with new converts and visitors", leader: "Chinedu John", members: "14+", time: "Saturday 5PM", contact: "followup@truelight.org", phone: "+2348090123456" },
+  { name: "Marketing", icon: Megaphone, description: "Promoting church events and initiatives effectively", leader: "Nkechi Okorie", members: "16+", time: "Sunday Services", contact: "marketing@truelight.org", phone: "+2348101234567" },
+  { name: "Sanctuary Keepers", icon: Recycle, description: "Maintaining cleanliness and sanctity of God's house", leader: "Blessing Okafor", members: "22+", time: "Saturdays 5PM", contact: "sanctuary@truelight.org", phone: "+2348112345678" },
+  { name: "Ushering", icon: UserCheck, description: "Creating order and comfort in God's house", leader: "Blessing Musa", members: "28+", time: "Saturdays 5PM, Wednesdays 9PM", contact: "ushering@truelight.org", phone: "+2348123456789" },
+  { name: "Greeters", icon: Smile, description: "Giving a warm and friendly welcome to everyone", leader: "Ada Uche", members: "13+", time: "Sundays 8:30AM", contact: "greeters@truelight.org", phone: "+2348134567890" },
+  { name: "Sound Hub", icon: MonitorSpeaker, description: "Delivering crystal-clear audio for worship", leader: "Emeka Obi", members: "12+", time: "Saturday 5PM", contact: "sound@truelight.org", phone: "+2348145678901" },
+  { name: "Security", icon: Shield, description: "Protecting and securing God's people", leader: "Ikenna Umeh", members: "10+", time: "Sundays 7:00AM", contact: "security@truelight.org", phone: "+2348156789012" },
+  { name: "Children Church", icon: Book, description: "Nurturing the next generation for Christ", leader: "Joy Eze", members: "25+", time: "Sundays 8:30AM", contact: "children@truelight.org", phone: "+2348167890123" },
+  { name: "Prayer", icon: HandHeart, description: "Interceding and standing in the gap for the church", leader: "Eunice Chukwudi", members: "30+", time: "Mondays 5PM", contact: "prayer@truelight.org", phone: "+2348178901234" },
+  { name: "Welfare", icon: Heart, description: "Caring for the needs of members and the less privileged", leader: "Ngozi Obinna", members: "18+", time: "Varies ", contact: "welfare@truelight.org", phone: "+2348189012345" },
+  { name: "Creative Unit", icon: Paintbrush, description: "Designing visuals and creative content for the church", leader: "Chima Okoro", members: "11+", time: "Sundays 9PM", contact: "creative@truelight.org", phone: "+2348190123456" },
+  { name: "Young Achievers Network", icon: Target, description: "Empowering youths for success and excellence", leader: "Tolu Adebayo", members: "24+", time: "Saturdays 1PM", contact: "yan@truelight.org", phone: "+2348201234567" },
+  { name: "Partnership", icon: Handshake, description: "Supporting the church's vision through partnerships", leader: "Chike Nnamdi", members: "19+", time: "Monthly (Last Sunday)", contact: "partnership@truelight.org", phone: "+2348212345678" },
+  { name: "Communion", icon: CupSoda, description: "Preparing and serving the Holy Communion with reverence", leader: "Helen Chika", members: "9+", time: "Monthly (First Sunday)", contact: "communion@truelight.org", phone: "+2348223456789" }
 ];
 
-const INITIAL_FORM_DATA = {
-  name: "",
-  email: "",
-  phone: "",
-  attendedWccBefore: "",
-  expectations: "",
-  isTrueLighter: "",
-  isWorker: "",
-  unit: "",
-  church: "",
-  locationScope: "",
-  locationDetail: "",
-};
+const testimonials = [
+  { name: "Chika Blessing", unit: "Media", text: "Serving here transformed my life completely!" },
+  { name: "DKK", unit: "Media", text: "We're changing lives through technology and faith!" },
+  { name: "Mr. Flourish", unit: "Evangelism", text: "Nothing beats seeing souls transformed through outreach." },
+  { name: "Ahaneku Chidera", unit: "Music Department", text: "Leading worship has deepened my relationship with God in ways I never imagined." },
+  { name: "Aguruo Valentine", unit: "Protocol", text: "The discipline and excellence I've learned serving here has impacted every area of my life." },
+  { name: "Mary Ben", unit: "Children Church", text: "Teaching children about God's love has renewed my own faith daily." }
+];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+export default function MinistryUnits() {
+  const [search, setSearch] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState(null);
+  
+  const filteredUnits = units.filter(unit => 
+    unit.name.toLowerCase().includes(search.toLowerCase()) ||
+    unit.description.toLowerCase().includes(search.toLowerCase())
+  );
 
-function generateRegistrationId() {
-  // Generate a six-digit numeric code for check-in.
-  // The code is sent to Google Sheets with every registration.
-  const randomValues = new Uint32Array(1);
-  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
-    crypto.getRandomValues(randomValues);
-  } else {
-    randomValues[0] = Math.floor(Math.random() * 0xffffffff);
-  }
-  return String(100000 + (randomValues[0] % 900000));
-}
-
-function fieldClasses(hasError, withIcon) {
-  return `w-full rounded-2xl border bg-white/90 py-3.5 text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
-    withIcon ? "pl-12 pr-4" : "px-4"
-  } ${
-    hasError
-      ? "border-red-400 focus:border-red-400 focus:ring-red-100"
-      : "border-slate-200 focus:border-orange-700 focus:ring-orange-100/80 hover:border-slate-300"
-  }`;
-}
-
-function TextField({
-  id,
-  label,
-  value,
-  onChange,
-  required,
-  error,
-  icon: Icon,
-  type = "text",
-  placeholder,
-}) {
-  const errorId = `${id}-error`;
   return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-slate-700"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <div className="relative">
-        {Icon && (
-          <Icon
-            size={18}
-            strokeWidth={1.8}
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-          />
-        )}
-        <input
-          id={id}
-          name={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          className={fieldClasses(!!error, !!Icon)}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 overflow-hidden">
+      
+      {/* Dynamic Background Elements */}
+      <div className="fixed inset-0 pointer-events-none">
+       
+        {/* Geometric Pattern Overlay */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `linear-gradient(rgba(59,130,246,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,.05) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}></div>
+        
+        {/* Floating shapes */}
+        
+        <div className="absolute bottom-40 right-32 w-24 h-24 bg-blue-600/5 rounded-full"></div>
+        <div className="absolute top-1/3 right-20 w-2 h-40 bg-gradient-to-b from-blue-600/40 to-transparent"></div>
+        
+        {/* Diagonal accent lines */}
+        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-blue-600/20 via-transparent to-blue-600/20 transform -skew-x-12"></div>
+        
       </div>
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-red-500">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TextAreaField({
-  id,
-  label,
-  value,
-  onChange,
-  required,
-  error,
-  placeholder,
-}) {
-  const errorId = `${id}-error`;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-slate-700"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <textarea
-        id={id}
-        name={id}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        rows={5}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        className={`${fieldClasses(!!error, false)} min-h-32 resize-y leading-7`}
-      />
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-red-500">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function SelectField({
-  id,
-  label,
-  value,
-  onChange,
-  options,
-  placeholder,
-  required,
-  error,
-}) {
-  const errorId = `${id}-error`;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-slate-700"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <div className="relative">
-        <select
-          id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          className={`${fieldClasses(!!error, false)} appearance-none pr-11`}
-        >
-          <option value="">{placeholder}</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDown
-          size={18}
-          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
-        />
-      </div>
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-red-500">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-const YES_NO_OPTIONS = [
-  { value: "yes", label: "Yes" },
-  { value: "no", label: "No" },
-];
-
-const LOCATION_OPTIONS = [
-  { value: "owerri", label: "Owerri" },
-  { value: "outside", label: "Outside Owerri" },
-];
-
-const UNIT_OPTIONS = UNITS.map((unit) => ({ value: unit, label: unit }));
-
-export default function WCC() {
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [registrationId, setRegistrationId] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const key = name;
-
-    setFormData((prev) => {
-      const updated = { ...prev, [key]: value };
-      if (key === "isTrueLighter") {
-        if (value === "yes") {
-          updated.church = "";
-          updated.locationScope = "";
-          updated.locationDetail = "";
-        } else if (value === "no") {
-          updated.isWorker = "";
-          updated.unit = "";
+      
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(12deg); }
+          50% { transform: translateY(-20px) rotate(18deg); }
         }
-      }
-      if (key === "isWorker" && value === "no") updated.unit = "";
-      if (key === "locationScope" && value === "owerri")
-        updated.locationDetail = "";
-      return updated;
-    });
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
 
-    setErrors((prev) => {
-      if (!prev[key]) return prev;
-      const next = { ...prev, [key]: undefined };
-      if (key === "isTrueLighter") {
-        delete next.isWorker;
-        delete next.unit;
-        delete next.church;
-        delete next.locationScope;
-        delete next.locationDetail;
-      }
-      if (key === "isWorker") delete next.unit;
-      if (key === "locationScope") delete next.locationDetail;
-      return next;
-    });
-  };
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+  
+ {/* Background Image Container */}
+<div className="absolute inset-0 z-0 bg-black">
+  <img 
+    src="https://res.cloudinary.com/dnvgl9k4i/image/upload/f_auto,q_auto,w_1600/v1771202142/629486041_1310175651143462_620369017042103686_n_ci87yq.jpg"
+    alt="Ministry Background"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    className="w-full h-full object-cover transition-opacity duration-700 opacity-0"
+    onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+  />
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Please enter your full name.";
-    if (!formData.email.trim()) {
-      newErrors.email = "Please enter your email address.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Please enter your phone number.";
-    }
-    if (!formData.attendedWccBefore) {
-      newErrors.attendedWccBefore =
-        "Please let us know if you have attended WCC before.";
-    }
-    if (!formData.expectations.trim()) {
-      newErrors.expectations = "Please tell us what you expect from WCC.";
-    }
-    if (!formData.isTrueLighter)
-      newErrors.isTrueLighter = "Please let us know if you are a True Lighter.";
-    if (formData.isTrueLighter === "yes") {
-      if (!formData.isWorker)
-        newErrors.isWorker = "Please let us know if you serve in a unit.";
-      else if (formData.isWorker === "yes" && !formData.unit)
-        newErrors.unit = "Please select your unit.";
-    }
-    if (formData.isTrueLighter === "no") {
-      if (!formData.church.trim())
-        newErrors.church = "Please enter the church you attend.";
-      if (!formData.locationScope)
-        newErrors.locationScope =
-          "Please let us know where you are coming from.";
-      else if (
-        formData.locationScope === "outside" &&
-        !formData.locationDetail.trim()
-      ) {
-        newErrors.locationDetail =
-          "Please tell us which state or country you are coming from.";
-      }
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/65 to-black/70 lg:via-black/70 lg:to-transparent"></div>
+</div>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setIsSubmitting(true);
-    const id = generateRegistrationId();
 
-    try {
-      if (!GOOGLE_SHEETS_ENDPOINT.startsWith("PASTE_")) {
-        await fetch(GOOGLE_SHEETS_ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            ...formData,
-            registrationId: id,
-            checkInCode: id,
-            submittedAt: new Date().toISOString(),
-          }),
-        });
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-      }
-      setRegistrationId(id);
-      setSubmitted(true);
-      setFormData(INITIAL_FORM_DATA);
-      document
-        .getElementById("registration")
-        ?.scrollIntoView({ behavior: "smooth" });
-    } catch (err) {
-      console.error("Submission failed", err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const scrollToRegistration = () => {
-    document
-      .getElementById("registration")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <main
-      className="min-h-screen bg-white font-sans text-slate-900 antialiased selection:bg-orange-200 selection:text-orange-950"
-      style={{
-        fontFamily:
-          "'Aderio Trial Family', 'Aderio', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
-      }}
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+    
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true }}
+      className="space-y-8 lg:space-y-12 max-w-4xl"
     >
-      {/* ========================= HERO ========================= */}
-      <section className="relative flex min-h-[94vh] items-center overflow-hidden bg-[#1746a2] text-white lg:min-h-[760px]">
-        <img
-          src="/wcc.jpg"
-          alt="Truelight Glory House WCC"
-          className="absolute inset-0 h-full w-full scale-105 object-cover blur-[2px] brightness-[0.68] saturate-[0.76]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(76,130,220,0.72)_0%,rgba(91,145,229,0.62)_48%,rgba(112,163,236,0.52)_78%,rgba(154,63,18,0.24)_100%)]" />
-        <div className="absolute -right-24 top-20 h-72 w-72 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
-        <div className="absolute -bottom-36 left-1/3 h-80 w-80 rounded-full border border-white/10 bg-white/5 blur-3xl" />
+      
+      {/* Bold Blue Line Accent */}
+      <div className="flex items-center gap-4">
+        <div className="w-16 sm:w-20 h-1 bg-blue-600"></div>
+        <span className="text-xs sm:text-sm font-bold text-blue-600 uppercase tracking-widest">
+          Ministry Units
+        </span>
+      </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-none items-center gap-14 px-6 py-28 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-20 lg:py-32">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.12 } },
-            }}
-            className="max-w-3xl"
-          >
-            <motion.div
-              variants={fadeUp}
-              className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-100 backdrop-blur-md"
-            >
-              <span className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_16px_rgba(251,146,60,0.9)]" />
-              Truelight Glory House
-            </motion.div>
+      {/* Massive Heading */}
+      <div>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black text-white leading-none tracking-tighter">
+          Find Your
+        </h1>
+        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-black leading-none tracking-tighter mt-2">
+          <span className="text-blue-600">
+            Service
+          </span>
+        </h1>
+      </div>
 
-            <motion.h1
-              variants={fadeUp}
-              className="max-w-xl text-6xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-8xl lg:text-[8.5rem]"
-            >
-              WCC<span className="text-orange-400">.</span>
-            </motion.h1>
+      {/* Subheading */}
+      <div className="max-w-xl">
+        <p className="text-xl sm:text-2xl lg:text-3xl text-white font-light leading-relaxed">
+          Join a ministry where your gifts meet God's perfect plan.
+        </p>
+      </div>
 
-            <motion.p
-              variants={fadeUp}
-              className="mt-7 max-w-xl text-2xl font-medium leading-tight text-orange-50 sm:text-3xl"
-            >
-              A place of connection, growth, and purpose.
-            </motion.p>
-            <motion.p
-              variants={fadeUp}
-              className="mt-5 max-w-lg font-sans text-base leading-8 text-blue-50/75 sm:text-lg"
-            >
-              Join us this season. Complete the registration below and tell us a
-              little about yourself.
-            </motion.p>
-
-            <motion.div
-              variants={fadeUp}
-              className="mt-10 flex flex-col gap-4 sm:flex-row"
-            >
-              <button
-                onClick={scrollToRegistration}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#9a3f12] px-7 py-4 font-semibold text-white shadow-xl shadow-orange-950/30 transition-all hover:-translate-y-0.5 hover:bg-[#7d310d]"
-              >
-                Register now
-                <ArrowUpRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </button>
-              <button
-                onClick={scrollToRegistration}
-                className="inline-flex items-center justify-center rounded-2xl border border-white/30 bg-white/5 px-7 py-4 font-semibold text-white backdrop-blur-sm transition-all hover:border-orange-300/70 hover:bg-white/10"
-              >
-                Learn more
-              </button>
-            </motion.div>
-          </motion.div>
-
-          <motion.aside
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
-            className="hidden lg:block"
-          >
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-white/[0.11] p-6 shadow-2xl shadow-black/20 ">
-              <div className="absolute left-0 top-0 h-full w-1 bg-[#9a3f12]" />
-              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-orange-200">
-                The WCC experience
-              </p>
-              <div className="mt-8 space-y-6">
-                {[
-                  ["01", "Connect", "Find people who feel like home."],
-                  ["02", "Grow", "Build faith, courage, and purpose."],
-                  ["03", "Serve", "Bring your gifts into the room."],
-                ].map(([number, title, copy]) => (
-                  <div
-                    key={number}
-                    className="flex gap-4 border-b border-white/10 pb-5 last:border-0 last:pb-0"
-                  >
-                    <span className="font-mono text-xs text-orange-300">
-                      {number}
-                    </span>
-                    <div>
-                      <h3 className="text-xl text-white">{title}</h3>
-                      <p className="mt-1 text-sm leading-6 text-blue-50/65">
-                        {copy}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 h-px w-20 bg-[#9a3f12]" />
-            </div>
-          </motion.aside>
+      {/* Stats - Desktop */}
+      <div className="hidden lg:grid grid-cols-4 gap-8 pt-8">
+        <div>
+          <div className="text-5xl font-black text-blue-700">22</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Active Units</div>
         </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-xs tracking-wide">Scroll to register</span>
-            <ChevronDown size={18} />
-          </motion.div>
+        <div>
+          <div className="text-5xl font-black text-blue-700">500+</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Members</div>
         </div>
-      </section>
-
-      {/* ========================= INTRO ========================= */}
-      <section className="relative overflow-hidden bg-white py-20 sm:py-28">
-        <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#9a3f12]/5 blur-3xl" />
-        <div className="relative mx-auto max-w-none px-6 text-center lg:px-20 lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-orange-700">
-              Registration
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#123b8f] sm:text-5xl">
-              Let&apos;s get to know you
-            </h2>
-            <div className="mt-7 flex items-center gap-4 lg:max-w-3xl">
-              <span className="h-[3px] w-20 bg-[#9a3f12]" />
-              <p className="max-w-2xl font-sans leading-8 text-slate-600">
-                Fill out the form below with your details. It helps us prepare
-                for your visit and connect you with the right team.
-              </p>
-            </div>
-          </motion.div>
+        <div>
+          <div className="text-5xl font-black text-blue-700">50K+</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Lives Impacted</div>
         </div>
-      </section>
+        <div>
+          <div className="text-5xl font-black text-blue-700">10</div>
+          <div className="text-xs uppercase tracking-wider text-gray-600 mt-1">Years Strong</div>
+        </div>
+      </div>
 
-      {/* ========================= REGISTRATION ========================= */}
-      <section
-        id="registration"
-        className="relative overflow-hidden bg-slate-50 py-16 sm:py-24 lg:py-32"
-      >
-        <div className="absolute right-0 top-20 h-72 w-72 translate-x-1/3 rounded-full bg-orange-900/5 blur-3xl" />
-        <div className="relative grid w-full lg:grid-cols-[36%_64%]">
-          <aside className="relative flex min-h-[540px] flex-col justify-between overflow-hidden bg-[#1746a2] px-6 py-14 text-white sm:px-10 lg:min-h-[780px] lg:px-16 lg:py-20">
-            <div className="absolute right-0 top-0 h-full w-2 bg-[#9a3f12]" />
-            <div className="absolute left-8 top-28 hidden h-44 w-px bg-white/25 lg:block" />
-            <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#9a3f12] lg:block" />
-            <div className="relative pl-0 lg:pl-10">
-              <div className="mb-8 flex items-center gap-4">
-                <span className="h-[3px] w-14 bg-[#9a3f12]" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
-                  02 / WCC
-                </span>
-              </div>
-              <h2 className="max-w-md text-5xl font-semibold leading-[0.92] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
-                Make your
-                <br />
-                <span className="text-orange-300">next step.</span>
-              </h2>
-              <p className="mt-8 max-w-sm font-sans text-base leading-8 text-blue-50/70 sm:text-lg">
-                A simple registration is the beginning of a meaningful
-                connection. Tell us where you are coming from and what you are
-                hoping to discover.
-              </p>
-            </div>
-            <div className="relative mt-14 grid max-w-md gap-5 pl-0 sm:grid-cols-3 lg:pl-10">
-              {[
-                ["01", "Connect"],
-                ["02", "Grow"],
-                ["03", "Serve"],
-              ].map(([number, label]) => (
-                <div key={number} className="border-t-2 border-white/20 pt-3">
-                  <span className="font-mono text-xs text-orange-300">
-                    {number}
-                  </span>
-                  <p className="mt-2 text-sm font-semibold text-white">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </aside>
+    </motion.div>
+  </div>
 
+  {/* Bottom Blue Stripe */}
+  <div className="absolute bottom-0 left-0 right-0 h-2 bg-blue-600 z-20"></div>
+</section>
+
+      {/* Search Section */}
+      <section className="relative py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="w-full overflow-hidden bg-white shadow-none"
+            viewport={{ once: true }}
+            className="max-w-2xl"
           >
-            <div className="relative overflow-hidden border-b border-slate-200 bg-white px-6 py-10 text-[#1746a2] sm:px-10 lg:px-16 lg:py-14">
-              <div className="absolute bottom-0 left-0 h-2 w-28 bg-[#9a3f12]" />
-              <div className="relative">
-                <div className="mb-5 flex items-center gap-4">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#9a3f12]">
-                    Your details
-                  </span>
-                  <span className="h-px w-16 bg-[#9a3f12]" />
-                </div>
-                <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#1746a2] sm:text-5xl lg:text-6xl">
-                  Register your details
-                </h2>
-                <p className="mt-5 max-w-lg font-sans text-sm leading-6 text-slate-500 sm:text-base">
-                  Fields marked with an asterisk (
-                  <span className="text-[#9a3f12]">*</span>) are required.
-                </p>
-              </div>
+            <div className="relative">
+              <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search for your calling..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-4 border-b-2 border-gray-200 focus:border-blue-600 focus:outline-none text-lg transition-colors bg-transparent"
+              />
             </div>
-
-            {submitted ? (
-              <div role="status" className="px-6 py-16 text-center sm:px-10">
-                <p className="text-sm font-bold uppercase tracking-[0.24em] text-orange-700">
-                  Your check-in number
-                </p>
-                <div
-                  className="mt-4 text-7xl font-black tracking-[0.12em] text-[#123b8f] sm:text-8xl"
-                  aria-label={`Your check-in number is ${registrationId}`}
-                >
-                  {registrationId}
-                </div>
-                <div className="mx-auto mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
-                  <CheckCircle2 size={27} className="text-orange-700" />
-                </div>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#123b8f]">
-                  Registration successful
-                </h3>
-                <p className="mt-2 font-sans text-sm text-slate-500">
-                  Save this number and bring it with you for check-in.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-8 rounded-2xl bg-[#9a3f12] px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#7d310d]"
-                >
-                  Register someone else
-                </button>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                noValidate
-                className="w-full px-6 py-8 sm:px-10 sm:py-10 lg:px-20"
-              >
-                {/* Personal Information */}
-                <div className="mb-10">
-                  <div className="mb-6 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-100 text-orange-800">
-                      <User size={18} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-[#123b8f]">
-                        Personal information
-                      </h3>
-                      <p className="text-xs text-slate-500">
-                        Tell us about yourself
-                      </p>
-                    </div>
-                  </div>
-                  <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-                    <div className="sm:col-span-2">
-                      <TextField
-                        id="name"
-                        label="Full name"
-                        required
-                        icon={User}
-                        value={formData.name}
-                        error={errors.name}
-                        placeholder="Enter your full name"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <TextField
-                        id="email"
-                        label="Email address"
-                        required
-                        type="email"
-                        icon={Mail}
-                        value={formData.email}
-                        error={errors.email}
-                        placeholder="you@example.com"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <TextField
-                        id="phone"
-                        label="Phone number"
-                        required
-                        type="tel"
-                        icon={Phone}
-                        value={formData.phone}
-                        error={errors.phone}
-                        placeholder="Enter your phone number"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <SelectField
-                        id="attendedWccBefore"
-                        label="Have you attended WCC before?"
-                        required
-                        value={formData.attendedWccBefore}
-                        error={errors.attendedWccBefore}
-                        placeholder="Select an option"
-                        options={YES_NO_OPTIONS}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="sm:col-span-2 border-t border-slate-200 pt-7">
-                    <div className="mb-4 flex items-center gap-3">
-                      <span className="h-[3px] w-10 bg-[#9a3f12]" />
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#1746a2]">
-                        Church connection
-                      </span>
-                    </div>
-                    <SelectField
-                      id="isTrueLighter"
-                      label="Are you a True Lighter (member of Truelight Glory House)?"
-                      required
-                      value={formData.isTrueLighter}
-                      error={errors.isTrueLighter}
-                      placeholder="Select an option"
-                      options={YES_NO_OPTIONS}
-                      onChange={handleChange}
-                    />
-                    <AnimatePresence mode="wait">
-                      {formData.isTrueLighter === "yes" && (
-                        <motion.div
-                          key="member-branch"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25 }}
-                          className="mt-5 space-y-5 overflow-hidden"
-                        >
-                          <SelectField
-                            id="isWorker"
-                            label="Are you a worker (do you serve in a unit)?"
-                            required
-                            value={formData.isWorker}
-                            error={errors.isWorker}
-                            placeholder="Select an option"
-                            options={YES_NO_OPTIONS}
-                            onChange={handleChange}
-                          />
-                          <AnimatePresence mode="wait">
-                            {formData.isWorker === "yes" && (
-                              <motion.div
-                                key="unit"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <SelectField
-                                  id="unit"
-                                  label="Which unit do you belong to?"
-                                  required
-                                  value={formData.unit}
-                                  error={errors.unit}
-                                  placeholder="Select your unit"
-                                  options={UNIT_OPTIONS}
-                                  onChange={handleChange}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      )}
-                      {formData.isTrueLighter === "no" && (
-                        <motion.div
-                          key="visitor-branch"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25 }}
-                          className="mt-5 space-y-5 overflow-hidden"
-                        >
-                          <TextField
-                            id="church"
-                            label="Which church do you attend?"
-                            required
-                            icon={Church}
-                            value={formData.church}
-                            error={errors.church}
-                            placeholder="Enter your church name"
-                            onChange={handleChange}
-                          />
-                          <SelectField
-                            id="locationScope"
-                            label="Are you coming from Owerri or outside Owerri?"
-                            required
-                            value={formData.locationScope}
-                            error={errors.locationScope}
-                            placeholder="Select an option"
-                            options={LOCATION_OPTIONS}
-                            onChange={handleChange}
-                          />
-                          <AnimatePresence mode="wait">
-                            {formData.locationScope === "outside" && (
-                              <motion.div
-                                key="location-detail"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <TextField
-                                  id="locationDetail"
-                                  label="Which state or country are you coming from?"
-                                  required
-                                  icon={MapPin}
-                                  value={formData.locationDetail}
-                                  error={errors.locationDetail}
-                                  placeholder="e.g. Lagos, or United Kingdom"
-                                  onChange={handleChange}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <div className="sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
-                    <TextAreaField
-                      id="expectations"
-                      label="What are your expectations from WCC?"
-                      required
-                      value={formData.expectations}
-                      error={errors.expectations}
-                      placeholder="Tell us what you hope to experience, learn, or receive..."
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-
-                {/* Submit */}
-                <div className="mt-8 border-t border-slate-100 pt-8">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#9a3f12] px-6 py-4 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#7d310d] disabled:cursor-not-allowed disabled:opacity-70"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 size={19} className="animate-spin" />{" "}
-                        Submitting...
-                      </>
-                    ) : (
-                      "Submit"
-                    )}
-                  </button>
-                  <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-                    By submitting this form, you agree to provide your
-                    information for registration and communication purposes.
-                    You&apos;ll receive a check-in code by email — keep it for
-                    the day of the event.
-                  </p>
-                </div>
-              </form>
-            )}
           </motion.div>
         </div>
       </section>
 
+      {/* Units Grid */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+            {filteredUnits.map((unit, index) => (
+              <motion.div
+                key={unit.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                onClick={() => setSelectedUnit(unit)}
+                className="group cursor-pointer"
+              >
+                <div className="relative overflow-hidden h-full min-h-[280px] sm:min-h-[320px] bg-white/40 backdrop-blur-xl border border-white/60 hover:bg-white/60 hover:border-blue-400/60 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10">
+                  
+                  {/* Blue accent on hover */}
+                  <div className="absolute top-0 left-0 w-0 h-1 bg-blue-600 group-hover:w-full transition-all duration-500 z-10"></div>
+                  
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-600/0 group-hover:from-blue-500/5 group-hover:to-blue-600/10 transition-all duration-500"></div>
+                  
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col p-4 sm:p-6">
+                    
+                    {/* Icon with enhanced glassmorphism */}
+                    <div className="mb-4">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/20 backdrop-blur-md border border-white/40 group-hover:bg-blue-600 group-hover:border-blue-600 group-hover:scale-110 transition-all duration-500 flex items-center justify-center shadow-lg">
+                        <unit.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 group-hover:text-white transition-colors duration-500" />
+                      </div>
+                    </div>
+
+                    {/* Content area */}
+                    <div className="flex-1 flex flex-col">
+                      <h3 className="text-base sm:text-xl font-bold text-gray-900 leading-tight mb-1">
+                        {unit.name}
+                      </h3>
+                      <div className="text-xs sm:text-sm text-blue-600 font-medium mb-3">{unit.members} members</div>
+                      
+                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-auto line-clamp-3">
+                        {unit.description}
+                      </p>
+
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 pt-3 mt-3 border-t border-gray-300/50">
+                        <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                        <span className="line-clamp-1">{unit.time}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white/40 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-16 h-1 bg-blue-600"></div>
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
+                Testimonies
+              </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 tracking-tight">
+              Member Stories
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white/60 backdrop-blur-md border border-white/40 p-6 hover:bg-white/80 transition-all duration-300"
+              >
+                <div className="border-l-4 border-blue-600 pl-6">
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    "{testimonial.text}"
+                  </p>
+                  <div>
+                    <h4 className="text-gray-900 font-bold">{testimonial.name}</h4>
+                    <p className="text-blue-600 text-sm font-medium">{testimonial.unit}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <div className="flex items-center gap-4 justify-center">
+              <div className="w-16 h-1 bg-blue-600"></div>
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
+                Get Started
+              </span>
+            </div>
+
+            <div>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 leading-none tracking-tighter mb-2">
+                Ready to
+              </h2>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-blue-600 leading-none tracking-tighter">
+                Serve?
+              </h2>
+            </div>
+
+            <p className="text-xl sm:text-2xl text-gray-700 font-light max-w-2xl mx-auto">
+              Contact the Head of Operations Team to find your place in the church.
+            </p>
+
+            <div className="pt-4">
+              <a
+                href="tel:+2349134943551"
+                className="group relative bg-blue-600 text-white font-bold px-12 py-5 text-lg uppercase tracking-wider hover:bg-gray-900 transition-all duration-300 inline-block"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  <Phone className="w-5 h-5" />
+                  Join a Unit
+                </span>
+                <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Unit Detail Modal */}
+      {selectedUnit && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 backdrop-blur-sm" 
+          onClick={() => setSelectedUnit(null)}
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white max-w-2xl w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Blue top accent */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-blue-600"></div>
+            
+            <div className="p-8">
+              
+              <button
+                onClick={() => setSelectedUnit(null)}
+                className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex items-start gap-4 mb-6 pr-12">
+                <div className="w-16 h-16 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <selectedUnit.icon className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-black text-gray-900 leading-tight mb-1">
+                    {selectedUnit.name}
+                  </h3>
+                  <p className="text-blue-600 font-bold">{selectedUnit.members} members</p>
+                </div>
+              </div>
+
+              <div className="border-l-4 border-blue-600 pl-6 mb-8">
+                <p className="text-xl text-gray-700 leading-relaxed">
+                  {selectedUnit.description}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6 mb-8 p-6 bg-gray-50">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2">Meeting Time</div>
+                  <div className="text-gray-900 font-medium">{selectedUnit.time}</div>
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-gray-600 font-bold mb-2">Leader</div>
+                  <div className="text-gray-900 font-medium">{selectedUnit.leader}</div>
+                </div>
+              </div>
+
+              <div className="text-center pt-6 border-t border-gray-200">
+                <p className="text-gray-700 mb-6">
+                  Contact the <a href="tel:+2349134943551" className="text-blue-600 font-bold hover:underline">Head of Operations</a> to join this ministry unit.
+                </p>
+                
+                <a
+                  href="tel:+2349134943551"
+                  className="group relative bg-blue-600 text-white font-bold px-8 py-4 uppercase tracking-wider hover:bg-gray-900 transition-colors inline-block"
+                >
+                  <span className="relative z-10">Get in Touch</span>
+                  <div className="absolute inset-0 border-2 border-blue-600 transform translate-x-1 translate-y-1 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform duration-300"></div>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       <Footer />
-    </main>
+    </div>
   );
 }
