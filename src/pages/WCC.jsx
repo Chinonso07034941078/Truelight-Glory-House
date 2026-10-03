@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowUpRight,
+  ArrowDown,
   CheckCircle2,
   ChevronDown,
   Loader2,
@@ -411,493 +412,111 @@ function PartnerSection({ onHandshakeClick, href = "#registration" }) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* clipboard blocked, ignore */
+      /* Clipboard blocked, ignore */
     }
   };
 
   return (
-    <section className="wcc-partner" aria-labelledby="wcc-partner-title">
-      <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
-
-      .wcc-partner {
-        --wine: #7c2d12;
-        --red: #c2410c;
-        --red-soft: rgba(194, 65, 12, 0.18);
-        --gold: #f59e0b;
-        --ink: #35140b;
-
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(135deg, #fffaf5 0%, #ffffff 52%, #ffedd5 100%);
-
-        padding: clamp(58px, 8vw, 104px) 20px 0;
-
-        text-align: center;
-        font-family: 'Montserrat', sans-serif;
-        isolation: isolate;
-      }
-
-      /* ---------- decoration lines ---------- */
-
-      .wcc-partner__contours {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .wcc-partner__contours path,
-      .wcc-partner__contours ellipse {
-        fill: none;
-        stroke: var(--red);
-        stroke-width: 1.2;
-        vector-effect: non-scaling-stroke;
-      }
-
-      .wcc-partner__frame {
-        position: absolute;
-        inset: clamp(10px, 2vw, 24px);
-        border: 1px solid var(--red-soft);
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .wcc-partner__corner {
-        position: absolute;
-        width: clamp(30px, 5vw, 60px);
-        height: clamp(30px, 5vw, 60px);
-        border-color: var(--wine);
-        border-style: solid;
-        border-width: 0;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .wcc-partner__corner--tl {
-        top: clamp(10px, 2vw, 24px);
-        left: clamp(10px, 2vw, 24px);
-        border-top-width: 3px;
-        border-left-width: 3px;
-      }
-
-      .wcc-partner__corner--tr {
-        top: clamp(10px, 2vw, 24px);
-        right: clamp(10px, 2vw, 24px);
-        border-top-width: 3px;
-        border-right-width: 3px;
-      }
-
-      .wcc-partner__corner--bl {
-        bottom: clamp(10px, 2vw, 24px);
-        left: clamp(10px, 2vw, 24px);
-        border-bottom-width: 3px;
-        border-left-width: 3px;
-      }
-
-      .wcc-partner__corner--br {
-        bottom: clamp(10px, 2vw, 24px);
-        right: clamp(10px, 2vw, 24px);
-        border-bottom-width: 3px;
-        border-right-width: 3px;
-      }
-
-      /* ---------- text ---------- */
-
-      .wcc-partner__eyebrow {
-        margin: 0;
-        font-weight: 600;
-
-        font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
-        font-size: clamp(14px, 2vw, 22px);
-
-        letter-spacing: 0.32em;
-        text-indent: 0.42em;
-        text-transform: uppercase;
-        color: var(--wine);
-      }
-
-      .wcc-partner__rule {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-
-        margin: 14px auto 0;
-
-        max-width: 400px;
-      }
-
-      .wcc-partner__rule i {
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, var(--red), var(--gold));
-      }
-
-      .wcc-partner__rule i:last-child {
-        background: linear-gradient(270deg, transparent, var(--red), var(--gold));
-      }
-
-      .wcc-partner__rule b {
-        width: 10px;
-        height: 10px;
-        background: var(--gold);
-        transform: rotate(45deg);
-        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
-      }
-
-      /* ---------- account number ---------- */
-
-      .wcc-partner__number {
-        appearance: none;
-        background: none;
-        border: 0;
-        padding: 0;
-
-        margin: 18px auto 0;
-
-        display: block;
-        cursor: pointer;
-
-        font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
-
-        font-weight: 400;
-
-        font-size: clamp(38px, 8vw, 92px);
-
-        line-height: 1.02;
-        letter-spacing: 0.005em;
-        color: var(--wine);
-
-        text-shadow: 0 10px 24px rgba(124, 45, 18, 0.12);
-
-        transition:
-          transform 0.2s ease;
-      }
-
-      .wcc-partner__number:hover {
-        transform: scale(1.015);
-      }
-
-      .wcc-partner__number:focus-visible {
-        outline: 3px solid var(--gold);
-        outline-offset: 6px;
-      }
-
-      /* ---------- account name ---------- */
-
-      .wcc-partner__name {
-        margin: 12px 0 0;
-
-        font-weight: 700;
-
-        font-size: clamp(13px, 2vw, 21px);
-
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-        color: var(--wine);
-      }
-
-      /* ---------- bank ---------- */
-
-      .wcc-partner__bank {
-        display: inline-block;
-
-        margin-top: 18px;
-        padding: 9px 20px;
-
-        background: linear-gradient(135deg, #35140b 0%, #7c2d12 100%);
-        border: 1.5px solid var(--gold);
-        border-radius: 14px;
-
-        color: #fff;
-        font-weight: 500;
-
-        /* REDUCED */
-        font-size: clamp(12px, 2vw, 20px);
-
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-      }
-
-      .wcc-partner__bank strong {
-        font-weight: 800;
-      }
-
-      /* ---------- copy message ---------- */
-
-      .wcc-partner__copy {
-        display: block;
-
-        margin: 10px auto 0;
-
-        min-height: 18px;
-
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        color: var(--red);
-      }
-
-      /* ---------- handshake link ---------- */
-
-      .wcc-partner__handshake {
-        position: relative;
-        display: block;
-
-        width: min(540px, 82%);
-
-        margin: 28px auto 0;
-
-        transform: none;
-        line-height: 0;
-        outline: none;
-      }
-
-      .wcc-partner__handshake img {
-        width: 100%;
-        height: auto;
-        display: block;
-
-        filter:
-          drop-shadow(
-            0 14px 16px rgba(106, 1, 1, 0.25)
-          );
-
-        transition:
-          transform 0.35s
-            cubic-bezier(0.2, 0.7, 0.2, 1),
-          filter 0.35s ease;
-      }
-
-      .wcc-partner__handshake:hover img,
-      .wcc-partner__handshake:focus-visible img {
-        transform:
-          translateY(-6px)
-          scale(1.02);
-
-        filter:
-          drop-shadow(
-            0 22px 20px rgba(106, 1, 1, 0.34)
-          );
-      }
-
-      .wcc-partner__handshake:focus-visible::after {
-        content: '';
-        position: absolute;
-        inset: 4% 8%;
-        border: 3px solid var(--gold);
-        border-radius: 18px;
-      }
-
-      /* ---------- CTA ---------- */
-
-      .wcc-partner__cta {
-        position: absolute;
-
-        left: 50%;
-        bottom: 8%;
-
-        transform:
-          translate(-50%, 12px);
-
-        opacity: 0;
-
-        padding: 9px 20px;
-
-        background: var(--wine);
-        color: #fff;
-
-        border: 1.5px solid var(--gold);
-        border-radius: 999px;
-
-        font-size: clamp(11px, 1.6vw, 15px);
-        font-weight: 700;
-
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-
-        line-height: 1.2;
-        white-space: nowrap;
-
-        transition:
-          opacity 0.3s ease,
-          transform 0.3s ease;
-      }
-
-      .wcc-partner__handshake:hover
-      .wcc-partner__cta,
-
-      .wcc-partner__handshake:focus-visible
-      .wcc-partner__cta {
-        opacity: 1;
-        transform:
-          translate(-50%, 0);
-      }
-
-      /* ---------- mobile ---------- */
-
-      @media (hover: none) {
-        .wcc-partner__cta {
-          opacity: 1;
-          transform:
-            translate(-50%, 0);
-        }
-      }
-
-      /* ---------- reduced motion ---------- */
-
-      @media (prefers-reduced-motion: reduce) {
-        .wcc-partner *,
-        .wcc-partner *::after {
-          transition: none !important;
-        }
-      }
-
-      /* ---------- extra mobile sizing ---------- */
-
-      @media (max-width: 600px) {
-        .wcc-partner {
-          padding-top: 28px;
-        }
-
-        .wcc-partner__number {
-          font-size: clamp(40px, 14vw, 82px);
-        }
-
-        .wcc-partner__name {
-          font-size: clamp(13px, 3.8vw, 20px);
-        }
-
-        .wcc-partner__bank {
-          margin-top: 10px;
-          padding: 6px 14px;
-          font-size: 12px;
-        }
-
-        .wcc-partner__copy {
-          font-size: 10px;
-          margin-top: 5px;
-        }
-
-        .wcc-partner__handshake {
-          width: 92%;
-        }
-      }
-    `}</style>
-
-      {/* Creative decoration lines */}
-      <svg
-        className="wcc-partner__contours"
-        viewBox="0 0 1200 900"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <g opacity="0.16">
-          <path d="M-20 120 C 180 40, 320 200, 520 120 S 860 20, 1220 150" />
-          <path d="M-20 150 C 190 70, 330 230, 520 150 S 860 50, 1220 180" />
-          <path d="M-20 180 C 200 100, 340 260, 520 180 S 860 80, 1220 210" />
-          <path d="M-20 210 C 210 130, 350 290, 520 210 S 860 110, 1220 240" />
-          <path d="M-20 240 C 220 160, 360 320, 520 240 S 860 140, 1220 270" />
-        </g>
-
-        <g opacity="0.12">
-          <path d="M-20 560 C 220 480, 360 650, 600 580 S 980 470, 1220 600" />
-          <path d="M-20 595 C 230 515, 370 685, 600 615 S 980 505, 1220 635" />
-          <path d="M-20 630 C 240 550, 380 720, 600 650 S 980 540, 1220 670" />
-        </g>
-
-        <g opacity="0.1">
-          <ellipse cx="1040" cy="300" rx="120" ry="70" />
-
-          <ellipse cx="1040" cy="300" rx="90" ry="50" />
-
-          <ellipse cx="1040" cy="300" rx="60" ry="30" />
-
-          <ellipse cx="150" cy="420" rx="110" ry="60" />
-
-          <ellipse cx="150" cy="420" rx="80" ry="40" />
-
-          <ellipse cx="150" cy="420" rx="50" ry="22" />
-        </g>
-      </svg>
-
-      <span className="wcc-partner__frame" aria-hidden="true" />
-
-      <span
-        className="wcc-partner__corner wcc-partner__corner--tl"
-        aria-hidden="true"
-      />
-
-      <span
-        className="wcc-partner__corner wcc-partner__corner--tr"
-        aria-hidden="true"
-      />
-
-      <span
-        className="wcc-partner__corner wcc-partner__corner--bl"
-        aria-hidden="true"
-      />
-
-      <span
-        className="wcc-partner__corner wcc-partner__corner--br"
-        aria-hidden="true"
-      />
-
-      {/* Content */}
-
-      <h2 id="wcc-partner-title" className="wcc-partner__eyebrow">
-        Partner with us
-      </h2>
-
-      
-
-      <button
-        type="button"
-        className="wcc-partner__number"
-        onClick={copyNumber}
-        aria-label={`Account number ${PARTNER_ACCOUNT_NUMBER.split("").join(
-          " ",
-        )}. Press to copy.`}
-      >
-        {PARTNER_ACCOUNT_NUMBER}
-      </button>
-
-      <p className="wcc-partner__name">Truelight Glory House WCC Acc.</p>
-
-      <div className="wcc-partner__bank">
-        Bank Name: <strong>UBA</strong>
+    <section
+      className="relative overflow-hidden bg-[#fffaf5] px-4 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28"
+      aria-labelledby="wcc-partner-title"
+    >
+      <div className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-orange-200/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-amber-200/40 blur-3xl" />
+
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div>
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-10 bg-[#c2410c]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.32em] text-[#9a3412]">
+              Partner with us
+            </span>
+          </div>
+
+          <h2
+            id="wcc-partner-title"
+            className="max-w-xl text-5xl font-black leading-[0.9] tracking-[-0.07em] text-[#35140b] sm:text-6xl lg:text-7xl"
+          >
+            Help us make
+            <span className="block text-[#c2410c]">an impact.</span>
+          </h2>
+
+          <p className="mt-7 max-w-lg text-base leading-8 text-[#7c2d12]/70 sm:text-lg">
+            Your partnership helps us create a meaningful WCC experience and
+            reach more people with the Gospel.
+          </p>
+
+          <div className="mt-9 rounded-2xl border border-orange-200 bg-white p-5 shadow-[0_20px_60px_rgba(124,45,18,0.08)] sm:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c2410c]/70">
+                  Partnership account
+                </p>
+                <p className="mt-3 text-sm font-bold uppercase tracking-wide text-[#7c2d12]">
+                  Truelight Glory House WCC Acc.
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-orange-100 px-3 py-2 text-xs font-black uppercase tracking-wider text-[#9a3412]">
+                UBA
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={copyNumber}
+              className="mt-5 block text-left text-[clamp(2.2rem,7vw,4.5rem)] font-black leading-none tracking-[-0.06em] text-[#7c2d12] transition hover:text-[#c2410c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-4"
+              aria-label={`Account number ${PARTNER_ACCOUNT_NUMBER
+                .split("")
+                .join(" ")}. Press to copy.`}
+            >
+              {PARTNER_ACCOUNT_NUMBER}
+            </button>
+
+            <div
+              className="mt-4 min-h-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#c2410c]"
+              role="status"
+              aria-live="polite"
+            >
+              {copied ? "Account number copied" : "Tap the account number to copy"}
+            </div>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-[2rem] border border-orange-300/50" />
+
+          <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-[#35140b] via-[#7c2d12] to-[#c2410c] p-4 shadow-[0_30px_90px_rgba(124,45,18,0.25)] sm:p-6">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-orange-200/20" />
+            <div className="pointer-events-none absolute -bottom-24 -left-20 h-72 w-72 rounded-full border border-orange-200/15" />
+
+            <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/10">
+              <img
+                src={HANDSHAKE_IMAGE_URL}
+                alt="A gold hand and a silver hand in a handshake"
+                loading="lazy"
+                decoding="async"
+                className="block w-full object-contain transition duration-500 hover:scale-105"
+              />
+
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#35140b]/90 via-[#35140b]/40 to-transparent px-5 pb-5 pt-16 sm:px-7 sm:pb-7">
+                <p className="text-[10px] font-black uppercase tracking-[0.28em] text-orange-200">
+                  Together, we can
+                </p>
+                <p className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+                  Make WCC 2026 Memorable.
+                </p>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
       </div>
-
-      <span className="wcc-partner__copy" role="status" aria-live="polite">
-        {copied ? "ACCOUNT NUMBER COPIED" : "TAP THE NUMBER TO COPY"}
-      </span>
-
-      <a
-        className="wcc-partner__handshake"
-        href={href}
-        onClick={(e) => {
-          if (onHandshakeClick) {
-            e.preventDefault();
-            onHandshakeClick();
-          }
-        }}
-        aria-label="Sow into WCC"
-      >
-        <img
-          src={HANDSHAKE_IMAGE_URL}
-          alt="A gold hand and a silver hand in a handshake"
-          loading="lazy"
-          decoding="async"
-        />
-
-        <span className="wcc-partner__cta">Sow into WCC</span>
-      </a>
     </section>
   );
 }
+
 
 const CHILD_INITIAL_DATA = {
   childName: "",
@@ -1048,9 +667,12 @@ export default function WCC() {
   };
 
   const scrollToRegistration = () => {
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const targetId = isMobile ? "registration-form" : "registration";
+
     document
-      .getElementById("registration")
-      ?.scrollIntoView({ behavior: "smooth" });
+      .getElementById(targetId)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   // After the success screen renders, center the check-in number on screen.
@@ -1560,7 +1182,7 @@ export default function WCC() {
                 className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b160b] max-[640px]:w-full max-[640px]:py-3.5"
               >
                 Register now
-                <ArrowUpRight
+                <ArrowDown
                   size={18}
                   className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
@@ -1588,7 +1210,7 @@ export default function WCC() {
             className="text-center lg:text-left"
           >
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-700">
-              02 / Registration
+              Registration
             </p>
             <h2
               id="wcc-video-title"
@@ -1643,7 +1265,7 @@ export default function WCC() {
               <div className="mb-8 flex items-center gap-4">
                 <span className="wcc-flag-line w-14" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
-                  02 / WCC
+                   WCC
                 </span>
               </div>
               <h2 className="max-w-md text-5xl font-semibold leading-[0.92] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
@@ -1703,7 +1325,7 @@ export default function WCC() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#92400e]">
                     Your details
                   </span>
-                  <span className="wcc-flag-line w-16" />
+                  
                 </div>
                 <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#7c2d12] sm:text-5xl lg:text-6xl">
                   Register your details
@@ -1748,6 +1370,7 @@ export default function WCC() {
               </div>
             ) : (
               <form
+                id="registration-form"
                 onSubmit={handleSubmit}
                 noValidate
                 className="w-full px-6 py-8 sm:px-10 sm:py-10 lg:px-20"
@@ -2062,117 +1685,162 @@ export default function WCC() {
       </section>
 
       {/* ========================= CHILD REGISTRATION ========================= */}
-      <section className="wcc-child-editorial relative overflow-hidden bg-[#7c2d12] px-6 py-20 text-white sm:px-10 lg:px-20">
-        <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
-        <div className="relative mx-auto max-w-5xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-orange-200">
-            For the next generation
-          </p>
-          <h2 className="mt-4 text-5xl font-black tracking-[-0.06em] text-white sm:text-7xl">
-            Register your child
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-orange-50/80">
-            Give your child a place to connect, grow, and experience the joy of
-            WCC 2026.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setChildFormOpen((open) => !open);
-              setChildSubmitted(false);
-            }}
-            className="mt-8 inline-flex items-center gap-3 rounded-xl bg-orange-400 px-8 py-4 font-black text-orange-950 shadow-xl shadow-orange-950/30 transition hover:-translate-y-1 hover:bg-orange-300"
-            aria-expanded={childFormOpen}
-            aria-controls="child-registration-form"
-          >
-            {childFormOpen ? "Close form" : "Register"}
-            <ArrowUpRight size={18} />
-          </button>
+<section className="relative overflow-hidden bg-[#2b1008] px-4 py-16 text-white sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+  <div className="pointer-events-none absolute -left-28 top-10 h-72 w-72 rounded-full bg-orange-500/15 blur-3xl" />
+  <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl" />
+  <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,237,213,0.45)_1px,transparent_1px),linear-gradient(90deg,rgba(255,237,213,0.45)_1px,transparent_1px)] [background-size:48px_48px]" />
 
-          <AnimatePresence initial={false}>
-            {childFormOpen && (
-              <motion.div
-                id="child-registration-form"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className="mx-auto mt-10 max-w-3xl rounded-xl border border-orange-200/30 bg-white p-6 text-left shadow-xl shadow-orange-950/30 sm:p-10"
-              >
-                {childSubmitted ? (
-                  <div className="py-8 text-center">
-                    <CheckCircle2
-                      className="mx-auto text-orange-600"
-                      size={42}
-                    />
-                    <h3 className="mt-4 text-2xl font-black text-orange-950">
-                      Child registration received
-                    </h3>
-                    <p className="mt-2 text-orange-900/70">
-                      We have captured the details for your child.
-                    </p>
-                  </div>
-                ) : (
-                  <form
-                    onSubmit={handleChildSubmit}
-                    className="grid gap-6 sm:grid-cols-2"
-                  >
-                    <div className="sm:col-span-2">
-                      <h3 className="text-2xl font-black text-orange-950">
-                        Child details
-                      </h3>
-                      <p className="mt-1 text-sm text-orange-900/65">
-                        Please provide the child&apos;s details and a parent or
-                        guardian contact.
-                      </p>
-                    </div>
-                    <TextField
-                      id="childName"
-                      label="Child's full name"
-                      required
-                      value={childFormData.childName}
-                      placeholder="Enter the child's full name"
-                      onChange={handleChildChange}
-                    />
-                    <TextField
-                      id="childAge"
-                      label="Child's age"
-                      required
-                      type="number"
-                      value={childFormData.childAge}
-                      placeholder="Enter age"
-                      onChange={handleChildChange}
-                    />
-                    <TextField
-                      id="guardianName"
-                      label="Parent/guardian name"
-                      required
-                      value={childFormData.guardianName}
-                      placeholder="Enter parent or guardian name"
-                      onChange={handleChildChange}
-                    />
-                    <TextField
-                      id="guardianPhone"
-                      label="Parent/guardian phone"
-                      required
-                      type="tel"
-                      value={childFormData.guardianPhone}
-                      placeholder="Enter phone number"
-                      onChange={handleChildChange}
-                    />
-                    <button
-                      type="submit"
-                      className="sm:col-span-2 rounded-xl bg-[#b45309] px-6 py-4 font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#92400e]"
-                    >
-                      Submit child registration
-                    </button>
-                  </form>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+  <div className="relative mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+    <div className="lg:sticky lg:top-10">
+      <div className="mb-6 flex items-center gap-3">
+        <span className="h-px w-10 bg-orange-300" />
+        <span className="text-[10px] font-black uppercase tracking-[0.32em] text-orange-200">
+          Next generation
+        </span>
+      </div>
+
+      <h2 className="max-w-md text-[clamp(3rem,8vw,5.75rem)] font-black leading-[0.88] tracking-[-0.07em] text-white">
+        A place to
+        <span className="block text-orange-300">belong.</span>
+      </h2>
+
+      <p className="mt-7 max-w-md text-base leading-8 text-orange-50/70 sm:text-lg">
+        Give your child a place to connect, grow, and experience 
+        WCC 2026.
+      </p>
+
+      <div className="mt-9 flex items-center gap-4 rounded-2xl border border-orange-200/15 bg-white/[0.06] p-4 sm:max-w-sm">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-300 text-orange-950">
+          <span className="text-lg font-black">01</span>
         </div>
-      </section>
+
+        <div>
+          <p className="text-sm font-bold text-white">Simple registration</p>
+          <p className="mt-0.5 text-xs leading-5 text-orange-100/55">
+            Just a few details to help us prepare.
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          setChildFormOpen((open) => !open);
+          setChildSubmitted(false);
+        }}
+        className="mt-8 inline-flex items-center gap-3 rounded-xl bg-orange-300 px-6 py-3.5 text-sm font-black text-orange-950 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-orange-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#2b1008]"
+        aria-expanded={childFormOpen}
+        aria-controls="child-registration-form"
+      >
+        {childFormOpen ? "Close form" : "Register a child"}
+        <ArrowUpRight size={18} />
+      </button>
+    </div>
+
+    <AnimatePresence initial={false}>
+      {childFormOpen && (
+        <motion.div
+          id="child-registration-form"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="overflow-hidden rounded-[1.5rem] border border-orange-100/70 bg-orange-50 text-left shadow-2xl shadow-black/30"
+        >
+          <div className="border-b border-orange-900/10 px-6 py-6 sm:px-9 sm:py-7">
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.28em] text-orange-700/70">
+                  Child registration
+                </p>
+
+                <h3 className="mt-2 text-2xl font-black tracking-tight text-orange-950 sm:text-3xl">
+                  Tell us who is coming.
+                </h3>
+
+                <p className="mt-2 max-w-lg text-sm leading-6 text-orange-900/60">
+                  Add the child&apos;s details and a parent or guardian contact.
+                </p>
+              </div>
+
+              
+            </div>
+          </div>
+
+          <div className="px-6 py-7 sm:px-9 sm:py-9">
+            {childSubmitted ? (
+              <div className="py-8 text-center sm:py-12">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-100">
+                  <CheckCircle2 className="text-orange-600" size={30} />
+                </div>
+
+                <h3 className="mt-5 text-2xl font-black text-orange-950">
+                  Child registration received
+                </h3>
+
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-orange-900/65">
+                  We have captured the details for your child.
+                </p>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleChildSubmit}
+                className="grid gap-x-5 gap-y-6 sm:grid-cols-2"
+              >
+                <TextField
+                  id="childName"
+                  label="Child&apos;s full name"
+                  required
+                  value={childFormData.childName}
+                  placeholder="Enter the child&apos;s full name"
+                  onChange={handleChildChange}
+                />
+
+                <TextField
+                  id="childAge"
+                  label="Child&apos;s age"
+                  required
+                  type="number"
+                  value={childFormData.childAge}
+                  placeholder="Enter age"
+                  onChange={handleChildChange}
+                />
+
+                <TextField
+                  id="guardianName"
+                  label="Parent/guardian name"
+                  required
+                  value={childFormData.guardianName}
+                  placeholder="Enter parent or guardian name"
+                  onChange={handleChildChange}
+                />
+
+                <TextField
+                  id="guardianPhone"
+                  label="Parent/guardian phone"
+                  required
+                  type="tel"
+                  value={childFormData.guardianPhone}
+                  placeholder="Enter phone number"
+                  onChange={handleChildChange}
+                />
+
+                <button
+                  type="submit"
+                  className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#b45309] px-6 py-3.5 text-sm font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 sm:col-span-2"
+                >
+                  Submit child registration
+                  <ArrowUpRight size={17} />
+                </button>
+              </form>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</section>
+
 
       {/* ========================= PARTNER WITH US ========================= */}
       <PartnerSection onHandshakeClick={scrollToRegistration} />

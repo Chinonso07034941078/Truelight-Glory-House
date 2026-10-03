@@ -298,25 +298,46 @@ export default function GivingSection() {
           >
             {[
               {
-                label: "Offering/Tithes",
+                label: "Offering & Tithe · Naira",
                 number: "1025313120",
                 bank: "UBA",
                 logo: UBA,
                 name: "Truelight Glory House Ministry",
               },
               {
-                label: "Offering/Tithe",
+                label: "Offering & Tithe · Naira",
                 number: "0094316383",
                 bank: "ACCESS",
                 logo: ACCESS,
                 name: "Truelight Glory House Ministry",
               },
               {
-                label: "Project",
-                number: "1911578888",
+                label: "Offering & Tithe · Dollar",
+                number: "3003743459",
+                bank: "UBA",
+                logo: UBA,
+                name: "Truelight Glory House Ministry",
+              },
+              {
+                label: "Partnership",
+                number: "1025327716",
+                bank: "UBA",
+                logo: UBA,
+                name: "Truelight Partnership Account",
+              },
+              {
+                label: "Glory House Project",
+                number: "0092474270",
                 bank: "ACCESS",
                 logo: ACCESS,
-                name: "Truelight Glory House Project Accounts",
+                name: "Truelight Glory House Project Account",
+              },
+              {
+                label: "First Fruit",
+                number: "1228320505",
+                bank: "ZENITH",
+                logo: null,
+                name: "Truelight Glory House First Fruit Account",
               },
             ].map(({ label, number, bank, logo, name }, i) => (
               <motion.div
@@ -338,7 +359,11 @@ export default function GivingSection() {
 
                   {/* Bank Logo & Details */}
                   <div className="flex items-center gap-3 mb-4">
-                    <img src={logo} alt={`${bank} logo`} className="w-16 h-8 object-contain" />
+                    {logo ? (
+                      <img src={logo} alt={`${bank} logo`} className="w-16 h-8 object-contain" />
+                    ) : (
+                      <span className="text-sm font-bold text-gray-700">{bank}</span>
+                    )}
                   </div>
 
                   {/* Account Number */}
@@ -415,15 +440,15 @@ export default function GivingSection() {
                 bank: "UBA",
                 logo: UBA,
                 currency: "₦",
-                name: "TRUELIGHT GLORY HOUSE BUILDING PROJECT",
+                name: "TRUELIGHT GLORY HOUSE BUILDING PROJECT · GLORYLAND",
               },
               {
                 label: "Dollar Account",
-                number: "3003743459",
+                number: "36320321",
                 bank: "UBA",
                 logo: UBA,
                 currency: "$",
-                name: "TRUELIGHT GLORY HOUSE BUILDING PROJECT",
+                name: "TRUELIGHT GLORY HOUSE BUILDING PROJECT · GLORYLAND",
               },
             ].map(({ label, number, bank, logo, currency, name }, i) => (
               <motion.div
@@ -448,7 +473,11 @@ export default function GivingSection() {
 
                   {/* Bank Logo */}
                   <div className="flex items-center gap-3 mb-4">
-                    <img src={logo} alt={`${bank} logo`} className="w-20 h-10 object-contain" />
+                    {logo ? (
+                      <img src={logo} alt={`${bank} logo`} className="w-20 h-10 object-contain" />
+                    ) : (
+                      <span className="text-sm font-bold text-gray-700">{bank}</span>
+                    )}
                   </div>
 
                   {/* Account Number */}
@@ -484,6 +513,17 @@ export default function GivingSection() {
               </motion.div>
             ))}
           </motion.div>
+
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+            <div className="bg-white/60 backdrop-blur-xl border border-white/60 p-5">
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">SWIFT Code</span>
+              <span className="text-xl font-black text-gray-900 block mt-2">UNAFNGLA</span>
+            </div>
+            <div className="bg-white/60 backdrop-blur-xl border border-white/60 p-5">
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Sort Code</span>
+              <span className="text-xl font-black text-gray-900 block mt-2">033250380</span>
+            </div>
+          </div>
         </div>
       </section>
 

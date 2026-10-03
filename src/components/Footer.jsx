@@ -87,7 +87,7 @@ export default function Footer() {
             {/* Label */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-[1px] bg-blue-600"></div>
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em]">Partnership</span>
+              <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em]">Offering &amp; Tithe</span>
             </div>
 
             <div className="relative z-10 max-w-2xl">
@@ -157,8 +157,16 @@ export default function Footer() {
 
                 {/* Modal Body */}
                 <div className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {[
+                      {
+                        label: 'Naira',
+                        number: '1025313120',
+                        currency: '₦',
+                        bank: 'UBA',
+                        name: 'Truelight Glory House Ministry',
+                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png',
+                      },
                       {
                         label: 'Naira',
                         number: '0094316383',
@@ -166,22 +174,6 @@ export default function Footer() {
                         bank: 'Access Bank',
                         name: 'Truelight Glory House Ministry',
                         logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
-                      },
-                      {
-                        label: 'Naira',
-                        number: '1911578888',
-                        currency: '₦',
-                        bank: 'Access Bank',
-                        name: 'Truelight Glory House Ministry',
-                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767270045/accesslogo_aze5yl.png',
-                      },
-                      {
-                        label: 'Dollar',
-                        number: '3003743459',
-                        currency: '$',
-                        bank: 'UBA',
-                        name: 'TRUELIGHT GLORY HOUSE BUILDING PROJECT',
-                        logo: 'https://res.cloudinary.com/dnvgl9k4i/image/upload/v1767269982/ubalogo_nnqsks.png',
                       }
                     ].map(({ label, number, currency, bank, name, logo }, i) => (
                       <motion.div
