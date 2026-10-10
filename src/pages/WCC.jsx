@@ -52,9 +52,7 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-function generateRegistrationId() {
-  // Generate a six-digit numeric code for check-in.
-  // The code is sent to Google Sheets with every registration.
+function randomSixDigits() {
   const randomValues = new Uint32Array(1);
   if (typeof crypto !== "undefined" && crypto.getRandomValues) {
     crypto.getRandomValues(randomValues);
@@ -62,6 +60,16 @@ function generateRegistrationId() {
     randomValues[0] = Math.floor(Math.random() * 0xffffffff);
   }
   return String(100000 + (randomValues[0] % 900000));
+}
+
+function generateRegistrationId() {
+  // Public registration reference shown in the success screen.
+  return `WCC26-${randomSixDigits()}`;
+}
+
+function generateCheckInCode() {
+  // Short numeric code that is easy to present at check-in.
+  return randomSixDigits();
 }
 
 function fieldClasses(hasError, withIcon) {
@@ -250,7 +258,7 @@ function getCountdown() {
 
 async function verifyRegistrationSaved(registrationId, attempts = 6) {
   for (let attempt = 0; attempt < attempts; attempt += 1) {
-    const found = await new Promise((resolve, reject) => {
+    const verification = await new Promise((resolve, reject) => {
       const callbackName = `wccVerify_${Date.now()}_${Math.random().toString(36).slice(2)}`;
       const script = document.createElement("script");
       const timeout = window.setTimeout(() => finish(false, new Error("Verification timed out.")), 8000);
@@ -264,7 +272,9 @@ async function verifyRegistrationSaved(registrationId, attempts = 6) {
         if (error) reject(error);
         else resolve(value);
       };
-      window[callbackName] = (result) => finish(Boolean(result && result.ok && result.found));
+      window[callbackName] = (result) => finish(
+        result && result.ok && result.found ? result : false
+      );
       script.onerror = () => finish(false, new Error("Could not verify the registration with Google Sheets."));
       const query = new URLSearchParams({
         action: "verifyRegistration",
@@ -275,7 +285,7 @@ async function verifyRegistrationSaved(registrationId, attempts = 6) {
       script.src = `${GOOGLE_SHEETS_ENDPOINT}?${query.toString()}`;
       document.head.appendChild(script);
     }).catch(() => false);
-    if (found) return true;
+    if (verification) return verification;
     await new Promise((resolve) => window.setTimeout(resolve, 700));
   }
   return false;
@@ -299,7 +309,7 @@ async function sendRegistration(payload) {
   if (!saved) {
     throw new Error("Google Sheets did not confirm this registration. Please try again. Do not assume it was saved.");
   }
-  return true;
+  return saved;
 }
 
 const CHILD_INITIAL_DATA = {
@@ -307,6 +317,7 @@ const CHILD_INITIAL_DATA = {
   childAge: "",
   guardianName: "",
   guardianPhone: "",
+  guardianEmail: "",
 };
 
 export default function WCC() {
@@ -318,10 +329,13 @@ export default function WCC() {
   const [childSubmissionError, setChildSubmissionError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
+  const [checkInCode, setCheckInCode] = useState("");
   const [countdown, setCountdown] = useState(getCountdown);
   const [childFormOpen, setChildFormOpen] = useState(false);
   const [childFormData, setChildFormData] = useState(CHILD_INITIAL_DATA);
   const [childSubmitted, setChildSubmitted] = useState(false);
+  const [childEmailSent, setChildEmailSent] = useState(null);
+  const [emailSent, setEmailSent] = useState(null);
 
   useEffect(() => {
     const interval = window.setInterval(
@@ -343,12 +357,17 @@ export default function WCC() {
     const childAge = childFormData.childAge.trim();
     const guardianName = childFormData.guardianName.trim();
     const guardianPhone = childFormData.guardianPhone.trim();
+    const guardianEmail = childFormData.guardianEmail.trim();
     if (!childName || !childAge || !guardianName || !guardianPhone) {
-      setChildSubmissionError("Please complete all four fields.");
+      setChildSubmissionError("Please complete the child and parent/guardian details.");
       return;
     }
     if (!Number.isFinite(Number(childAge)) || Number(childAge) < 0 || Number(childAge) > 17) {
       setChildSubmissionError("Please enter a valid age from 0 to 17.");
+      return;
+    }
+    if (guardianEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guardianEmail)) {
+      setChildSubmissionError("Please enter a valid parent/guardian email address.");
       return;
     }
     setIsChildSubmitting(true);
@@ -358,10 +377,11 @@ export default function WCC() {
       formType: "wcc-registration",
       registrationKind: "child",
       registrationId: id,
-      checkInCode: id,
+      checkInCode: generateCheckInCode(),
       submittedAt: new Date().toISOString(),
       name: childName,
-      email: "",
+      email: guardianEmail,
+      guardianEmail,
       phone: guardianPhone,
       attendedWccBefore: "",
       expectations: `Child age: ${childAge}; Parent/guardian: ${guardianName}`,
@@ -378,7 +398,8 @@ export default function WCC() {
       guardianName,
     };
     try {
-      await sendRegistration(payload);
+      const result = await sendRegistration(payload);
+      setChildEmailSent(result.emailSent ?? null);
       setChildSubmitted(true);
       setChildFormData(CHILD_INITIAL_DATA);
     } catch (error) {
@@ -398,11 +419,6 @@ export default function WCC() {
       if (key === "isTrueLighter") {
         if (value === "yes") {
           updated.church = "";
-          updated.locationScope = "";
-          updated.locationDetail = "";
-          updated.needsAccommodation = "";
-          updated.isPastor = "";
-          updated.pastorChurch = "";
         } else if (value === "no") {
           updated.isWorker = "";
           updated.unit = "";
@@ -423,11 +439,6 @@ export default function WCC() {
         delete next.isWorker;
         delete next.unit;
         delete next.church;
-        delete next.locationScope;
-        delete next.locationDetail;
-        delete next.needsAccommodation;
-        delete next.isPastor;
-        delete next.pastorChurch;
       }
       if (key === "isWorker") delete next.unit;
       if (key === "locationScope") delete next.locationDetail;
@@ -464,23 +475,23 @@ export default function WCC() {
     if (formData.isTrueLighter === "no") {
       if (!formData.church.trim())
         newErrors.church = "Please enter the church you attend.";
-      if (!formData.locationScope)
-        newErrors.locationScope =
-          "Please let us know if you are coming from outside Owerri.";
-      else if (formData.locationScope === "yes" && !formData.locationDetail.trim()) {
-        newErrors.locationDetail =
-          "Please tell us which state or country you are coming from.";
-      }
-      if (!formData.needsAccommodation) {
-        newErrors.needsAccommodation =
-          "Please let us know if you need accommodation.";
-      }
-      if (!formData.isPastor) {
-        newErrors.isPastor = "Please let us know if you are a pastor.";
-      } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
-        newErrors.pastorChurch =
-          "Please tell us which church you pastor.";
-      }
+    }
+    // These are separate questions for every attendee, not just visitors.
+    if (!formData.locationScope) {
+      newErrors.locationScope =
+        "Please let us know if you are coming from outside Owerri.";
+    } else if (formData.locationScope === "yes" && !formData.locationDetail.trim()) {
+      newErrors.locationDetail =
+        "Please tell us which state or country you are coming from.";
+    }
+    if (!formData.needsAccommodation) {
+      newErrors.needsAccommodation =
+        "Please let us know if you need accommodation.";
+    }
+    if (!formData.isPastor) {
+      newErrors.isPastor = "Please let us know if you are a pastor.";
+    } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
+      newErrors.pastorChurch = "Please tell us which church you pastor.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -497,7 +508,7 @@ export default function WCC() {
       formType: "wcc-registration",
       registrationKind: "adult",
       registrationId: id,
-      checkInCode: id,
+      checkInCode: generateCheckInCode(),
       submittedAt: new Date().toISOString(),
       name: formData.name.trim(),
       email: formData.email.trim(),
@@ -508,16 +519,18 @@ export default function WCC() {
       isWorker: formData.isTrueLighter === "yes" ? formData.isWorker : "",
       unit: formData.isTrueLighter === "yes" && formData.isWorker === "yes" ? formData.unit : "",
       church: formData.isTrueLighter === "no" ? formData.church.trim() : "",
-      locationScope: formData.isTrueLighter === "no" ? formData.locationScope : "",
-      locationDetail: formData.isTrueLighter === "no" && formData.locationScope === "yes" ? formData.locationDetail.trim() : "",
-      needsAccommodation: formData.isTrueLighter === "no" && formData.locationScope === "yes" ? formData.needsAccommodation : "",
-      isPastor: formData.isTrueLighter === "no" && formData.locationScope === "yes" ? formData.isPastor : "",
+      locationScope: formData.locationScope,
+      locationDetail: formData.locationScope === "yes" ? formData.locationDetail.trim() : "",
+      needsAccommodation: formData.needsAccommodation,
+      isPastor: formData.isPastor,
       pastorChurch: formData.isPastor === "yes" ? formData.pastorChurch.trim() : "",
     };
 
     try {
-      await sendRegistration(payload);
+      const result = await sendRegistration(payload);
+      setEmailSent(result.emailSent ?? null);
       setRegistrationId(id);
+      setCheckInCode(payload.checkInCode);
       setSubmitted(true);
       setFormData(INITIAL_FORM_DATA);
       document.getElementById("registration")?.scrollIntoView({ behavior: "smooth" });
@@ -812,9 +825,9 @@ export default function WCC() {
                 </p>
                 <div
                   className="mt-4 text-7xl font-black tracking-[0.12em] text-[#9a3412] sm:text-8xl"
-                  aria-label={`Your check-in number is ${registrationId}`}
+                  aria-label={`Your check-in number is ${checkInCode}`}
                 >
-                  {registrationId}
+                  {checkInCode}
                 </div>
                 <div className="mx-auto mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
                   <CheckCircle2 size={27} className="text-orange-700" />
@@ -824,6 +837,14 @@ export default function WCC() {
                 </h3>
                 <p className="mt-2 font-sans text-sm text-orange-900/65">
                   Save this number and bring it with you for check-in.
+                  {emailSent === true
+                    ? " Your confirmation email has been sent."
+                    : emailSent === false
+                      ? " Your registration is saved, but the confirmation email could not be sent. Please contact the organisers with your registration reference."
+                      : ""}
+                </p>
+                <p className="mt-3 font-mono text-xs font-semibold tracking-wide text-orange-800/70">
+                  Registration reference: {registrationId}
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
@@ -989,85 +1010,88 @@ export default function WCC() {
                             placeholder="Enter your church name"
                             onChange={handleChange}
                           />
-                          <SelectField
-                            id="locationScope"
-                            label="Are you coming from outside Owerri?"
-                            required
-                            value={formData.locationScope}
-                            error={errors.locationScope}
-                            placeholder="Select Yes or No"
-                            options={YES_NO_OPTIONS}
-                            onChange={handleChange}
-                            isYesNo
-                          />
-                          <AnimatePresence mode="wait">
-                            {formData.locationScope === "yes" && (
-                              <motion.div
-                                key="location-detail"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="space-y-6 overflow-hidden"
-                              >
-                                <TextField
-                                  id="locationDetail"
-                                  label="Which state or country are you coming from?"
-                                  required
-                                  icon={MapPin}
-                                  value={formData.locationDetail}
-                                  error={errors.locationDetail}
-                                  placeholder="e.g. Lagos, or United Kingdom"
-                                  onChange={handleChange}
-                                />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                          <SelectField
-                            id="needsAccommodation"
-                            label="Do you need accommodation?"
+                  {/* These questions apply to every attendee, including True Lighters. */}
+                  <div className="mt-7 grid gap-x-8 gap-y-7 border-t border-orange-100 pt-7 sm:grid-cols-2">
+                    <SelectField
+                      id="locationScope"
+                      label="Are you coming from outside Owerri?"
+                      required
+                      value={formData.locationScope}
+                      error={errors.locationScope}
+                      placeholder="Select Yes or No"
+                      options={YES_NO_OPTIONS}
+                      onChange={handleChange}
+                      isYesNo
+                    />
+                    <SelectField
+                      id="needsAccommodation"
+                      label="Do you need accommodation?"
+                      required
+                      value={formData.needsAccommodation}
+                      error={errors.needsAccommodation}
+                      placeholder="Select Yes or No"
+                      options={YES_NO_OPTIONS}
+                      onChange={handleChange}
+                      isYesNo
+                    />
+                    <SelectField
+                      id="isPastor"
+                      label="Are you a pastor?"
+                      required
+                      value={formData.isPastor}
+                      error={errors.isPastor}
+                      placeholder="Select Yes or No"
+                      options={YES_NO_OPTIONS}
+                      onChange={handleChange}
+                      isYesNo
+                    />
+                    <AnimatePresence initial={false}>
+                      {formData.isPastor === "yes" && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden"
+                        >
+                          <TextField
+                            id="pastorChurch"
+                            label="Which church do you pastor?"
                             required
-                            value={formData.needsAccommodation}
-                            error={errors.needsAccommodation}
-                            placeholder="Select Yes or No"
-                            options={YES_NO_OPTIONS}
+                            icon={Church}
+                            value={formData.pastorChurch}
+                            error={errors.pastorChurch}
+                            placeholder="Enter the church name"
                             onChange={handleChange}
-                            isYesNo
                           />
-                          <SelectField
-                            id="isPastor"
-                            label="Are you a pastor?"
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <AnimatePresence mode="wait">
+                      {formData.locationScope === "yes" && (
+                        <motion.div
+                          key="location-detail"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden sm:col-span-2"
+                        >
+                          <TextField
+                            id="locationDetail"
+                            label="Which state or country are you coming from?"
                             required
-                            value={formData.isPastor}
-                            error={errors.isPastor}
-                            placeholder="Select Yes or No"
-                            options={YES_NO_OPTIONS}
+                            icon={MapPin}
+                            value={formData.locationDetail}
+                            error={errors.locationDetail}
+                            placeholder="e.g. Lagos, or United Kingdom"
                             onChange={handleChange}
-                            isYesNo
                           />
-                          <AnimatePresence initial={false}>
-                            {formData.isPastor === "yes" && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.25 }}
-                                className="overflow-hidden"
-                              >
-                                <TextField
-                                  id="pastorChurch"
-                                  label="Which church do you pastor?"
-                                  required
-                                  icon={Church}
-                                  value={formData.pastorChurch}
-                                  error={errors.pastorChurch}
-                                  placeholder="Enter the church name"
-                                  onChange={handleChange}
-                                />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -1137,6 +1161,8 @@ export default function WCC() {
             onClick={() => {
               setChildFormOpen((open) => !open);
               setChildSubmitted(false);
+              setChildEmailSent(null);
+              setChildSubmissionError("");
             }}
             className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-orange-400 px-8 py-4 font-black text-orange-950 shadow-xl shadow-orange-950/30 transition hover:-translate-y-1 hover:bg-orange-300"
             aria-expanded={childFormOpen}
@@ -1167,6 +1193,11 @@ export default function WCC() {
                     </h3>
                     <p className="mt-2 text-orange-900/70">
                       We have captured the details for your child.
+                      {childEmailSent === true
+                        ? " A confirmation email has been sent to the parent/guardian."
+                        : childEmailSent === false
+                          ? " The registration is saved, but the confirmation email could not be sent."
+                          : " Add a parent/guardian email next time if you want an email confirmation."}
                     </p>
                   </div>
                 ) : (
@@ -1221,6 +1252,14 @@ export default function WCC() {
                       type="tel"
                       value={childFormData.guardianPhone}
                       placeholder="Enter phone number"
+                      onChange={handleChildChange}
+                    />
+                    <TextField
+                      id="guardianEmail"
+                      label="Parent/guardian email (for confirmation)"
+                      type="email"
+                      value={childFormData.guardianEmail}
+                      placeholder="parent@example.com"
                       onChange={handleChildChange}
                     />
                     <button
