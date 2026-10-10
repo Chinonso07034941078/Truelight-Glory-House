@@ -1015,8 +1015,17 @@ export default function WCC() {
                     </AnimatePresence>
                   </div>
 
-                  {/* These questions apply to every attendee, including True Lighters. */}
-                  <div className="mt-7 grid gap-x-8 gap-y-7 border-t border-orange-100 pt-7 sm:grid-cols-2">
+                  {/* Required questions for every attendee, including True Lighters and visitors. */}
+                  <section className="mt-8 border-t border-orange-100 pt-7">
+                    <div className="mb-5">
+                      <h4 className="text-base font-semibold text-[#9a3412]">
+                        Travel, accommodation & ministry
+                      </h4>
+                      <p className="mt-1 text-sm leading-6 text-orange-900/65">
+                        Please answer all three questions below.
+                      </p>
+                    </div>
+                    <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
                     <SelectField
                       id="locationScope"
                       label="Are you coming from outside Owerri?"
@@ -1095,7 +1104,8 @@ export default function WCC() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                    </div>
+                  </section>
                   <div className="sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
                     <TextAreaField
                       id="expectations"
@@ -1189,7 +1199,7 @@ export default function WCC() {
                       size={42}
                     />
                     <h3 className="mt-4 text-2xl font-black text-orange-950">
-                      Child registration received
+                      Child registration received.
                     </h3>
                     <p className="mt-2 text-orange-900/70">
                       We have captured the details for your child.
