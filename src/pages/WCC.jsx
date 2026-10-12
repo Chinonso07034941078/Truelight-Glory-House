@@ -553,28 +553,144 @@ export default function WCC() {
         </div>
       </section>
 
-      {/* ========================= INTRO ========================= */}
-      <section className="relative overflow-hidden bg-white py-20 sm:py-28">
-        <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c2410c]/5 blur-3xl" />
-        <div className="relative mx-auto max-w-none px-6 text-center lg:px-20 lg:text-left">
+      <style>{`
+        :is(.wcc-restored-video, #registration) {
+          --wcc-ink: #35140b;
+          --wcc-wine: #7c2d12;
+          --wcc-orange: #c2410c;
+          --wcc-amber: #f59e0b;
+          --wcc-cream: #fffaf5;
+          --wcc-line: rgba(194, 65, 12, 0.22);
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        :is(.wcc-restored-video, #registration) h1,
+        :is(.wcc-restored-video, #registration) h2,
+        :is(.wcc-restored-video, #registration) h3,
+        :is(.wcc-restored-video, #registration) h4,
+        :is(.wcc-restored-video, #registration) button,
+        :is(.wcc-restored-video, #registration) label,
+        :is(.wcc-restored-video, #registration) .font-black,
+        :is(.wcc-restored-video, #registration) .font-semibold {
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        :is(.wcc-restored-video, #registration) p,
+        :is(.wcc-restored-video, #registration) input,
+        :is(.wcc-restored-video, #registration) textarea,
+        :is(.wcc-restored-video, #registration) select,
+        :is(.wcc-restored-video, #registration) option,
+        :is(.wcc-restored-video, #registration) small,
+        :is(.wcc-restored-video, #registration) span.text-xs,
+        :is(.wcc-restored-video, #registration) span.text-sm,
+        :is(.wcc-restored-video, #registration) div.text-xs,
+        :is(.wcc-restored-video, #registration) div.text-sm {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        :is(.wcc-restored-video, #registration) input,
+        :is(.wcc-restored-video, #registration) textarea,
+        :is(.wcc-restored-video, #registration) select {
+          border-radius: 16px !important;
+          border-color: rgba(194, 65, 12, 0.18) !important;
+          background: linear-gradient(135deg, #ffffff 0%, #fffaf5 58%, #ffedd5 100%) !important;
+          box-shadow: 0 10px 28px rgba(124, 45, 18, 0.06);
+        }
+
+        :is(.wcc-restored-video, #registration) input:focus,
+        :is(.wcc-restored-video, #registration) textarea:focus,
+        :is(.wcc-restored-video, #registration) select:focus {
+          border-color: rgba(194, 65, 12, 0.72) !important;
+          box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15), 0 12px 30px rgba(124, 45, 18, 0.08);
+        }
+
+        :is(.wcc-restored-video, #registration) button,
+        :is(.wcc-restored-video, #registration) a:not(.wcc-partner__handshake) {
+          border-radius: 14px;
+        }
+
+        :is(.wcc-restored-video, #registration) img {
+          border-radius: 18px;
+        }
+
+        .wcc-flag-line {
+          position: relative;
+          display: inline-block;
+          height: 3px;
+          flex: 0 0 auto;
+          overflow: visible;
+          background: linear-gradient(90deg, #7c2d12 0%, #c2410c 62%, #f59e0b 100%);
+          box-shadow: 0 2px 10px rgba(194, 65, 12, 0.16);
+        }
+
+        .wcc-flag-line::after {
+          position: absolute;
+          right: -1px;
+          top: 0;
+          width: 8px;
+          height: 3px;
+          background: #f59e0b;
+          content: '';
+          clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+
+        :is(.wcc-restored-video, #registration) { font-size: 15px; }
+        #registration .font-mono { font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif; }
+      `}</style>
+      {/* ========================= INTRO + VIDEO ========================= */}
+      <section
+        aria-labelledby="wcc-video-title"
+        className="wcc-restored-video relative overflow-hidden bg-white py-20 sm:py-28"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b45309]/5 blur-3xl"
+        />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-20">
           <Motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="text-center lg:text-left"
           >
-            <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-orange-700">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-700">
               Registration
             </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#9a3412] sm:text-5xl">
-              Let&apos;s get to know you
+            <h2
+              id="wcc-video-title"
+              className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.9] tracking-[-0.07em] text-[#92400e] sm:text-6xl lg:text-8xl"
+            >
+              Let&apos;s get
+              <br />
+              <span className="text-[#c94e0a]">to know you.</span>
             </h2>
-            <div className="mt-7 flex items-center gap-4 lg:max-w-3xl">
-              <span className="h-[3px] w-20 bg-[#c2410c]" />
-              <p className="max-w-2xl font-sans leading-8 text-orange-900/75">
+            <div className="mx-auto mt-7 flex items-center gap-4 lg:mx-0 lg:max-w-3xl">
+              <span className="wcc-flag-line w-20" />
+              <p className="max-w-2xl text-left leading-8 text-orange-900/75">
                 Fill out the form below with your details. It helps us prepare
                 for your visit and connect you with the right team.
               </p>
+            </div>
+          </Motion.div>
+
+          <Motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="overflow-hidden rounded-2xl border border-orange-900/15 bg-black shadow-2xl shadow-orange-950/20"
+          >
+            <div className="aspect-video w-full">
+              <iframe
+                className="h-full w-full"
+                src="https://www.youtube-nocookie.com/embed/yd6UcMqLx4w?autoplay=1&mute=1&playsinline=1&rel=0"
+                title="WCC 2026 video"
+                loading="eager"
+                allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </Motion.div>
         </div>
@@ -588,14 +704,14 @@ export default function WCC() {
         <div className="absolute right-0 top-20 h-72 w-72 translate-x-1/3 rounded-full bg-orange-900/5 blur-3xl" />
         <div className="relative grid w-full lg:grid-cols-[36%_64%]">
           <aside className="relative flex min-h-[540px] flex-col justify-between overflow-hidden bg-[#7c2d12] px-6 py-14 text-white sm:px-10 lg:min-h-[780px] lg:px-16 lg:py-20">
-            <div className="absolute right-0 top-0 h-full w-2 bg-[#c2410c]" />
+            <div className="absolute right-0 top-0 h-full w-[2px] bg-[#b45309]" />
             <div className="absolute left-8 top-28 hidden h-44 w-px bg-white/25 lg:block" />
-            <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#c2410c] lg:block" />
+            <div className="absolute bottom-16 left-8 hidden h-20 w-px bg-[#b45309] lg:block" />
             <div className="relative pl-0 lg:pl-10">
               <div className="mb-8 flex items-center gap-4">
-                <span className="h-[3px] w-14 bg-[#c2410c]" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
-                  02 / WCC
+                <span className="wcc-flag-line w-14" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-orange-200">
+                   WCC
                 </span>
               </div>
               <h2 className="max-w-md text-5xl font-semibold leading-[0.92] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
@@ -603,15 +719,17 @@ export default function WCC() {
                 <br />
                 <span className="text-orange-300">next step.</span>
               </h2>
-              <p className="mt-8 max-w-sm font-sans text-base leading-8 text-orange-50/80 sm:text-lg">
+              <p className="mt-8 max-w-sm text-base leading-8 text-orange-50/80 sm:text-lg">
                 A simple registration is the beginning of a meaningful
                 connection. Tell us where you are coming from and what you are
                 hoping to discover.
               </p>
-              <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-orange-200/25 bg-orange-950/20 shadow-2xl shadow-orange-950/30">
+              <div className="relative mt-10 overflow-hidden rounded-xl border border-orange-200/25 bg-orange-950/20 shadow-xl shadow-orange-950/30">
                 <img
                   src={NEXT_STEP_IMAGE_URL}
                   alt="WCC 2026 invitation artwork"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover object-center opacity-95 transition duration-500 hover:scale-105 sm:h-64 lg:h-72"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-orange-950/55 via-transparent to-white/5" />
@@ -629,10 +747,8 @@ export default function WCC() {
                 ["02", "Grow"],
                 ["03", "Serve"],
               ].map(([number, label]) => (
-                <div key={number} className="border-t-2 border-white/20 pt-3">
-                  <span className="font-mono text-xs text-orange-300">
-                    {number}
-                  </span>
+                <div key={number} className="border-t border-white/20 pt-3">
+                  <span className="text-xs text-orange-300">{number}</span>
                   <p className="mt-2 text-sm font-semibold text-white">
                     {label}
                   </p>
@@ -649,20 +765,20 @@ export default function WCC() {
             className="w-full overflow-hidden bg-white shadow-none"
           >
             <div className="relative overflow-hidden border-b border-orange-100 bg-white px-6 py-10 text-[#7c2d12] sm:px-10 lg:px-16 lg:py-14">
-              <div className="absolute bottom-0 left-0 h-2 w-28 bg-[#c2410c]" />
+              <div className="absolute bottom-0 left-0 wcc-flag-line w-28" />
               <div className="relative">
                 <div className="mb-5 flex items-center gap-4">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#9a3f12]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#92400e]">
                     Your details
                   </span>
-                  <span className="h-px w-16 bg-[#c2410c]" />
+
                 </div>
                 <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#7c2d12] sm:text-5xl lg:text-6xl">
                   Register your details
                 </h2>
-                <p className="mt-5 max-w-lg font-sans text-sm leading-6 text-orange-900/65 sm:text-base">
+                <p className="mt-5 max-w-lg text-sm leading-6 text-orange-900/65 sm:text-base">
                   Fields marked with an asterisk (
-                  <span className="text-[#9a3f12]">*</span>) are required.
+                  <span className="text-[#92400e]">*</span>) are required.
                 </p>
               </div>
             </div>
@@ -673,7 +789,7 @@ export default function WCC() {
                   Your check-in number
                 </p>
                 <div
-                  className="mt-4 text-7xl font-black tracking-[0.12em] text-[#9a3412] sm:text-8xl"
+                  className="mt-4 text-7xl font-black tracking-[0.12em] text-[#92400e] sm:text-8xl"
                   aria-label={`Your check-in number is ${checkInCode}`}
                 >
                   {checkInCode}
@@ -681,7 +797,7 @@ export default function WCC() {
                 <div className="mx-auto mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
                   <CheckCircle2 size={27} className="text-orange-700" />
                 </div>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#9a3412]">
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#92400e]">
                   {alreadyRegistered ? "You are already registered" : "Registration successful"}
                 </h3>
                 <p className="mt-2 font-sans text-sm text-orange-900/65">
@@ -699,13 +815,14 @@ export default function WCC() {
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-8 rounded-2xl bg-[#c2410c] px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412]"
+                  className="mt-8 rounded-xl bg-[#b45309] px-6 py-3.5 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#92400e]"
                 >
                   Register someone else
                 </button>
               </div>
             ) : (
               <form
+                id="registration-form"
                 onSubmit={handleSubmit}
                 noValidate
                 className="w-full px-6 py-8 sm:px-10 sm:py-10 lg:px-20"
@@ -713,11 +830,11 @@ export default function WCC() {
                 {/* Personal Information */}
                 <div className="mb-10">
                   <div className="mb-6 flex items-center gap-3">
-                    <div className="flex h-15 w-10 items-center justify-center rounded-2xl bg-orange-100 text-orange-800">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100 text-orange-800">
                       <User size={18} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[#9a3412]">
+                      <h3 className="font-semibold text-[#92400e]">
                         Personal information
                       </h3>
                       <p className="text-xs text-orange-900/65">
@@ -780,8 +897,8 @@ export default function WCC() {
                   </div>
                   <div className="sm:col-span-2 border-t border-orange-100 pt-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <span className="h-[3px] w-10 bg-[#c2410c]" />
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#7c2d12]">
+                      <span className="wcc-flag-line w-10" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7c2d12]">
                         Church connection
                       </span>
                     </div>
@@ -869,7 +986,7 @@ export default function WCC() {
                   {/* Required questions for every attendee, including True Lighters and visitors. */}
                   <section className="mt-8 border-t border-orange-100 pt-7">
                     <div className="mb-5">
-                      <h4 className="text-base font-semibold text-[#9a3412]">
+                      <h4 className="text-base font-semibold text-[#92400e]">
                         Travel, accommodation & ministry
                       </h4>
                       <p className="mt-1 text-sm leading-6 text-orange-900/65">
@@ -957,7 +1074,7 @@ export default function WCC() {
                     </AnimatePresence>
                     </div>
                   </section>
-                  <div className="sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
+                  <div className="mt-12 sm:mt-14 sm:col-span-2 border-l-2 border-orange-500/70 pl-4 sm:pl-5">
                     <TextAreaField
                       id="expectations"
                       label="What are your expectations from WCC?"
@@ -980,7 +1097,7 @@ export default function WCC() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#c2410c] px-6 py-4 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412] disabled:cursor-not-allowed disabled:opacity-70"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#b45309] px-6 py-4 font-semibold text-white shadow-lg shadow-orange-950/20 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <>
