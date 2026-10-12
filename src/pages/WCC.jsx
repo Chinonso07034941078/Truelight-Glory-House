@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { TextField, TextAreaField, SelectField } from "../components/wcc/FormFields";
 import { INITIAL_FORM_DATA, CHILD_INITIAL_DATA, YES_NO_OPTIONS, UNIT_OPTIONS,
-  HERO_IMAGE_URL, NEXT_STEP_IMAGE_URL, getCountdown } from "../lib/wcc/config";
+  NEXT_STEP_IMAGE_URL, getCountdown } from "../lib/wcc/config";
 import { buildAdultRegistration, buildChildRegistration, validateAdultRegistration } from "../lib/wcc/forms";
 import { sendRegistration } from "../lib/wcc/registration";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import {
   ArrowUpRight,
+  ArrowDown,
   CheckCircle2,
   Loader2,
   Mail,
@@ -16,6 +17,18 @@ import {
   User,
   Church,
 } from "lucide-react";
+
+const WCC_LOGO_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790827899/The_Takeover_Generation_Logo_2_zcvm8n.png";
+const GUEST_SPEAKER_IMAGES = [
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877657/PKU_PASTOR_KACHI_1_cjniyi.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/PIU2_ndy79o.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877656/PYD_ny5rk3.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877653/PVO_ypbfe8.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877654/PDO_ujiv6v.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MDO_cyqopq.png",
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MEB_kvbeps.png",
+];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -170,18 +183,284 @@ export default function WCC() {
           "'Aderio Trial Family', 'Aderio', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
       }}
     >
-      {/* ========================= HERO ========================= */}
-      <section className="relative flex min-h-[94vh] items-center overflow-hidden bg-[#7c2d12] text-white lg:min-h-[760px]">
-        <img
-          src={HERO_IMAGE_URL}
-          alt="The Takeover Generation 2026 convention artwork"
-          className="absolute inset-0 h-full w-full object-cover object-center brightness-[0.62] saturate-[1.15]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(67,20,7,0.92)_0%,rgba(124,45,18,0.72)_48%,rgba(194,65,12,0.38)_100%)]" />
-        <div className="absolute -right-24 top-20 h-72 w-72 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl" />
-        <div className="absolute -bottom-36 left-1/3 h-80 w-80 rounded-full border border-white/10 bg-white/5 blur-3xl" />
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+        .wcc-restored-hero .wcc-countdown {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
 
-        <div className="relative z-10 mx-auto grid w-full max-w-none items-center gap-14 px-6 py-28 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-20 lg:py-32">
+        .wcc-restored-hero .wcc-hero-content {
+          isolation: isolate;
+        }
+
+        /* Lower the complete hero content group on desktop only. */
+        @media (min-width: 1024px) {
+          .wcc-restored-hero .wcc-hero-content {
+            top: 3rem;
+          }
+        }
+
+        .wcc-restored-hero .wcc-hero-lockup {
+          position: relative;
+          z-index: 7;
+        }
+
+        .wcc-restored-hero .wcc-hero-theme {
+          z-index: 3;
+          transform: translateY(0.35rem);
+        }
+
+        .wcc-restored-hero .wcc-hero-theme img {
+          border: 1px solid rgba(255, 240, 225, 0.3);
+          background: rgba(20, 7, 3, 0.18);
+          box-shadow: 0 20px 55px rgba(14, 5, 2, 0.42), 0 0 0 8px rgba(245, 158, 11, 0.04);
+        }
+
+        .wcc-restored-hero .wcc-hero-title {
+          position: relative;
+          z-index: 1;
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+          filter: drop-shadow(0 18px 28px rgba(20, 7, 3, 0.24));
+        }
+
+        .wcc-restored-hero .wcc-hero-title::after {
+          position: absolute;
+          left: 8%;
+          right: -18%;
+          top: 56%;
+          height: 2px;
+          background: linear-gradient(90deg, #f59e0b, rgba(245, 158, 11, 0));
+          content: '';
+          opacity: 0.82;
+          transform: rotate(-3deg);
+        }
+
+        .wcc-restored-hero .wcc-hero-year {
+          color: transparent;
+          -webkit-text-stroke: 1px rgba(255, 240, 225, 0.72);
+          text-shadow: 0 0 36px rgba(232, 111, 19, 0.22);
+        }
+
+        .wcc-restored-hero .wcc-hero-ghost {
+          position: absolute;
+          right: -8vw;
+          top: 45%;
+          z-index: 0;
+          color: transparent;
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
+          font-size: clamp(5rem, 15vw, 15rem);
+          font-weight: 900;
+          letter-spacing: -0.12em;
+          line-height: 0.72;
+          opacity: 0.13;
+          pointer-events: none;
+          text-transform: uppercase;
+          transform: rotate(-8deg);
+          -webkit-text-stroke: 1px rgba(255, 240, 225, 0.85);
+          white-space: nowrap;
+        }
+
+        .wcc-restored-hero .wcc-hero-mark {
+          position: absolute;
+          left: 3%;
+          top: 23%;
+          z-index: 2;
+          color: rgba(255, 240, 225, 0.64);
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.32em;
+          line-height: 1.5;
+          text-transform: uppercase;
+          writing-mode: vertical-rl;
+        }
+
+        @media (max-width: 640px) {
+          .wcc-restored-hero .wcc-hero-ghost {
+            right: -18vw;
+            top: 40%;
+            font-size: 27vw;
+          }
+
+          .wcc-restored-hero .wcc-hero-mark {
+            left: 4%;
+            top: 16%;
+            font-size: 7px;
+          }
+
+          .wcc-restored-hero .wcc-hero-content .wcc-countdown {
+            padding-top: 0.55rem;
+            padding-bottom: 0.55rem;
+          }
+
+          .wcc-restored-hero .wcc-hero-content .wcc-countdown div.text-2xl {
+            font-size: 1.35rem;
+          }
+
+          .wcc-restored-hero .wcc-hero-register button {
+            padding: 0.7rem 1.15rem;
+            font-size: 0.78rem;
+          }
+
+          .wcc-restored-hero .wcc-hero-scroll {
+            display: none;
+          }
+        }
+
+        .wcc-restored-hero .wcc-guest-speakers-hero {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          z-index: 4;
+          display: grid;
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+          align-items: end;
+          width: 100%;
+          padding: 0 clamp(8px, 2vw, 24px);
+          pointer-events: none;
+          filter: drop-shadow(0 -18px 30px rgba(17, 6, 2, 0.14));
+        }
+
+        .wcc-restored-hero .wcc-guest-speakers-hero img {
+          display: block;
+          filter: saturate(0.96) contrast(1.03);
+        }
+
+        .wcc-restored-hero .wcc-hero-register {
+          z-index: 12;
+        }
+
+        .wcc-restored-hero .wcc-hero-register button {
+          border: 1px solid rgba(255, 240, 225, 0.32);
+          background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
+          box-shadow: 0 14px 30px rgba(31, 8, 2, 0.34), inset 0 1px 0 rgba(255, 240, 225, 0.2);
+          letter-spacing: 0.02em;
+        }
+
+
+        .wcc-restored-hero .wcc-smooth-dark-fade {
+          background: linear-gradient(180deg, rgba(23, 11, 6, 0) 0%, rgba(74, 28, 10, 0.56) 54%, #170b06 100%) !important;
+        }
+        .wcc-restored-hero h1, .wcc-restored-hero button {
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+        .wcc-restored-hero p {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
+        .wcc-restored-hero img { border-radius: 18px; }
+        .wcc-restored-hero button { border-radius: 14px; }
+      `}</style>
+      {/* ========================= HERO ========================= */}
+      <section
+        className="wcc-restored-hero relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white [--wcc-speaker-strip:clamp(160px,28svh,300px)] max-[640px]:[--wcc-speaker-strip:clamp(200px,35svh,320px)] sm:[--wcc-speaker-strip:clamp(220px,32svh,360px)]"
+        style={{
+          fontFamily:
+            "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+        }}
+      >
+        {/* Image-free recreation of the supplied poster background. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[#3b160b]"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse at 52% 96%, rgba(232,111,19,0.48) 0%, rgba(116,37,13,0.24) 28%, transparent 56%), radial-gradient(ellipse at 72% 22%, rgba(201,78,10,0.36) 0%, transparent 48%), linear-gradient(145deg, #5c1f0b 0%, #74250d 46%, #1a0905 100%)",
+          }}
+        />
+        <svg
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full opacity-35"
+          viewBox="0 0 1440 1000"
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <g stroke="#e49a4b" strokeWidth="1.4" opacity="0.38">
+            <path d="M-60 170C100 80 170 10 360-38c150-38 220 67 370 39 176-33 200-108 391-54 146 41 190 92 377 19" />
+            <path d="M-80 224C86 125 165 45 350 2c147-34 226 66 366 39 175-34 210-112 393-58 142 42 203 102 391 20" />
+            <path d="M-92 284C88 170 158 91 339 49c151-35 231 67 374 40 169-32 212-112 393-58 154 45 207 101 404 13" />
+            <path d="M-130 602c206-74 286-139 473-93 173 42 202 143 372 122 155-19 224-129 404-113 141 12 192 75 367 36" />
+            <path d="M-100 672c208-76 297-145 481-98 165 43 204 142 368 122 164-19 228-132 411-115 143 13 196 76 367 34" />
+            <path d="M-96 744c208-79 302-150 487-103 159 41 199 139 364 121 169-19 237-135 416-117 145 14 194 76 366 32" />
+            <path d="M-60 820c173-72 295-113 443-77 162 39 221 152 393 135 158-16 225-127 378-119 158 9 220 90 354 46" />
+            <path d="M820-50c-15 132-127 165-115 286 12 124 166 103 178 215 13 123-128 172-111 287 19 128 191 137 180 270-8 92-102 131-129 223" />
+            <path d="M900-55c-14 131-128 169-112 288 16 119 163 103 178 218 16 124-124 168-108 286 17 127 186 142 176 268-7 94-105 134-126 228" />
+            <path d="M986-40c-13 124-118 165-103 278 15 116 153 103 168 211 16 117-117 161-101 274 17 121 173 138 166 256-5 97-99 141-121 232" />
+          </g>
+        </svg>
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[7%] top-24 hidden h-px w-24 bg-white/55 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[9%] top-28 hidden h-36 w-px bg-white/35 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[7%] top-[17rem] hidden h-px w-28 rotate-[28deg] bg-white/45 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-24 left-[12%] hidden h-px w-32 bg-white/35 lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-5 top-[27%] h-px w-12 bg-white/45 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-5 top-[39%] h-16 w-px bg-white/35 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[19%] left-[15%] h-px w-20 rotate-[-24deg] bg-white/40 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-2/5 wcc-smooth-dark-fade"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -right-16 top-16 h-52 w-52 rounded-full border border-orange-200/15 bg-orange-300/5 blur-2xl"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-24 left-1/3 h-60 w-60 rounded-full border border-white/10 bg-white/5 blur-3xl"
+        />
+
+        {/* Guest speakers strip (unchanged) */}
+        <div
+          className="wcc-guest-speakers-hero absolute inset-x-0 bottom-0 z-[4] grid h-[var(--wcc-speaker-strip)] grid-cols-7 items-end gap-0 px-1 max-[640px]:px-0 sm:px-4"
+          aria-hidden="true"
+        >
+          {GUEST_SPEAKER_IMAGES.map((imageUrl) => (
+            <img
+              key={imageUrl}
+              src={imageUrl}
+              alt=""
+              loading="eager"
+              decoding="async"
+              className="
+          h-[115%] w-[115%]
+          min-w-0
+          max-w-none
+          object-center
+          object-bottom
+          scale-110
+          origin-bottom
+          max-[640px]:h-[55%]
+          max-[640px]:w-[180%]
+          max-[640px]:scale-110
+          max-[640px]:max-w-none
+          max-[640px]:justify-self-center
+        "
+            />
+          ))}
+        </div>
+
+        {/* Content: bottom-anchored just above the images on mobile, centered from tablet up */}
+        <div className="wcc-hero-content relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl items-end px-4 pb-[calc(var(--wcc-speaker-strip)*0.62_+_1rem)] pt-16 sm:items-center sm:px-8 sm:pb-[var(--wcc-speaker-strip)] sm:pt-28 lg:px-12 lg:pb-[var(--wcc-speaker-strip)] lg:pt-20">
           <Motion.div
             initial="hidden"
             animate="visible"
@@ -189,131 +468,87 @@ export default function WCC() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.12 } },
             }}
-            className="max-w-3xl"
+            className="flex w-full flex-col items-center gap-3 text-center sm:gap-5 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 lg:text-left"
           >
-            <Motion.div
-              variants={fadeUp}
-              className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-100 backdrop-blur-md"
-            >
-              <span className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_16px_rgba(251,146,60,0.9)]" />
-              Truelight Glory House
-            </Motion.div>
-
+            {/* Title: one centered line on mobile, stacked on larger screens */}
             <Motion.h1
               variants={fadeUp}
-              className="max-w-xl text-6xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-8xl lg:text-[8.5rem]"
+              className="wcc-hero-title max-w-xl text-center font-black leading-[0.78] tracking-[-0.09em] text-white max-[640px]:flex max-[640px]:items-baseline max-[640px]:justify-center max-[640px]:gap-[0.2em] max-[640px]:leading-[0.9] lg:col-start-1 lg:row-start-1 lg:justify-self-start lg:text-left"
             >
-              WCC <span className="text-orange-400">2026</span>
+              <span className="block text-[clamp(3.25rem,14vw,5.8rem)] max-[640px]:text-[clamp(3rem,18vw,4.75rem)] lg:text-[7.2rem] xl:text-[8.2rem]">
+                WCC
+              </span>
+              <span className="wcc-hero-year block text-[clamp(4rem,17vw,7rem)] max-[640px]:text-[clamp(3rem,18vw,4.75rem)] lg:text-[8.8rem] xl:text-[10rem]">
+                2026
+              </span>
             </Motion.h1>
+
+            {/* Logo: first on mobile (order-first), second on tablet, right column on desktop.
+          SIZE CONTROL: change the w-[clamp(min,preferred,max)] values below. */}
+            <Motion.div
+              variants={fadeUp}
+              className="wcc-hero-theme w-64 max-[640px]:order-first max-[640px]:w-[clamp(9.5rem,52vw,13rem)] lg:col-start-2 lg:row-start-1 lg:w-full lg:max-w-[22rem] lg:justify-self-center [&_img]:!border-0"
+            >
+              <img
+                src={WCC_LOGO_URL}
+                alt="The Takeover Generation"
+                loading="eager"
+                decoding="async"
+                className="mx-auto w-full object-contain object-center shadow-[0_12px_40px_rgba(67,20,7,0.38)]"
+              />
+            </Motion.div>
+
+            {/* Countdown: soft dark panel on mobile for readability */}
+            <Motion.div
+              variants={fadeUp}
+              className="wcc-hero-countdown w-full max-w-xl max-[640px]:max-w-[21rem] max-[640px]:rounded-2xl max-[640px]:bg-black/20 max-[640px]:px-3 max-[640px]:backdrop-blur-sm lg:col-start-2 lg:row-start-2 lg:justify-self-center"
+            >
+              <div className="wcc-countdown mb-3 flex w-full items-end divide-x divide-orange-200/25 border-y border-orange-200/25 py-3 sm:max-w-xl sm:py-4">
+      {[
+        [countdown.days, "Days"],
+        [countdown.hours, "Hours"],
+        [countdown.minutes, "Minutes"],
+        [countdown.seconds, "Seconds"],
+      ].map(([value, label]) => (
+        <div
+          key={label}
+          className="min-w-0 flex-1 px-2 text-center first:pl-0 last:pr-0 sm:px-4"
+        >
+          <div className="text-2xl font-black tabular-nums tracking-[-0.08em] text-white sm:text-4xl">
+            {String(value).padStart(2, "0")}
+          </div>
+          <div className="mt-1 text-[8px] font-bold uppercase tracking-[0.18em] text-orange-200 sm:text-[9px]">
+            {label}
+          </div>
+        </div>
+      ))}
+    </div>
+            </Motion.div>
 
             <Motion.p
               variants={fadeUp}
-              className="mt-7 max-w-xl text-2xl font-medium leading-tight text-orange-50 sm:text-3xl"
-            >
-              The Takeover Generation
-            </Motion.p>
-            <Motion.div variants={fadeUp} className="mt-8 max-w-2xl">
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-orange-200">
-                Countdown to 11 November 2026
-              </p>
-              <div className="grid grid-cols-4 gap-2 sm:max-w-xl sm:gap-3">
-                {[
-                  [countdown.days, "Days"],
-                  [countdown.hours, "Hours"],
-                  [countdown.minutes, "Minutes"],
-                  [countdown.seconds, "Seconds"],
-                ].map(([value, label]) => (
-                  <div
-                    key={label}
-                    className="rounded-2xl border border-white/25 bg-[#7c2d12]/60 px-2 py-3 text-center shadow-lg shadow-orange-950/20 backdrop-blur-md sm:px-4 sm:py-4"
-                  >
-                    <div className="text-2xl font-black tabular-nums text-white sm:text-4xl">
-                      {String(value).padStart(2, "0")}
-                    </div>
-                    <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-orange-200 sm:text-[10px]">
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Motion.div>
-            <Motion.p
-              variants={fadeUp}
-              className="mt-5 max-w-lg font-sans text-base leading-8 text-orange-50/80 sm:text-lg"
+              className="wcc-hero-copy mx-auto max-w-md text-center text-xs leading-5 text-orange-50/80 max-[640px]:max-w-[18rem] max-[640px]:text-[0.8rem] max-[640px]:leading-[1.5] sm:text-sm lg:col-start-1 lg:row-start-2 lg:mx-0 lg:text-left lg:text-base lg:leading-6"
             >
               Join us this season. Complete the registration below and tell us a
               little about yourself.
             </Motion.p>
 
+            {/* Button: full width on mobile */}
             <Motion.div
               variants={fadeUp}
-              className="mt-10 flex flex-col gap-4 sm:flex-row"
+              className="wcc-hero-register flex w-full justify-center max-[640px]:max-w-[21rem] lg:col-start-1 lg:row-start-3 lg:w-auto lg:justify-start"
             >
               <button
                 onClick={scrollToRegistration}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#c2410c] px-7 py-4 font-semibold text-white shadow-xl shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#9a3412]"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#b45309] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 transition-all hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#3b160b] max-[640px]:w-full max-[640px]:py-3.5"
               >
                 Register now
-                <ArrowUpRight
+                <ArrowDown
                   size={18}
-                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
               </button>
-              <button
-                onClick={scrollToRegistration}
-                className="inline-flex items-center justify-center rounded-2xl border border-white/30 bg-white/5 px-7 py-4 font-semibold text-white backdrop-blur-sm transition-all hover:border-orange-300/70 hover:bg-white/10"
-              >
-                Learn more
-              </button>
             </Motion.div>
-          </Motion.div>
-
-          <Motion.aside
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
-            className="hidden lg:block"
-          >
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-white/[0.11] p-6 shadow-2xl shadow-black/20 ">
-              <div className="absolute left-0 top-0 h-full w-1 bg-[#c2410c]" />
-              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-orange-200">
-                The WCC experience
-              </p>
-              <div className="mt-8 space-y-6">
-                {[
-                  ["01", "Connect", "Find people who feel like home."],
-                  ["02", "Grow", "Build faith, courage, and purpose."],
-                  ["03", "Serve", "Bring your gifts into the room."],
-                ].map(([number, title, copy]) => (
-                  <div
-                    key={number}
-                    className="flex gap-4 border-b border-white/10 pb-5 last:border-0 last:pb-0"
-                  >
-                    <span className="font-mono text-xs text-orange-300">
-                      {number}
-                    </span>
-                    <div>
-                      <h3 className="text-xl text-white">{title}</h3>
-                      <p className="mt-1 text-sm leading-6 text-orange-50/70">
-                        {copy}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 h-px w-20 bg-[#c2410c]" />
-            </div>
-          </Motion.aside>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
-          <Motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-xs tracking-wide">Scroll to register</span>
-            <ChevronDown size={18} />
           </Motion.div>
         </div>
       </section>
