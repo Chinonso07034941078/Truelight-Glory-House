@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
-import { TextField, TextAreaField, SelectField } from "../components/wcc/FormFields";
 import { INITIAL_FORM_DATA, CHILD_INITIAL_DATA, YES_NO_OPTIONS, UNIT_OPTIONS,
   NEXT_STEP_IMAGE_URL, getCountdown } from "../lib/wcc/config";
 import { buildAdultRegistration, buildChildRegistration, validateAdultRegistration } from "../lib/wcc/forms";
@@ -10,6 +9,7 @@ import {
   ArrowUpRight,
   ArrowDown,
   CheckCircle2,
+  ChevronDown,
   Loader2,
   Mail,
   MapPin,
@@ -29,6 +29,286 @@ const GUEST_SPEAKER_IMAGES = [
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MDO_cyqopq.png",
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790877652/MEB_kvbeps.png",
 ];
+
+function fieldClasses(hasError, withIcon) {
+  return `w-full rounded-xl border bg-white py-3.5 text-orange-950 outline-none transition-all duration-200 placeholder:text-orange-900/40 focus:bg-white focus:ring-4 ${
+    withIcon ? "pl-12 pr-4" : "px-4"
+  } ${
+    hasError
+      ? "border-orange-700 focus:border-orange-700 focus:ring-orange-100"
+      : "border-orange-100 focus:border-orange-600 focus:ring-orange-100 hover:border-orange-200"
+  }`;
+}
+
+function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  required,
+  error,
+  icon: Icon,
+  type = "text",
+  placeholder,
+}) {
+  const errorId = `${id}-error`;
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
+      >
+        {label} {required && <span className="text-orange-700">*</span>}
+      </label>
+      <div className="relative">
+        {Icon && (
+          <Icon
+            size={18}
+            strokeWidth={1.8}
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-orange-800/45"
+          />
+        )}
+        <input
+          id={id}
+          name={id}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className={fieldClasses(!!error, !!Icon)}
+        />
+      </div>
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function TextAreaField({
+  id,
+  label,
+  value,
+  onChange,
+  required,
+  error,
+  placeholder,
+}) {
+  const errorId = `${id}-error`;
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
+      >
+        {label} {required && <span className="text-orange-700">*</span>}
+      </label>
+      <textarea
+        id={id}
+        name={id}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        rows={5}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
+        className={`${fieldClasses(!!error, false)} min-h-32 resize-none leading-7`}
+      />
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function SelectField({
+  id,
+  label,
+  value,
+  onChange,
+  options,
+  placeholder,
+  required,
+  error,
+  isYesNo = false,
+}) {
+  const errorId = `${id}-error`;
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
+      >
+        {label} {required && <span className="text-orange-700">*</span>}
+      </label>
+      <div className="relative">
+        <select
+          id={id}
+          name={id}
+          value={value}
+          onChange={onChange}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className={`${fieldClasses(!!error, false)} appearance-none pr-11 ${
+            isYesNo
+              ? "border-orange-200 wcc-smooth-orange-fade font-semibold shadow-[0_8px_24px_rgba(154,63,18,0.08)] focus:border-orange-700 focus:ring-orange-100"
+              : ""
+          }`}
+        >
+          <option value="">{placeholder}</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-2">
+          {isYesNo && (
+            <span className="hidden rounded-full bg-orange-100 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-orange-800 sm:inline-flex">
+              Choose
+            </span>
+          )}
+          <ChevronDown
+            size={18}
+            className={isYesNo ? "text-orange-700" : "text-orange-800/45"}
+          />
+        </div>
+      </div>
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+const WCC_DRESS_IMAGE_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790828208/aacc7e85-f668-4ae8-8786-84c00c511696_fdlovh.jpg";
+const HANDSHAKE_IMAGE_URL =
+  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790872098/92d74279-d379-4a61-8f4a-c56b2a7950ff_iw0rqo.png";
+const PARTNER_ACCOUNT_NUMBER = "1025555159";
+
+function PartnerSection() {
+  const [copied, setCopied] = useState(false);
+
+  const copyNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(PARTNER_ACCOUNT_NUMBER);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* Clipboard blocked, ignore */
+    }
+  };
+
+  return (
+    <section
+      className="relative overflow-hidden bg-[#fffaf5] px-4 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28"
+      aria-labelledby="wcc-partner-title"
+    >
+      <div className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-orange-200/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-amber-200/40 blur-3xl" />
+
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div>
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-10 bg-[#c2410c]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.32em] text-[#9a3412]">
+              Partner with us
+            </span>
+          </div>
+
+          <h2
+            id="wcc-partner-title"
+            className="max-w-xl text-5xl font-black leading-[0.9] tracking-[-0.07em] text-[#35140b] sm:text-6xl lg:text-7xl"
+          >
+            Help us make
+            <span className="block text-[#c2410c]">an impact.</span>
+          </h2>
+
+          <p className="mt-7 max-w-lg text-base leading-8 text-[#7c2d12]/70 sm:text-lg">
+            Your partnership helps us create a meaningful WCC experience and
+            reach more people with the Gospel.
+          </p>
+
+          <div className="mt-9 rounded-2xl border border-orange-200 bg-white p-5 shadow-[0_20px_60px_rgba(124,45,18,0.08)] sm:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#c2410c]/70">
+                  Partnership account
+                </p>
+                <p className="mt-3 text-sm font-bold uppercase tracking-wide text-[#7c2d12]">
+                  Truelight Glory House WCC Acc.
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-orange-100 px-3 py-2 text-xs font-black uppercase tracking-wider text-[#9a3412]">
+                UBA
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={copyNumber}
+              className="mt-5 block text-left text-[clamp(2.2rem,7vw,4.5rem)] font-black leading-none tracking-[-0.06em] text-[#7c2d12] transition hover:text-[#c2410c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-4"
+              aria-label={`Account number ${PARTNER_ACCOUNT_NUMBER
+                .split("")
+                .join(" ")}. Press to copy.`}
+            >
+              {PARTNER_ACCOUNT_NUMBER}
+            </button>
+
+            <div
+              className="mt-4 min-h-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#c2410c]"
+              role="status"
+              aria-live="polite"
+            >
+              {copied ? "Account number copied" : "Tap the account number to copy"}
+            </div>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-3 rounded-[2rem] border border-orange-300/50" />
+
+          <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-[#35140b] via-[#7c2d12] to-[#c2410c] p-4 shadow-[0_30px_90px_rgba(124,45,18,0.25)] sm:p-6">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-orange-200/20" />
+            <div className="pointer-events-none absolute -bottom-24 -left-20 h-72 w-72 rounded-full border border-orange-200/15" />
+
+            <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/10">
+              <img
+                src={HANDSHAKE_IMAGE_URL}
+                alt="A gold hand and a silver hand in a handshake"
+                loading="lazy"
+                decoding="async"
+                className="block w-full object-contain transition duration-500 hover:scale-105"
+              />
+
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#35140b]/90 via-[#35140b]/40 to-transparent px-5 pb-5 pt-16 sm:px-7 sm:pb-7">
+                <p className="text-[10px] font-black uppercase tracking-[0.28em] text-orange-200">
+                  Together, we can
+                </p>
+                <p className="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl">
+                  Make WCC 2026 Memorable.
+                </p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -177,53 +457,143 @@ export default function WCC() {
 
   return (
     <main
-      className="min-h-screen bg-white font-sans text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
+      className="wcc-page min-h-screen bg-white text-orange-950 antialiased selection:bg-orange-200 selection:text-orange-950"
       style={{
         fontFamily:
-          "'Aderio Trial Family', 'Aderio', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+          "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
+        fontSize: "15px",
       }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
-        .wcc-restored-hero .wcc-countdown {
+
+        .wcc-page {
+          --wcc-ink: #35140b;
+          --wcc-wine: #7c2d12;
+          --wcc-orange: #c2410c;
+          --wcc-amber: #f59e0b;
+          --wcc-cream: #fffaf5;
+          --wcc-line: rgba(194, 65, 12, 0.22);
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-page h1,
+        .wcc-page h2,
+        .wcc-page h3,
+        .wcc-page h4,
+        .wcc-page button,
+        .wcc-page label,
+        .wcc-page .font-black,
+        .wcc-page .font-semibold {
+          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-page p,
+        .wcc-page input,
+        .wcc-page textarea,
+        .wcc-page select,
+        .wcc-page option,
+        .wcc-page small,
+        .wcc-page span.text-xs,
+        .wcc-page span.text-sm,
+        .wcc-page div.text-xs,
+        .wcc-page div.text-sm {
           font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
         }
 
-        .wcc-restored-hero .wcc-hero-content {
+        .wcc-page input,
+        .wcc-page textarea,
+        .wcc-page select {
+          border-radius: 16px !important;
+          border-color: rgba(194, 65, 12, 0.18) !important;
+          background: linear-gradient(135deg, #ffffff 0%, #fffaf5 58%, #ffedd5 100%) !important;
+          box-shadow: 0 10px 28px rgba(124, 45, 18, 0.06);
+        }
+
+        .wcc-page input:focus,
+        .wcc-page textarea:focus,
+        .wcc-page select:focus {
+          border-color: rgba(194, 65, 12, 0.72) !important;
+          box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15), 0 12px 30px rgba(124, 45, 18, 0.08);
+        }
+
+        .wcc-page button,
+        .wcc-page a:not(.wcc-partner__handshake) {
+          border-radius: 14px;
+        }
+
+        .wcc-page img {
+          border-radius: 18px;
+        }
+
+        .wcc-flag-line {
+          position: relative;
+          display: inline-block;
+          height: 3px;
+          flex: 0 0 auto;
+          overflow: visible;
+          background: linear-gradient(90deg, #7c2d12 0%, #c2410c 62%, #f59e0b 100%);
+          box-shadow: 0 2px 10px rgba(194, 65, 12, 0.16);
+        }
+
+        .wcc-flag-line::after {
+          position: absolute;
+          right: -1px;
+          top: 0;
+          width: 8px;
+          height: 3px;
+          background: #f59e0b;
+          content: '';
+          clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .wcc-smooth-dark-fade {
+          background: linear-gradient(180deg, rgba(23, 11, 6, 0) 0%, rgba(74, 28, 10, 0.56) 54%, #170b06 100%) !important;
+        }
+
+        .wcc-smooth-orange-fade {
+          background: linear-gradient(135deg, #fffaf5 0%, #fff7ed 48%, #ffedd5 100%) !important;
+        }
+
+        .wcc-countdown {
+          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .wcc-hero-content {
           isolation: isolate;
         }
 
         /* Lower the complete hero content group on desktop only. */
         @media (min-width: 1024px) {
-          .wcc-restored-hero .wcc-hero-content {
+          .wcc-hero-content {
             top: 3rem;
           }
         }
 
-        .wcc-restored-hero .wcc-hero-lockup {
+        .wcc-hero-lockup {
           position: relative;
           z-index: 7;
         }
 
-        .wcc-restored-hero .wcc-hero-theme {
+        .wcc-hero-theme {
           z-index: 3;
           transform: translateY(0.35rem);
         }
 
-        .wcc-restored-hero .wcc-hero-theme img {
+        .wcc-hero-theme img {
           border: 1px solid rgba(255, 240, 225, 0.3);
           background: rgba(20, 7, 3, 0.18);
           box-shadow: 0 20px 55px rgba(14, 5, 2, 0.42), 0 0 0 8px rgba(245, 158, 11, 0.04);
         }
 
-        .wcc-restored-hero .wcc-hero-title {
+        .wcc-hero-title {
           position: relative;
           z-index: 1;
           font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', sans-serif;
           filter: drop-shadow(0 18px 28px rgba(20, 7, 3, 0.24));
         }
 
-        .wcc-restored-hero .wcc-hero-title::after {
+        .wcc-hero-title::after {
           position: absolute;
           left: 8%;
           right: -18%;
@@ -235,13 +605,13 @@ export default function WCC() {
           transform: rotate(-3deg);
         }
 
-        .wcc-restored-hero .wcc-hero-year {
+        .wcc-hero-year {
           color: transparent;
           -webkit-text-stroke: 1px rgba(255, 240, 225, 0.72);
           text-shadow: 0 0 36px rgba(232, 111, 19, 0.22);
         }
 
-        .wcc-restored-hero .wcc-hero-ghost {
+        .wcc-hero-ghost {
           position: absolute;
           right: -8vw;
           top: 45%;
@@ -260,7 +630,7 @@ export default function WCC() {
           white-space: nowrap;
         }
 
-        .wcc-restored-hero .wcc-hero-mark {
+        .wcc-hero-mark {
           position: absolute;
           left: 3%;
           top: 23%;
@@ -276,38 +646,80 @@ export default function WCC() {
         }
 
         @media (max-width: 640px) {
-          .wcc-restored-hero .wcc-hero-ghost {
+          .wcc-hero-ghost {
             right: -18vw;
             top: 40%;
             font-size: 27vw;
           }
 
-          .wcc-restored-hero .wcc-hero-mark {
+          .wcc-hero-mark {
             left: 4%;
             top: 16%;
             font-size: 7px;
           }
 
-          .wcc-restored-hero .wcc-hero-content .wcc-countdown {
+          .wcc-hero-content .wcc-countdown {
             padding-top: 0.55rem;
             padding-bottom: 0.55rem;
           }
 
-          .wcc-restored-hero .wcc-hero-content .wcc-countdown div.text-2xl {
+          .wcc-hero-content .wcc-countdown div.text-2xl {
             font-size: 1.35rem;
           }
 
-          .wcc-restored-hero .wcc-hero-register button {
+          .wcc-hero-register button {
             padding: 0.7rem 1.15rem;
             font-size: 0.78rem;
           }
 
-          .wcc-restored-hero .wcc-hero-scroll {
+          .wcc-hero-scroll {
             display: none;
           }
         }
 
-        .wcc-restored-hero .wcc-guest-speakers-hero {
+        .wcc-guest-speakers {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          border: 1px solid rgba(255, 240, 225, 0.28);
+          background: linear-gradient(135deg, rgba(26, 9, 5, 0.78), rgba(116, 37, 13, 0.48));
+          box-shadow: 0 18px 48px rgba(26, 9, 5, 0.28);
+        }
+
+        .wcc-guest-speakers::before,
+        .wcc-guest-speakers::after {
+          position: absolute;
+          z-index: 2;
+          width: 42px;
+          height: 42px;
+          border-color: rgba(245, 158, 11, 0.9);
+          border-style: solid;
+          content: '';
+          pointer-events: none;
+        }
+
+        .wcc-guest-speakers::before {
+          left: 12px;
+          top: 12px;
+          border-width: 2px 0 0 2px;
+        }
+
+        .wcc-guest-speakers::after {
+          right: 12px;
+          bottom: 12px;
+          border-width: 0 2px 2px 0;
+        }
+
+        .wcc-guest-speakers img {
+          display: block;
+          width: 100%;
+          max-height: 220px;
+          object-fit: contain;
+          object-position: center;
+          opacity: 0.96;
+        }
+
+        .wcc-guest-speakers-hero {
           position: absolute;
           bottom: 0;
           left: 0;
@@ -321,38 +733,53 @@ export default function WCC() {
           filter: drop-shadow(0 -18px 30px rgba(17, 6, 2, 0.14));
         }
 
-        .wcc-restored-hero .wcc-guest-speakers-hero img {
+        .wcc-guest-speakers-hero img {
           display: block;
           filter: saturate(0.96) contrast(1.03);
         }
 
-        .wcc-restored-hero .wcc-hero-register {
+        .wcc-dress-editorial {
+          background:
+            radial-gradient(circle at 88% 12%, rgba(245, 158, 11, 0.12), transparent 26%),
+            linear-gradient(135deg, #fffaf5 0%, #ffffff 58%, #fff0e1 100%);
+        }
+
+        .wcc-dress-editorial::after {
+          position: absolute;
+          left: 6%;
+          top: 16%;
+          width: min(18vw, 220px);
+          height: 1px;
+          background: linear-gradient(90deg, #c94e0a, transparent);
+          content: '';
+          opacity: 0.65;
+        }
+
+        .wcc-child-editorial {
+          background:
+            radial-gradient(circle at 18% 22%, rgba(245, 158, 11, 0.24), transparent 24%),
+            radial-gradient(circle at 86% 76%, rgba(232, 111, 19, 0.22), transparent 30%),
+            linear-gradient(135deg, #5c1f0b 0%, #74250d 52%, #35140b 100%);
+        }
+
+        .wcc-hero-register {
           z-index: 12;
         }
 
-        .wcc-restored-hero .wcc-hero-register button {
+        .wcc-hero-register button {
           border: 1px solid rgba(255, 240, 225, 0.32);
           background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
           box-shadow: 0 14px 30px rgba(31, 8, 2, 0.34), inset 0 1px 0 rgba(255, 240, 225, 0.2);
           letter-spacing: 0.02em;
         }
 
-
-        .wcc-restored-hero .wcc-smooth-dark-fade {
-          background: linear-gradient(180deg, rgba(23, 11, 6, 0) 0%, rgba(74, 28, 10, 0.56) 54%, #170b06 100%) !important;
+        .wcc-partner__number:active {
+          transform: scale(0.985);
         }
-        .wcc-restored-hero h1, .wcc-restored-hero button {
-          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
-        }
-        .wcc-restored-hero p {
-          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
-        }
-        .wcc-restored-hero img { border-radius: 18px; }
-        .wcc-restored-hero button { border-radius: 14px; }
       `}</style>
       {/* ========================= HERO ========================= */}
       <section
-        className="wcc-restored-hero relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white [--wcc-speaker-strip:clamp(160px,28svh,300px)] max-[640px]:[--wcc-speaker-strip:clamp(200px,35svh,320px)] sm:[--wcc-speaker-strip:clamp(220px,32svh,360px)]"
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#3b160b] text-white [--wcc-speaker-strip:clamp(160px,28svh,300px)] max-[640px]:[--wcc-speaker-strip:clamp(200px,35svh,320px)] sm:[--wcc-speaker-strip:clamp(220px,32svh,360px)]"
         style={{
           fontFamily:
             "'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif",
@@ -553,95 +980,10 @@ export default function WCC() {
         </div>
       </section>
 
-      <style>{`
-        :is(.wcc-restored-video, #registration) {
-          --wcc-ink: #35140b;
-          --wcc-wine: #7c2d12;
-          --wcc-orange: #c2410c;
-          --wcc-amber: #f59e0b;
-          --wcc-cream: #fffaf5;
-          --wcc-line: rgba(194, 65, 12, 0.22);
-          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
-        }
-
-        :is(.wcc-restored-video, #registration) h1,
-        :is(.wcc-restored-video, #registration) h2,
-        :is(.wcc-restored-video, #registration) h3,
-        :is(.wcc-restored-video, #registration) h4,
-        :is(.wcc-restored-video, #registration) button,
-        :is(.wcc-restored-video, #registration) label,
-        :is(.wcc-restored-video, #registration) .font-black,
-        :is(.wcc-restored-video, #registration) .font-semibold {
-          font-family: 'Adero Trial Family', 'Adero', 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
-        }
-
-        :is(.wcc-restored-video, #registration) p,
-        :is(.wcc-restored-video, #registration) input,
-        :is(.wcc-restored-video, #registration) textarea,
-        :is(.wcc-restored-video, #registration) select,
-        :is(.wcc-restored-video, #registration) option,
-        :is(.wcc-restored-video, #registration) small,
-        :is(.wcc-restored-video, #registration) span.text-xs,
-        :is(.wcc-restored-video, #registration) span.text-sm,
-        :is(.wcc-restored-video, #registration) div.text-xs,
-        :is(.wcc-restored-video, #registration) div.text-sm {
-          font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
-        }
-
-        :is(.wcc-restored-video, #registration) input,
-        :is(.wcc-restored-video, #registration) textarea,
-        :is(.wcc-restored-video, #registration) select {
-          border-radius: 16px !important;
-          border-color: rgba(194, 65, 12, 0.18) !important;
-          background: linear-gradient(135deg, #ffffff 0%, #fffaf5 58%, #ffedd5 100%) !important;
-          box-shadow: 0 10px 28px rgba(124, 45, 18, 0.06);
-        }
-
-        :is(.wcc-restored-video, #registration) input:focus,
-        :is(.wcc-restored-video, #registration) textarea:focus,
-        :is(.wcc-restored-video, #registration) select:focus {
-          border-color: rgba(194, 65, 12, 0.72) !important;
-          box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15), 0 12px 30px rgba(124, 45, 18, 0.08);
-        }
-
-        :is(.wcc-restored-video, #registration) button,
-        :is(.wcc-restored-video, #registration) a:not(.wcc-partner__handshake) {
-          border-radius: 14px;
-        }
-
-        :is(.wcc-restored-video, #registration) img {
-          border-radius: 18px;
-        }
-
-        .wcc-flag-line {
-          position: relative;
-          display: inline-block;
-          height: 3px;
-          flex: 0 0 auto;
-          overflow: visible;
-          background: linear-gradient(90deg, #7c2d12 0%, #c2410c 62%, #f59e0b 100%);
-          box-shadow: 0 2px 10px rgba(194, 65, 12, 0.16);
-        }
-
-        .wcc-flag-line::after {
-          position: absolute;
-          right: -1px;
-          top: 0;
-          width: 8px;
-          height: 3px;
-          background: #f59e0b;
-          content: '';
-          clip-path: polygon(0 0, 100% 50%, 0 100%);
-        }
-
-
-        :is(.wcc-restored-video, #registration) { font-size: 15px; }
-        #registration .font-mono { font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif; }
-      `}</style>
       {/* ========================= INTRO + VIDEO ========================= */}
       <section
         aria-labelledby="wcc-video-title"
-        className="wcc-restored-video relative overflow-hidden bg-white py-20 sm:py-28"
+        className="relative overflow-hidden bg-white py-20 sm:py-28"
       >
         <div
           aria-hidden="true"
@@ -985,14 +1327,6 @@ export default function WCC() {
 
                   {/* Required questions for every attendee, including True Lighters and visitors. */}
                   <section className="mt-8 border-t border-orange-100 pt-7">
-                    <div className="mb-5">
-                      <h4 className="text-base font-semibold text-[#92400e]">
-                        Travel, accommodation & ministry
-                      </h4>
-                      <p className="mt-1 text-sm leading-6 text-orange-900/65">
-                        Please answer all three questions below.
-                      </p>
-                    </div>
                     <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
                     <SelectField
                       id="locationScope"
@@ -1121,47 +1455,147 @@ export default function WCC() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#7c2d12] px-6 py-20 text-white sm:px-10 lg:px-20">
-        <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
-        <div className="relative mx-auto max-w-5xl text-center">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-orange-200">
-            For the next generation
+      {/* ========================= WCC DRESS ========================= */}
+      <section className="wcc-dress-editorial relative overflow-hidden bg-orange-50 px-6 py-20 sm:px-10 lg:px-20 lg:py-28">
+        <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
+        <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-orange-900/10 blur-3xl" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <Motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-orange-700">
+              Come dressed for the moment
+            </p>
+            <h2 className="mt-4 text-5xl font-black leading-[0.92] tracking-[-0.06em] text-[#7c2d12] sm:text-7xl">
+              WCC
+              <br />
+              <span className="text-[#b45309]">Dress</span>
+            </h2>
+            <div className="mt-7 wcc-flag-line w-20" />
+            <p className="mt-6 max-w-md text-base leading-8 text-orange-950/70 sm:text-lg">
+              You can now preorder! Check the official WCC dress guide and show
+              up with confidence for the Takeover Generation.
+            </p>
+
+            <a
+              href="https://wa.me/2349030786640?text=Hello%20please%20i%20want%20to%20get%20the%20WCC%20T-shirt."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-lg bg-orange-700 px-6 py-3 font-semibold text-white transition hover:bg-orange-800"
+            >
+              Order Now
+            </a>
+          </Motion.div>
+
+          <Motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.08 }}
+            className="relative overflow-hidden rounded-xl border border-orange-200 bg-white p-2 shadow-[0_24px_70px_rgba(124,45,18,0.18)]"
+          >
+            <img
+              src={WCC_DRESS_IMAGE_URL}
+              alt="WCC 2026 dress guide"
+              loading="lazy"
+              decoding="async"
+              className="h-auto max-h-[44rem] w-full rounded-xl object-contain"
+            />
+          </Motion.div>
+        </div>
+      </section>
+
+      {/* ========================= CHILD REGISTRATION ========================= */}
+<section className="relative overflow-hidden bg-[#2b1008] px-4 py-16 text-white sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+  <div className="pointer-events-none absolute -left-28 top-10 h-72 w-72 rounded-full bg-orange-500/15 blur-3xl" />
+  <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl" />
+  <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,237,213,0.45)_1px,transparent_1px),linear-gradient(90deg,rgba(255,237,213,0.45)_1px,transparent_1px)] [background-size:48px_48px]" />
+
+  <div className="relative mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+    <div className="lg:sticky lg:top-10">
+      <div className="mb-6 flex items-center gap-3">
+        <span className="h-px w-10 bg-orange-300" />
+        <span className="text-[10px] font-black uppercase tracking-[0.32em] text-orange-200">
+          Next generation
+        </span>
+      </div>
+
+      <h2 className="max-w-md text-[clamp(3rem,8vw,5.75rem)] font-black leading-[0.88] tracking-[-0.07em] text-white">
+        A place to
+        <span className="block text-orange-300">belong.</span>
+      </h2>
+
+      <p className="mt-7 max-w-md text-base leading-8 text-orange-50/70 sm:text-lg">
+        Give your child a place to connect, grow, and experience
+        WCC 2026.
+      </p>
+
+      <div className="mt-9 flex items-center gap-4 rounded-2xl border border-orange-200/15 bg-white/[0.06] p-4 sm:max-w-sm">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-300 text-orange-950">
+          <span className="text-lg font-black">01</span>
+        </div>
+
+        <div>
+          <p className="text-sm font-bold text-white">Simple registration</p>
+          <p className="mt-0.5 text-xs leading-5 text-orange-100/55">
+            Just a few details to help us prepare.
           </p>
-          <h2 className="mt-4 text-5xl font-black tracking-[-0.06em] text-white sm:text-7xl">
-            Register your child
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-orange-50/80">
-            Give your child a place to connect, grow, and experience the joy of
-            WCC 2026.
-          </p>
-          <button
-            type="button"
+        </div>
+      </div>
+
+      <button
+        type="button"
             onClick={() => {
               setChildFormOpen((open) => !open);
               setChildSubmitted(false);
               setChildEmailSent(null);
               setChildSubmissionError("");
             }}
-            className="mt-8 inline-flex items-center gap-3 rounded-2xl bg-orange-400 px-8 py-4 font-black text-orange-950 shadow-xl shadow-orange-950/30 transition hover:-translate-y-1 hover:bg-orange-300"
-            aria-expanded={childFormOpen}
-            aria-controls="child-registration-form"
-          >
-            {childFormOpen ? "Close form" : "Register"}
-            <ArrowUpRight size={18} />
-          </button>
+        className="mt-8 inline-flex items-center gap-3 rounded-xl bg-orange-300 px-6 py-3.5 text-sm font-black text-orange-950 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-orange-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#2b1008]"
+        aria-expanded={childFormOpen}
+        aria-controls="child-registration-form"
+      >
+        {childFormOpen ? "Close form" : "Register a child"}
+        <ArrowUpRight size={18} />
+      </button>
+    </div>
 
-          <AnimatePresence initial={false}>
-            {childFormOpen && (
-              <Motion.div
-                id="child-registration-form"
-                initial={{ opacity: 0, height: 0, y: -12 }}
-                animate={{ opacity: 1, height: "auto", y: 0 }}
-                exit={{ opacity: 0, height: 0, y: -12 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-[2rem] border border-orange-200/30 bg-white p-6 text-left shadow-2xl shadow-orange-950/30 sm:p-10"
-              >
+    <AnimatePresence initial={false}>
+      {childFormOpen && (
+        <Motion.div
+          id="child-registration-form"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="overflow-hidden rounded-[1.5rem] border border-orange-100/70 bg-orange-50 text-left shadow-2xl shadow-black/30"
+        >
+          <div className="border-b border-orange-900/10 px-6 py-6 sm:px-9 sm:py-7">
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.28em] text-orange-700/70">
+                  Child registration
+                </p>
+
+                <h3 className="mt-2 text-2xl font-black tracking-tight text-orange-950 sm:text-3xl">
+                  Tell us who is coming.
+                </h3>
+
+                <p className="mt-2 max-w-lg text-sm leading-6 text-orange-900/60">
+                  Add the child&apos;s details and a parent or guardian contact.
+                </p>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div className="px-6 py-7 sm:px-9 sm:py-9">
                 {childSubmitted ? (
-                  <div className="py-8 text-center">
+                  <div className="py-8 text-center sm:py-12">
                     <CheckCircle2
                       className="mx-auto text-orange-600"
                       size={42}
@@ -1189,7 +1623,7 @@ export default function WCC() {
                 ) : (
                   <form
                     onSubmit={handleChildSubmit}
-                    className="grid gap-6 sm:grid-cols-2"
+                    className="grid gap-x-5 gap-y-6 sm:grid-cols-2"
                     noValidate
                   >
                     {childSubmissionError && (
@@ -1197,15 +1631,6 @@ export default function WCC() {
                         {childSubmissionError}
                       </p>
                     )}
-                    <div className="sm:col-span-2">
-                      <h3 className="text-2xl font-black text-orange-950">
-                        Child details
-                      </h3>
-                      <p className="mt-1 text-sm text-orange-900/65">
-                        Please provide the child&apos;s details and a parent or
-                        guardian contact.
-                      </p>
-                    </div>
                     <TextField
                       id="childName"
                       label="Child's full name"
@@ -1251,17 +1676,22 @@ export default function WCC() {
                     <button
                       type="submit"
                       disabled={isChildSubmitting}
-                      className="sm:col-span-2 rounded-2xl bg-[#c2410c] px-6 py-4 font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#9a3412] disabled:cursor-not-allowed disabled:opacity-70"
+                      className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#b45309] px-6 py-3.5 text-sm font-black text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-0.5 hover:bg-[#92400e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300 sm:col-span-2 disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isChildSubmitting ? "Submitting child registration..." : "Submit child registration"}
                     </button>
                   </form>
                 )}
-              </Motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </section>
+          </div>
+        </Motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</section>
+
+
+      {/* ========================= PARTNER WITH US ========================= */}
+      <PartnerSection onHandshakeClick={scrollToRegistration} />
 
       <Footer />
     </main>
