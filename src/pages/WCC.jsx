@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
-import { AnimatePresence, motion } from "framer-motion";
+import { TextField, TextAreaField, SelectField } from "../components/wcc/FormFields";
+import { INITIAL_FORM_DATA, CHILD_INITIAL_DATA, YES_NO_OPTIONS, UNIT_OPTIONS,
+  HERO_IMAGE_URL, NEXT_STEP_IMAGE_URL, getCountdown } from "../lib/wcc/config";
+import { buildAdultRegistration, buildChildRegistration, validateAdultRegistration } from "../lib/wcc/forms";
+import { sendRegistration } from "../lib/wcc/registration";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 import {
   ArrowUpRight,
   CheckCircle2,
-  ChevronDown,
   Loader2,
   Mail,
   MapPin,
@@ -13,311 +17,9 @@ import {
   Church,
 } from "lucide-react";
 
-// TODO (Google Sheets + email): paste the Google Apps Script Web App URL here.
-const GOOGLE_SHEETS_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbwLr43-zPDMqX0ophirx4UrdGnFuqBL0B9aDLXQPydWkEDzHWKFvc2p9pPHQMZkAz7_/exec";
-
-const UNITS = [
-  "Choir",
-  "Media",
-  "Ushering",
-  "Technical",
-  "Children",
-  "Drama",
-  "Protocol",
-  "Welfare",
-  "Prayer",
-  "Other",
-];
-
-const INITIAL_FORM_DATA = {
-  name: "",
-  email: "",
-  phone: "",
-  attendedWccBefore: "",
-  expectations: "",
-  isTrueLighter: "",
-  isWorker: "",
-  unit: "",
-  church: "",
-  locationScope: "",
-  locationDetail: "",
-  needsAccommodation: "",
-  isPastor: "",
-  pastorChurch: "",
-};
-
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-function randomSixDigits() {
-  const randomValues = new Uint32Array(1);
-  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
-    crypto.getRandomValues(randomValues);
-  } else {
-    randomValues[0] = Math.floor(Math.random() * 0xffffffff);
-  }
-  return String(100000 + (randomValues[0] % 900000));
-}
-
-function generateRegistrationId() {
-  // Public registration reference shown in the success screen.
-  return `WCC26-${randomSixDigits()}`;
-}
-
-function generateCheckInCode() {
-  // Short numeric code that is easy to present at check-in.
-  return randomSixDigits();
-}
-
-function fieldClasses(hasError, withIcon) {
-  return `w-full rounded-2xl border bg-white py-3.5 text-orange-950 outline-none transition-all duration-200 placeholder:text-orange-900/40 focus:bg-white focus:ring-4 ${
-    withIcon ? "pl-12 pr-4" : "px-4"
-  } ${
-    hasError
-      ? "border-orange-700 focus:border-orange-700 focus:ring-orange-100"
-      : "border-orange-100 focus:border-orange-600 focus:ring-orange-100 hover:border-orange-200"
-  }`;
-}
-
-function TextField({
-  id,
-  label,
-  value,
-  onChange,
-  required,
-  error,
-  icon: Icon,
-  type = "text",
-  placeholder,
-}) {
-  const errorId = `${id}-error`;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <div className="relative">
-        {Icon && (
-          <Icon
-            size={18}
-            strokeWidth={1.8}
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-orange-800/45"
-          />
-        )}
-        <input
-          id={id}
-          name={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          className={fieldClasses(!!error, !!Icon)}
-        />
-      </div>
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TextAreaField({
-  id,
-  label,
-  value,
-  onChange,
-  required,
-  error,
-  placeholder,
-}) {
-  const errorId = `${id}-error`;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <textarea
-        id={id}
-        name={id}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        rows={5}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        className={`${fieldClasses(!!error, false)} min-h-32 resize-y leading-7`}
-      />
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function SelectField({
-  id,
-  label,
-  value,
-  onChange,
-  options,
-  placeholder,
-  required,
-  error,
-  isYesNo = false,
-}) {
-  const errorId = `${id}-error`;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="mb-2.5 block text-sm font-semibold tracking-[-0.01em] text-orange-950"
-      >
-        {label} {required && <span className="text-orange-700">*</span>}
-      </label>
-      <div className="relative">
-        <select
-          id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          className={`${fieldClasses(!!error, false)} appearance-none pr-11 ${
-            isYesNo
-              ? "border-orange-200 bg-gradient-to-br from-white via-white to-orange-50/70 font-semibold shadow-[0_8px_24px_rgba(154,63,18,0.08)] focus:border-orange-700 focus:ring-orange-100"
-              : ""
-          }`}
-        >
-          <option value="">{placeholder}</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div className="pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-2">
-          {isYesNo && (
-            <span className="hidden rounded-full bg-orange-100 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-orange-800 sm:inline-flex">
-              Choose
-            </span>
-          )}
-          <ChevronDown
-            size={18}
-            className={isYesNo ? "text-orange-700" : "text-orange-800/45"}
-          />
-        </div>
-      </div>
-      {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-orange-700">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
-const YES_NO_OPTIONS = [
-  { value: "yes", label: "Yes" },
-  { value: "no", label: "No" },
-];
-
-const UNIT_OPTIONS = UNITS.map((unit) => ({ value: unit, label: unit }));
-
-const HERO_IMAGE_URL =
-  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790518651/3f039210-0998-45a1-9505-6381f92f2489_f8v77p.jpg";
-const NEXT_STEP_IMAGE_URL =
-  "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790520059/90749eb0-03a6-4982-868e-a07b3534a06d.png";
-
-const COUNTDOWN_TARGET = new Date("2026-11-11T00:00:00").getTime();
-
-function getCountdown() {
-  const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
-  const totalSeconds = Math.floor(remaining / 1000);
-  return {
-    days: Math.floor(totalSeconds / 86400),
-    hours: Math.floor((totalSeconds % 86400) / 3600),
-    minutes: Math.floor((totalSeconds % 3600) / 60),
-    seconds: totalSeconds % 60,
-  };
-}
-
-async function verifyRegistrationSaved(registrationId, attempts = 6) {
-  for (let attempt = 0; attempt < attempts; attempt += 1) {
-    const verification = await new Promise((resolve, reject) => {
-      const callbackName = `wccVerify_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-      const script = document.createElement("script");
-      const timeout = window.setTimeout(() => finish(false, new Error("Verification timed out.")), 8000);
-      const cleanup = () => {
-        window.clearTimeout(timeout);
-        delete window[callbackName];
-        script.remove();
-      };
-      const finish = (value, error) => {
-        cleanup();
-        if (error) reject(error);
-        else resolve(value);
-      };
-      window[callbackName] = (result) => finish(
-        result && result.ok && result.found ? result : false
-      );
-      script.onerror = () => finish(false, new Error("Could not verify the registration with Google Sheets."));
-      const query = new URLSearchParams({
-        action: "verifyRegistration",
-        registrationId,
-        callback: callbackName,
-        _: String(Date.now()),
-      });
-      script.src = `${GOOGLE_SHEETS_ENDPOINT}?${query.toString()}`;
-      document.head.appendChild(script);
-    }).catch(() => false);
-    if (verification) return verification;
-    await new Promise((resolve) => window.setTimeout(resolve, 700));
-  }
-  return false;
-}
-
-async function sendRegistration(payload) {
-  if (!GOOGLE_SHEETS_ENDPOINT || GOOGLE_SHEETS_ENDPOINT.startsWith("PASTE_")) {
-    throw new Error("The Google Sheets endpoint has not been configured.");
-  }
-
-  // Apps Script does not expose a readable response to a no-cors browser POST.
-  // The JSONP verification below confirms that the registration actually exists.
-  await fetch(GOOGLE_SHEETS_ENDPOINT, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload),
-  });
-
-  const saved = await verifyRegistrationSaved(payload.registrationId);
-  if (!saved) {
-    throw new Error("Google Sheets did not confirm this registration. Please try again. Do not assume it was saved.");
-  }
-  return saved;
-}
-
-const CHILD_INITIAL_DATA = {
-  childName: "",
-  childAge: "",
-  guardianName: "",
-  guardianPhone: "",
-  guardianEmail: "",
 };
 
 export default function WCC() {
@@ -336,6 +38,8 @@ export default function WCC() {
   const [childSubmitted, setChildSubmitted] = useState(false);
   const [childEmailSent, setChildEmailSent] = useState(null);
   const [emailSent, setEmailSent] = useState(null);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const [childRegistration, setChildRegistration] = useState(null);
 
   useEffect(() => {
     const interval = window.setInterval(
@@ -371,35 +75,11 @@ export default function WCC() {
       return;
     }
     setIsChildSubmitting(true);
-    const id = generateRegistrationId();
-    const payload = {
-      action: "register",
-      formType: "wcc-registration",
-      registrationKind: "child",
-      registrationId: id,
-      checkInCode: generateCheckInCode(),
-      submittedAt: new Date().toISOString(),
-      name: childName,
-      email: guardianEmail,
-      guardianEmail,
-      phone: guardianPhone,
-      attendedWccBefore: "",
-      expectations: `Child age: ${childAge}; Parent/guardian: ${guardianName}`,
-      isTrueLighter: "",
-      isWorker: "",
-      unit: "",
-      church: "",
-      locationScope: "",
-      locationDetail: "",
-      needsAccommodation: "",
-      isPastor: "",
-      pastorChurch: "",
-      childAge,
-      guardianName,
-    };
+    const payload = buildChildRegistration({ childName, childAge, guardianName, guardianPhone, guardianEmail });
     try {
       const result = await sendRegistration(payload);
       setChildEmailSent(result.emailSent ?? null);
+      setChildRegistration(result);
       setChildSubmitted(true);
       setChildFormData(CHILD_INITIAL_DATA);
     } catch (error) {
@@ -447,52 +127,7 @@ export default function WCC() {
   };
 
   const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Please enter your full name.";
-    if (!formData.email.trim()) {
-      newErrors.email = "Please enter your email address.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Please enter your phone number.";
-    }
-    if (!formData.attendedWccBefore) {
-      newErrors.attendedWccBefore =
-        "Please let us know if you have attended WCC before.";
-    }
-    if (!formData.expectations.trim()) {
-      newErrors.expectations = "Please tell us what you expect from WCC.";
-    }
-    if (!formData.isTrueLighter)
-      newErrors.isTrueLighter = "Please let us know if you are a True Lighter.";
-    if (formData.isTrueLighter === "yes") {
-      if (!formData.isWorker)
-        newErrors.isWorker = "Please let us know if you serve in a unit.";
-      else if (formData.isWorker === "yes" && !formData.unit)
-        newErrors.unit = "Please select your unit.";
-    }
-    if (formData.isTrueLighter === "no") {
-      if (!formData.church.trim())
-        newErrors.church = "Please enter the church you attend.";
-    }
-    // These are separate questions for every attendee, not just visitors.
-    if (!formData.locationScope) {
-      newErrors.locationScope =
-        "Please let us know if you are coming from outside Owerri.";
-    } else if (formData.locationScope === "yes" && !formData.locationDetail.trim()) {
-      newErrors.locationDetail =
-        "Please tell us which state or country you are coming from.";
-    }
-    if (!formData.needsAccommodation) {
-      newErrors.needsAccommodation =
-        "Please let us know if you need accommodation.";
-    }
-    if (!formData.isPastor) {
-      newErrors.isPastor = "Please let us know if you are a pastor.";
-    } else if (formData.isPastor === "yes" && !formData.pastorChurch.trim()) {
-      newErrors.pastorChurch = "Please tell us which church you pastor.";
-    }
+    const newErrors = validateAdultRegistration(formData);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -502,35 +137,14 @@ export default function WCC() {
     setSubmissionError("");
     if (!validateForm()) return;
     setIsSubmitting(true);
-    const id = generateRegistrationId();
-    const payload = {
-      action: "register",
-      formType: "wcc-registration",
-      registrationKind: "adult",
-      registrationId: id,
-      checkInCode: generateCheckInCode(),
-      submittedAt: new Date().toISOString(),
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.trim(),
-      attendedWccBefore: formData.attendedWccBefore,
-      expectations: formData.expectations.trim(),
-      isTrueLighter: formData.isTrueLighter,
-      isWorker: formData.isTrueLighter === "yes" ? formData.isWorker : "",
-      unit: formData.isTrueLighter === "yes" && formData.isWorker === "yes" ? formData.unit : "",
-      church: formData.isTrueLighter === "no" ? formData.church.trim() : "",
-      locationScope: formData.locationScope,
-      locationDetail: formData.locationScope === "yes" ? formData.locationDetail.trim() : "",
-      needsAccommodation: formData.needsAccommodation,
-      isPastor: formData.isPastor,
-      pastorChurch: formData.isPastor === "yes" ? formData.pastorChurch.trim() : "",
-    };
+    const payload = buildAdultRegistration(formData);
 
     try {
       const result = await sendRegistration(payload);
       setEmailSent(result.emailSent ?? null);
-      setRegistrationId(id);
-      setCheckInCode(payload.checkInCode);
+      setRegistrationId(result.registrationId);
+      setCheckInCode(result.checkInCode);
+      setAlreadyRegistered(Boolean(result.duplicate));
       setSubmitted(true);
       setFormData(INITIAL_FORM_DATA);
       document.getElementById("registration")?.scrollIntoView({ behavior: "smooth" });
@@ -568,7 +182,7 @@ export default function WCC() {
         <div className="absolute -bottom-36 left-1/3 h-80 w-80 rounded-full border border-white/10 bg-white/5 blur-3xl" />
 
         <div className="relative z-10 mx-auto grid w-full max-w-none items-center gap-14 px-6 py-28 sm:px-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-20 lg:py-32">
-          <motion.div
+          <Motion.div
             initial="hidden"
             animate="visible"
             variants={{
@@ -577,28 +191,28 @@ export default function WCC() {
             }}
             className="max-w-3xl"
           >
-            <motion.div
+            <Motion.div
               variants={fadeUp}
               className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-100 backdrop-blur-md"
             >
               <span className="h-2 w-2 rounded-full bg-orange-400 shadow-[0_0_16px_rgba(251,146,60,0.9)]" />
               Truelight Glory House
-            </motion.div>
+            </Motion.div>
 
-            <motion.h1
+            <Motion.h1
               variants={fadeUp}
               className="max-w-xl text-6xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-8xl lg:text-[8.5rem]"
             >
               WCC <span className="text-orange-400">2026</span>
-            </motion.h1>
+            </Motion.h1>
 
-            <motion.p
+            <Motion.p
               variants={fadeUp}
               className="mt-7 max-w-xl text-2xl font-medium leading-tight text-orange-50 sm:text-3xl"
             >
               The Takeover Generation
-            </motion.p>
-            <motion.div variants={fadeUp} className="mt-8 max-w-2xl">
+            </Motion.p>
+            <Motion.div variants={fadeUp} className="mt-8 max-w-2xl">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.28em] text-orange-200">
                 Countdown to 11 November 2026
               </p>
@@ -622,16 +236,16 @@ export default function WCC() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-            <motion.p
+            </Motion.div>
+            <Motion.p
               variants={fadeUp}
               className="mt-5 max-w-lg font-sans text-base leading-8 text-orange-50/80 sm:text-lg"
             >
               Join us this season. Complete the registration below and tell us a
               little about yourself.
-            </motion.p>
+            </Motion.p>
 
-            <motion.div
+            <Motion.div
               variants={fadeUp}
               className="mt-10 flex flex-col gap-4 sm:flex-row"
             >
@@ -651,10 +265,10 @@ export default function WCC() {
               >
                 Learn more
               </button>
-            </motion.div>
-          </motion.div>
+            </Motion.div>
+          </Motion.div>
 
-          <motion.aside
+          <Motion.aside
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.45, duration: 0.7 }}
@@ -689,18 +303,18 @@ export default function WCC() {
               </div>
               <div className="mt-8 h-px w-20 bg-[#c2410c]" />
             </div>
-          </motion.aside>
+          </Motion.aside>
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60">
-          <motion.div
+          <Motion.div
             animate={{ y: [0, 5, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2"
           >
             <span className="text-xs tracking-wide">Scroll to register</span>
             <ChevronDown size={18} />
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -708,7 +322,7 @@ export default function WCC() {
       <section className="relative overflow-hidden bg-white py-20 sm:py-28">
         <div className="absolute left-0 top-0 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c2410c]/5 blur-3xl" />
         <div className="relative mx-auto max-w-none px-6 text-center lg:px-20 lg:text-left">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -727,7 +341,7 @@ export default function WCC() {
                 for your visit and connect you with the right team.
               </p>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -792,7 +406,7 @@ export default function WCC() {
             </div>
           </aside>
 
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -833,10 +447,12 @@ export default function WCC() {
                   <CheckCircle2 size={27} className="text-orange-700" />
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-[#9a3412]">
-                  Registration successful
+                  {alreadyRegistered ? "You are already registered" : "Registration successful"}
                 </h3>
                 <p className="mt-2 font-sans text-sm text-orange-900/65">
-                  Save this number and bring it with you for check-in.
+                  {alreadyRegistered
+                    ? "This is your original registration code. No new registration was created. Save it and bring it for check-in."
+                    : "Save this number and bring it with you for check-in."}
                   {emailSent === true
                     ? " Your confirmation email has been sent."
                     : emailSent === false
@@ -947,7 +563,7 @@ export default function WCC() {
                     />
                     <AnimatePresence mode="wait">
                       {formData.isTrueLighter === "yes" && (
-                        <motion.div
+                        <Motion.div
                           key="member-branch"
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -968,7 +584,7 @@ export default function WCC() {
                           />
                           <AnimatePresence mode="wait">
                             {formData.isWorker === "yes" && (
-                              <motion.div
+                              <Motion.div
                                 key="unit"
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: "auto" }}
@@ -986,13 +602,13 @@ export default function WCC() {
                                   options={UNIT_OPTIONS}
                                   onChange={handleChange}
                                 />
-                              </motion.div>
+                              </Motion.div>
                             )}
                           </AnimatePresence>
-                        </motion.div>
+                        </Motion.div>
                       )}
                       {formData.isTrueLighter === "no" && (
-                        <motion.div
+                        <Motion.div
                           key="visitor-branch"
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -1010,7 +626,7 @@ export default function WCC() {
                             placeholder="Enter your church name"
                             onChange={handleChange}
                           />
-                        </motion.div>
+                        </Motion.div>
                       )}
                     </AnimatePresence>
                   </div>
@@ -1061,7 +677,7 @@ export default function WCC() {
                     />
                     <AnimatePresence initial={false}>
                       {formData.isPastor === "yes" && (
-                        <motion.div
+                        <Motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
@@ -1078,12 +694,12 @@ export default function WCC() {
                             placeholder="Enter the church name"
                             onChange={handleChange}
                           />
-                        </motion.div>
+                        </Motion.div>
                       )}
                     </AnimatePresence>
                     <AnimatePresence mode="wait">
                       {formData.locationScope === "yes" && (
-                        <motion.div
+                        <Motion.div
                           key="location-detail"
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -1101,7 +717,7 @@ export default function WCC() {
                             placeholder="e.g. Lagos, or United Kingdom"
                             onChange={handleChange}
                           />
-                        </motion.div>
+                        </Motion.div>
                       )}
                     </AnimatePresence>
                     </div>
@@ -1149,7 +765,7 @@ export default function WCC() {
                 </div>
               </form>
             )}
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -1184,7 +800,7 @@ export default function WCC() {
 
           <AnimatePresence initial={false}>
             {childFormOpen && (
-              <motion.div
+              <Motion.div
                 id="child-registration-form"
                 initial={{ opacity: 0, height: 0, y: -12 }}
                 animate={{ opacity: 1, height: "auto", y: 0 }}
@@ -1199,15 +815,23 @@ export default function WCC() {
                       size={42}
                     />
                     <h3 className="mt-4 text-2xl font-black text-orange-950">
-                      Child registration received.
+                      {childRegistration?.duplicate ? "This child is already registered." : "Child registration received."}
                     </h3>
                     <p className="mt-2 text-orange-900/70">
-                      We have captured the details for your child.
-                      {childEmailSent === true
+                      {childRegistration?.duplicate
+                        ? "No new registration was created. Use the original code below for check-in."
+                        : "We have captured the details for your child."}
+                      {!childRegistration?.duplicate && (childEmailSent === true
                         ? " A confirmation email has been sent to the parent/guardian."
                         : childEmailSent === false
                           ? " The registration is saved, but the confirmation email could not be sent."
-                          : " Add a parent/guardian email next time if you want an email confirmation."}
+                          : " Add a parent/guardian email next time if you want an email confirmation.")}
+                    </p>
+                    <p className="mt-4 text-4xl font-black tracking-[0.12em] text-orange-700">
+                      {childRegistration?.checkInCode}
+                    </p>
+                    <p className="mt-3 font-mono text-xs text-orange-800/70">
+                      Registration reference: {childRegistration?.registrationId}
                     </p>
                   </div>
                 ) : (
@@ -1281,7 +905,7 @@ export default function WCC() {
                     </button>
                   </form>
                 )}
-              </motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
         </div>
