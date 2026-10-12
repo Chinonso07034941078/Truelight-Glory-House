@@ -1155,7 +1155,7 @@ export default function WCC() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#92400e]">
                     Your details
                   </span>
-                  
+
                 </div>
                 <h2 className="max-w-2xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#7c2d12] sm:text-5xl lg:text-6xl">
                   Register your details
