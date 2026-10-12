@@ -375,7 +375,7 @@ const UNIT_OPTIONS = UNITS.map((unit) => ({ value: unit, label: unit }));
 const NEXT_STEP_IMAGE_URL =
   "https://res.cloudinary.com/dnvgl9k4i/image/upload/v1790520059/90749eb0-03a6-4982-868e-a07b3534a06d.png";
 
-const COUNTDOWN_TARGET = new Date("2026-11-11T00:00:00").getTime();
+const COUNTDOWN_TARGET = new Date("2026-11-11T00:00:00+01:00").getTime();
 
 function getCountdown() {
   const remaining = Math.max(0, COUNTDOWN_TARGET - Date.now());
